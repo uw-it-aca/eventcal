@@ -1,0 +1,6 @@
+Django
+lxml==2.3.5
+urllib3
+unittest2
+-e git+https://github.com/uw-it-aca/uw-restclients.git#egg=RestClients
+

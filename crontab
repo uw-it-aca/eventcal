@@ -1,0 +1,7 @@
+MAILTO=fanglin@uw.edu
+PYTHONPATH=/data/eventcal/live/lib/python2.7/site-packages
+
+#Sync accounts from GWS to Trumba
+0,10,20,30,40,50 7-22 * * 1-6 cd /data/eventcal/live && source ./bin/activate && python manage.py gws_trumba
+#Sync calendars and editor permissions from Trumba to GWS
+5,15,25,35,45,55 7-22 * * 1-6 cd /data/eventcal/live && source ./bin/activate && python manage.py trumba_gws
