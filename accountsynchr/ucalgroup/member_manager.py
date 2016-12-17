@@ -70,6 +70,9 @@ class MemberManager:
         :return: True if the uwnetid matches a GroupMember's
         """
         member_list = self.get_members_by_groupid(group_name)
+        if member_list is None:
+            logger.error("group (%s) member list is None" % group_name)
+            return False
         for member in member_list:
             if member.member_type == 'uwnetid' and member.name == uwnetid:
                 return True
