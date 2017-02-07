@@ -1,19 +1,28 @@
-from restclients.util.log import log_info, log_err
+import logging
+import time
 
 
-def log_resp_time(logger, action_desc, timer):
-    log_info(logger, action_desc + ' fulfilled', timer)
+def log_resp_time(logger, message, timer):
+    logger.info("%s Time=%f sec", message, timer.get_elapsed())
 
 
-def log_exception(logger, action, exception_info):
+def log_exception(logger, message, exception_info):
     """
-    :param action: the action that caused the exception
-    :param exception_info: a string containing the full stack trace,
-                           the exception type and value
+    :param message: the message that caused the exception
+    :param exception_info: a string containing the exception type and value
     """
-    logger.error("%s =exception=> %s ",
-                 action,
-                 exception_info)
-    # exception_info.splitlines())
-    # exc_info.splitlines()[-3:])
-    # print the last function call, exception type and value
+    logger.error("%s =except=> %s ", message, exception_info)
+
+
+class Timer:
+    def __init__(self):
+        """
+        Start the timer
+        """
+        self.start = time.time()
+
+    def get_elapsed(self):
+        """
+        Return the time spent in seconds
+        """
+        return time.time() - self.start

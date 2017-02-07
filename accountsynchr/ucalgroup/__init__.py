@@ -11,8 +11,7 @@ from restclients.exceptions import DataFailureException
 from restclients.models.gws import Group, GroupReference, GroupUser
 from restclients.models.trumba import TrumbaCalendar, UwcalGroup,\
     is_valid_campus_code
-from restclients.util.timer import Timer
-from accountsynchr.log import log_resp_time, log_exception
+from accountsynchr.log import log_resp_time, log_exception, Timer
 
 
 logger = logging.getLogger(__name__)
