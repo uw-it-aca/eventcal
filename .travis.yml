@@ -6,11 +6,11 @@ install: pip install -r requirements.txt
 before_script:
   - pip install coverage
   - pip install python-coveralls
-  - pip install pep8
+  - pip install pycodestyle
   - cp travis-ci/manage.py manage.py
   # - python manage.py migrate --run-syncdb
 script:
-  - pep8 accountsynchr/ --exclude=resources
+  - pycodestyle accountsynchr/ --exclude=resources
   - python -m compileall accountsynchr
   - coverage run --source=accountsynchr/ manage.py test accountsynchr
 after_script:
