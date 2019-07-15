@@ -1,17 +1,19 @@
 sudo: false
 language: python
 python:
-  - "2.7"
+  - "3.6"
 install: pip install -r requirements.txt
 before_script:
+  - pip install pycodestyle
+  - pip install nose2
   - pip install coverage
-  - pip install python-coveralls
-  - pip install pep8
+  - pip install commonconf
+  - pip install coveralls
+
   - cp travis-ci/manage.py manage.py
-  # - python manage.py migrate --run-syncdb
 script:
-  - pep8 accountsynchr/ --exclude=resources
+  - pycodestyle accountsynchr/ --exclude=resources
   - python -m compileall accountsynchr
-  - coverage run --source=accountsynchr/ manage.py test accountsynchr
+  - coverage run --source=accountsynchr manage.py test accountsynchr
 after_script:
   - coveralls

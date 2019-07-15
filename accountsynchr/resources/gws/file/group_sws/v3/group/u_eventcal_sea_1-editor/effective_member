@@ -1,0 +1,28 @@
+{
+"schemas": [
+    "urn:mace:washington.edu:schemas:groups:1.0"
+  ],
+  "meta": {
+    "resourceType": "members",
+    "version": "v3.0",
+    "regid": "806cdfb7c41843b6833e5c860b0dc615",
+    "id": "u_eventcal_sea_1-editor",
+    "type": "effective",
+    "selfRef": "",
+    "timestamp": 1562869735851
+  },
+  "data": [
+    {
+      "type": "uwnetid",
+      "id": "sdummye",
+      "mtype": "direct",
+      "source": ""
+    }
+    ,{
+      "type": "uwnetid",
+      "id": "dummye",
+      "mtype": "direct",
+      "source": ""
+    }
+  ]
+}

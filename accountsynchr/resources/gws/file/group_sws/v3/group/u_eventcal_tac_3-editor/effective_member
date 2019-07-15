@@ -1,0 +1,22 @@
+{
+ "schemas": [
+    "urn:mace:washington.edu:schemas:groups:1.0"
+  ],
+  "meta": {
+    "resourceType": "members",
+    "version": "v3.0",
+    "regid": "5cf97645cebb485a9feaf353534b26c7",
+    "id": "u_eventcal_tac_3-editor",
+    "type": "effective",
+    "selfRef": "",
+    "timestamp": 1562954589610
+  },
+  "data": [
+     {
+      "type": "uwnetid",
+      "id": "tdummye",
+      "mtype": "direct",
+      "source": ""
+    }
+  ]
+}

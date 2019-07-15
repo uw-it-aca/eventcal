@@ -1,115 +1,115 @@
 import logging
-from restclients.models.trumba import TrumbaCalendar
-from accountsynchr.ucalgroup.group_manager import GroupManager
-from accountsynchr.ucalgroup.member_manager import MemberManager
-from accountsynchr.trumba.permission_manager import PermissionManager
-from accountsynchr.log import log_resp_time
+import traceback
+from uw_trumba.models import TrumbaCalendar
+from accountsynchr.syncer import Syncer
+from accountsynchr.util.log import log_resp_time, log_exception
 
 
 logger = logging.getLogger(__name__)
 
 
-class GwsToTrumba:
+class GwsToTrumba(Syncer):
 
     def __init__(self):
-        self.per_m = PermissionManager()
-        self.gro_m = GroupManager()
-        self.mem_m = MemberManager()
+        super(GwsToTrumba, self).__init__()
         self.new_acounts = 0
-        self.new_acount_errs = 0
         self.new_editor_perm_counts = 0
-        self.err_editor_perm_counts = 0
         self.new_showon_perm_counts = 0
-        self.err_showon_perm_counts = 0
 
     def sync(self):
         """
         Synchronizes new editor/showon accounts from GWS to Trumba
         """
         self.sync_accounts()
-        logger.info("%d new accounts added, %d failed" %
-                    (self.new_acounts,
-                     self.new_acount_errs))
+        logger.info("{0:d} new accounts added".format(
+                self.new_acounts))
 
-        self.sync_campus_perm(TrumbaCalendar.SEA_CAMPUS_CODE)
-        self.sync_campus_perm(TrumbaCalendar.BOT_CAMPUS_CODE)
-        self.sync_campus_perm(TrumbaCalendar.TAC_CAMPUS_CODE)
-        logger.info("%d editor permissions added, %d failed" %
-                    (self.new_editor_perm_counts,
-                     self.err_editor_perm_counts))
-        logger.info("%d showon permissions added, %d failed" %
-                    (self.new_showon_perm_counts,
-                     self.err_showon_perm_counts))
+        for choice in TrumbaCalendar.CAMPUS_CHOICES:
+            campus_code = choice[0]
+            for u_group in self.gro_m.get_campus_editor_groups(campus_code):
+                if (not self.cal_per_m.has_calendar(
+                        u_group.calendar.campus, u_group.calendar.calendarid)):
+                    logger.error("{0} has no calendar".format(u_group))
+                    self.append_error(
+                        "{0} missing calendar".format(u_group.group_ref))
+                    continue
+
+                if len(u_group.members) > 0:
+                    self.sync_editor_group_perm(u_group)
+
+            for u_group in self.gro_m.get_campus_showon_groups(campus_code):
+                if len(u_group.members) > 0:
+                    self.sync_showon_group_perm(u_group)
+
+        logger.info("{0:d} editor permissions added".format(
+                self.new_editor_perm_counts))
+        logger.info("{0:d} showon permissions added".format(
+                self.new_showon_perm_counts))
+        if self.has_err():
+            logger.error(self.get_error_report())
 
     def sync_accounts(self):
         """
         Create new Trumba accounts for any new members in GWS
         """
-        member_set = self.mem_m.get_all_members()
-        account_set = self.per_m.get_all_accounts()
-        for uwnetid in member_set:
-            if uwnetid not in account_set:
-                logger.debug("To create account: %s" % uwnetid)
-                if PermissionManager.add_account(uwnetid, uwnetid):
-                    self.new_acounts = self.new_acounts + 1
-                else:
-                    self.new_acount_errs = self.new_acount_errs + 1
+        for gmember in self.gro_m.get_all_editors():
+            uwnetid = gmember.name
+            if not self.cal_per_m.account_exists(uwnetid):
+                self._add_account(uwnetid)
 
-    def sync_campus_perm(self, campus_code):
-        """
-        Synchronizes permissions from GWS to Trumba
-        for the given campus
-        """
-        if self.gro_m.exists(campus_code):
-            for uwcal_group in self.gro_m.get_all_groups(campus_code):
-                self.sync_cal_perm(uwcal_group)
+    def _add_account(self, uwnetid):
+        action = "Create account: {0}".format(uwnetid)
+        try:
+            if self.cal_per_m.add_account(uwnetid, uwnetid):
+                self.new_acounts += 1
+                logger.info(action)
+            else:
+                self.append_error("Failed to {0}".format(action))
+        except Exception as ex:
+            log_exception(logger, action, traceback.format_exc(chain=False))
+            self.append_error("Failed to {0} {1}".format(action, str(ex)))
 
-    def sync_cal_perm(self, uwcal_group):
-        """
-        Synchronizes the editor and showon permissions
-        from GWS to Trumba for the Trumba calendar
-        corresponding to the given UwcalGroup object.
-        :param uwcal_group: a UwcalGroup object
-        """
-        trumba_cal = uwcal_group.calendar
-        grp_member_list = self.mem_m.get_members(uwcal_group)
-        if grp_member_list is None or len(grp_member_list) == 0:
-            return
-        logger.debug("To sync perm for %s" % uwcal_group)
-        if uwcal_group.is_editor_group():
-            for group_member in grp_member_list:
-                if group_member.is_uwnetid():
-                    self.sync_editor_perm(trumba_cal,
-                                          group_member.name)
-        elif uwcal_group.is_showon_group():
-            for group_member in grp_member_list:
-                if group_member.is_uwnetid():
-                    self.sync_showon_perm(trumba_cal,
-                                          group_member.name)
+    def sync_editor_group_perm(self, uwcal_group):
+        for gm in uwcal_group.members:
+            trumba_cal = uwcal_group.calendar
+            uwnetid = gm.name
+            if not self.cal_per_m.has_editor_permission(trumba_cal, uwnetid):
+                self.sync_editor_perm(trumba_cal, uwnetid)
+
+    def sync_showon_group_perm(self, uwcal_group):
+        for gm in uwcal_group.members:
+            trumba_cal = uwcal_group.calendar
+            uwnetid = gm.name
+            if (not self.cal_per_m.has_showon_or_higher_permission(
+                    trumba_cal, uwnetid)):
+                self.sync_showon_perm(trumba_cal, uwnetid)
 
     def sync_editor_perm(self, trumba_cal, uwnetid):
-        if self.per_m.is_editor(trumba_cal, uwnetid):
-            return
-        if PermissionManager.set_editor_permission(trumba_cal, uwnetid):
-            self.new_editor_perm_counts = self.new_editor_perm_counts + 1
-        else:
-            self.err_editor_perm_counts = self.err_editor_perm_counts + 1
-            logger.error(
-                "Failed to set %s editor for %s" % (uwnetid, trumba_cal))
+        action = "Set editor permission for {0} on {1}".format(
+            uwnetid, trumba_cal)
+        try:
+            if self.cal_per_m.set_editor_permission(trumba_cal, uwnetid):
+                self.new_editor_perm_counts += 1
+                logger.info(action)
+            else:
+                self.append_error("Failed to {0}".format(action))
+        except Exception as ex:
+            log_exception(logger, "Failed to {0}".format(action),
+                          traceback.format_exc(chain=False))
+            self.append_error("Failed to {0} {1}".format(action, str(ex)))
+        return False
 
     def sync_showon_perm(self, trumba_cal, uwnetid):
-        if self.per_m.is_showon(trumba_cal, uwnetid) or\
-                self.per_m.is_editor(trumba_cal, uwnetid):
-            return
-        if PermissionManager.set_showon_permission(trumba_cal, uwnetid):
-            self.new_showon_perm_counts = self.new_showon_perm_counts + 1
-        else:
-            self.err_showon_perm_counts = self.err_showon_perm_counts + 1
-            logger.error(
-                "Failed to set %s showon for %s" % (uwnetid, trumba_cal))
-
-    def del_accounts(self):
-        """
-        Clean up the no-longer used accounts from Trumba
-        """
-        pass
+        action = "Set showon permission for {0} on {1}".format(
+            uwnetid, trumba_cal)
+        try:
+            if self.cal_per_m.set_showon_permission(trumba_cal, uwnetid):
+                self.new_showon_perm_counts += 1
+                logger.info(action)
+            else:
+                self.append_error("Failed to {0}".format(action))
+        except Exception as ex:
+            log_exception(logger, "Failed to {0}".format(action),
+                          traceback.format_exc(chain=False))
+            self.append_error("Failed to {0} {1}".format(action, str(ex)))
+        return False

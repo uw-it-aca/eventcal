@@ -1,2 +1,6 @@
-{"d":{"__type":"Graw.Rainbow.Import.Response",
-"Calendars":[{"ID":3,"Name":"Tacoma Calendar","ChildCalendars":null}], "Messages":null,"Users":null}}
+{"d":{
+"__type":"Graw.Rainbow.Import.Response",
+"Calendars":[
+{"ID":3,"Name":"UW Tacoma Campus Events","ChildCalendars":null}],
+"Messages":null,
+"Users":null}}

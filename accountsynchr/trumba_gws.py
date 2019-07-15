@@ -1,175 +1,126 @@
 import logging
-from restclients.models.trumba import TrumbaCalendar
-from accountsynchr.ucalgroup.group_manager import GroupManager
-from accountsynchr.ucalgroup.member_manager import MemberManager
-from accountsynchr.trumba.calendar_manager import CalendarManager
-from accountsynchr.trumba.permission_manager import PermissionManager
-from accountsynchr.log import log_resp_time
-
+from uw_trumba.models import TrumbaCalendar
+from accountsynchr.syncer import Syncer
+from accountsynchr.dao.trumba import remove_permission
 
 logger = logging.getLogger(__name__)
 
 
-class TrumbaToGws:
+class TrumbaToGws(Syncer):
 
     def __init__(self):
-        self.cal_m = CalendarManager()
-        self.per_m = PermissionManager()
-        self.gro_m = GroupManager()
-        self.mem_m = MemberManager()
-
+        super(TrumbaToGws, self).__init__()
         self.ttl_editor_grps_synced = 0
-        self.upd_editor_grp_errs = 0
-        self.editor_grp_mem_counts = 0
-
         self.ttl_showon_grp_synced = 0
-        self.upd_showon_grp_errs = 0
-
         self.del_editor_perm_counts = 0
-        self.err_del_editor_perm_counts = 0
         self.del_showon_perm_counts = 0
-        self.err_del_showon_perm_counts = 0
 
-    def sync(self, campus_code):
+    def sync(self):
         """
         Synchronizes changes from Trumba to GWS
         """
-        if campus_code is None or\
-                campus_code == TrumbaCalendar.SEA_CAMPUS_CODE:
-            self.sync_campus_groups(TrumbaCalendar.SEA_CAMPUS_CODE)
+        for choice in TrumbaCalendar.CAMPUS_CHOICES:
+            campus_code = choice[0]
+            if self.cal_per_m.exists(campus_code):
+                calendars = self.cal_per_m.get_campus_calendars(campus_code)
+                for cal in calendars:
+                    self.sync_cal_to_groups(cal)
 
-        if campus_code is None or\
-                campus_code == TrumbaCalendar.BOT_CAMPUS_CODE:
-            self.sync_campus_groups(TrumbaCalendar.BOT_CAMPUS_CODE)
+        logger.info("{0:d} editor groups sync-ed".format(
+                self.ttl_editor_grps_synced))
+        logger.info("{0:d} showon groups sync-ed".format(
+                self.ttl_showon_grp_synced))
+        logger.info("{0:d} editor perm deleted".format(
+                self.del_editor_perm_counts))
+        logger.info("{0:d} showon perm deleted".format(
+                self.del_showon_perm_counts))
+        if self.has_err():
+            logger.error(self.get_error_report())
 
-        if campus_code is None or\
-                campus_code == TrumbaCalendar.TAC_CAMPUS_CODE:
-            self.sync_campus_groups(TrumbaCalendar.TAC_CAMPUS_CODE)
-
-        logger.info("%d editor groups sync-ed, %d failed." %
-                    (self.ttl_editor_grps_synced,
-                     self.upd_editor_grp_errs))
-        logger.info("%d editor groups sync-ed members." %
-                    self.editor_grp_mem_counts)
-        logger.info("%d showon groups sync-ed, %d failed." %
-                    (self.ttl_showon_grp_synced,
-                     self.upd_showon_grp_errs))
-
-    def sync_campus_groups(self, campus_code):
+    def sync_cal_to_groups(self, trumba_cal):
         """
-        Synchronizes changes from Trumba to GWS for the
-        given campus code
-        """
-        if self.cal_m.exists(campus_code):
-            for trumba_cal in self.cal_m.get_all_calendars(campus_code):
-                self.sync_cal_groups(trumba_cal)
-
-    def sync_cal_groups(self, trumba_cal):
-        """
-        Synchronizes information from Trumba to GWS for the
-        corresponding event calendar groups for the given TrumbaCalendar
-        object for the following changes:
-         - group creation
-         - title update
-         - member updates of the editor group
+        Synchronizes accounts from Trumba to the corresponding
+        calendar editor and showon groups for the following changes:
+         - Group creation
+         - Title update
+         - Clean up the permissions no longer Group member
         :param trumba_cal: a TrumbaCalendar object
         """
-        is_new_calendar = not self.gro_m.has_editor_group(trumba_cal)
-        self.put_editor_group(trumba_cal, is_new_calendar)
-        self.put_showon_group(trumba_cal, is_new_calendar)
+        self.put_editor_group(trumba_cal,
+                              not self.gro_m.has_editor_group(trumba_cal))
+        self.put_showon_group(trumba_cal,
+                              not self.gro_m.has_showon_group(trumba_cal))
 
     def put_editor_group(self, trumba_cal, is_new_calendar):
         """
         Create the corrsponding editor group
         or update the group general info
         """
-        editor_group = self.gro_m.put_editor_group(trumba_cal)
-        if editor_group is None:
-            self.upd_editor_grp_errs = self.upd_editor_grp_errs + 1
-            logger.error(
-                "Failed to sync editor group for %s" % trumba_cal)
-        else:
-            self.ttl_editor_grps_synced = self.ttl_editor_grps_synced + 1
-            if is_new_calendar:
-                self.sync_group_members(trumba_cal, editor_group)
-            else:
-                self.sync_edit_perms(trumba_cal, editor_group)
-
-    def sync_group_members(self, trumba_cal, editor_group):
-        """
-        Add editor group members for editor permissions
-        set in Trumba.
-        """
-        if self.per_m.has_editor(trumba_cal):
-            editors = self.per_m.get_editor_permissions(trumba_cal)
-            logger.debug(
-                "To sync %d members to %s" % (len(editors),
-                                              editor_group))
-            MemberManager.update_editor_group_members(
-                editor_group.name, editors)
-            self.editor_grp_mem_counts = self.editor_grp_mem_counts + 1
-
-    def sync_edit_perms(self, trumba_cal, editor_group):
-        """
-        Delete the edit permission no longer having the correspoding
-        member in the editor group
-        """
-        edit_perm_list = self.per_m.get_editor_permissions(trumba_cal)
-        for perm in edit_perm_list:
-            # currently having edit permission in Trumba
-            if not self.mem_m.is_member(editor_group.name, perm.uwnetid):
-                # not an editer group member
-
-                logger.info("TO REMOVE editor %s from %s" % (perm.uwnetid,
-                                                             trumba_cal))
-                success = self.per_m.remove_permission(trumba_cal,
-                                                       perm.uwnetid)
-                if success:
-                    self.del_editor_perm_counts =\
-                        self.del_editor_perm_counts + 1
-                else:
-                    logger.error(
-                        "Failed to remove editor %s from %s" % (perm.uwnetid,
-                                                                trumba_cal))
-                    self.err_del_editor_perm_counts =\
-                        self.err_del_editor_perm_counts + 1
+        uwcal_group = self.gro_m.put_editor_group(trumba_cal)
+        if uwcal_group is None:
+            self.append_error(
+                "Failed to sync editor group for {0}".format(trumba_cal))
+            return
+        self.ttl_editor_grps_synced += 1
+        if not is_new_calendar:
+            self.sync_edit_perms(trumba_cal, uwcal_group)
 
     def put_showon_group(self, trumba_cal, is_new_calendar):
         """
         Create the corrsponding showon group
         or update the group general info
         """
-        showon_group = self.gro_m.put_showon_group(trumba_cal)
-        if showon_group is None:
-            self.upd_showon_grp_errs = self.upd_showon_grp_errs + 1
-            logger.error(
-                "Failed to sync showon group for %s" % trumba_cal)
-        else:
-            self.ttl_showon_grp_synced = self.ttl_showon_grp_synced + 1
-            if not is_new_calendar:
-                self.sync_showon_perms(trumba_cal, showon_group)
+        uwcal_group = self.gro_m.put_showon_group(trumba_cal)
+        if uwcal_group is None:
+            self.append_error(
+                "Failed to sync showon group for {0}".format(trumba_cal))
+            return
+        self.ttl_showon_grp_synced += 1
+        if not is_new_calendar:
+            self.sync_showon_perms(trumba_cal, uwcal_group)
 
-    def sync_showon_perms(self, trumba_cal, showon_group):
+    def sync_edit_perms(self, trumba_cal, uwcal_group):
+        """
+        Delete the edit permission no longer having the membership
+        """
+        for perm in trumba_cal.permissions.values():
+            if not perm.in_editor_group():
+                continue
+            uwnetid = perm.uwnetid
+            if not_member(uwcal_group, uwnetid):
+                success = remove_permission(trumba_cal, uwnetid)
+                if success:
+                    self.del_editor_perm_counts += 1
+                    logger.info("Removed editor {0} from {1}".format(
+                            uwnetid, trumba_cal))
+                else:
+                    self.append_error(
+                        "Failed to remove editor {0} from {1}".format(
+                            uwnetid, trumba_cal))
+
+    def sync_showon_perms(self, trumba_cal, uwcal_group):
         """
         Delete the showon permission no longer having the correspoding
-        member in the showon group
+        membership
         """
-        showon_perm_list = self.per_m.get_showon_permissions(trumba_cal)
-        for perm in showon_perm_list:
-            # currently having showon permission in Trumba
-            if not self.mem_m.is_member(showon_group.name, perm.uwnetid):
-                # not an showon group member
-
-                logger.info("TO REMOVE showon %s from %s" % (perm.uwnetid,
-                                                             trumba_cal))
-                success = self.per_m.remove_permission(trumba_cal,
-                                                       perm.uwnetid)
+        for perm in trumba_cal.permissions.values():
+            if not perm.in_showon_group():
+                continue
+            uwnetid = perm.uwnetid
+            if not_member(uwcal_group, uwnetid):
+                success = remove_permission(trumba_cal, uwnetid)
                 if success:
-                    self.del_showon_perm_counts =\
-                        self.del_showon_perm_counts + 1
+                    logger.info("Removed showon {0} from {1}".format(
+                            uwnetid, trumba_cal))
+                    self.del_showon_perm_counts += 1
                 else:
-                    logger.error(
-                        "Failed to remove showon %s from %s" % (perm.uwnetid,
-                                                                trumba_cal))
-                    self.err_del_showon_perm_counts =\
-                        self.err_del_showon_perm_counts + 1
+                    self.append_error(
+                        "Failed to remove showon {0} from {1}".format(
+                            uwnetid, trumba_cal))
+
+
+def not_member(uwcal_group, uwnetid):
+    for gmember in uwcal_group.members:
+        if gmember.name == uwnetid:
+            return False
+    return True
