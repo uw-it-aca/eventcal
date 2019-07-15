@@ -11,7 +11,7 @@ class TestCommands(TestCase):
         call_command('del_account', 'test10')
 
     def test_calendar(self):
-        call_command('calendar')
+        call_command('cal_stats')
 
     def test_cal_perms(self):
         call_command('cal_perms', 'bot')
