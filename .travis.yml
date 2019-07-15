@@ -9,8 +9,10 @@ before_script:
   - pip install coverage
   - pip install commonconf
   - pip install coveralls
+  - pip install pycodestyle
 
   - cp travis-ci/manage.py manage.py
+  - manage.py migrate
 script:
   - pycodestyle accountsynchr/ --exclude=resources
   - python -m compileall accountsynchr
