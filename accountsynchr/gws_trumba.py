@@ -27,13 +27,6 @@ class GwsToTrumba(Syncer):
         for choice in TrumbaCalendar.CAMPUS_CHOICES:
             campus_code = choice[0]
             for u_group in self.gro_m.get_campus_editor_groups(campus_code):
-                if (not self.cal_per_m.has_calendar(
-                        u_group.calendar.campus, u_group.calendar.calendarid)):
-                    logger.error("{0} has no calendar".format(u_group))
-                    self.append_error(
-                        "{0} missing calendar".format(u_group.group_ref))
-                    continue
-
                 if len(u_group.members) > 0:
                     self.sync_editor_group_perm(u_group)
 
@@ -70,21 +63,31 @@ class GwsToTrumba(Syncer):
             self.append_error("Failed to {0} {1}".format(action, str(ex)))
 
     def sync_editor_group_perm(self, uwcal_group):
+        calendar = uwcal_group.calendar
+        if (not self.cal_per_m.has_calendar(
+                calendar.campus, calendar.calendarid)):
+            logger.error("{0} is missing!".format(calendar))
+            self.append_error(
+                "{0} is missing!".format(calendar))
+            return
+
         for gm in uwcal_group.members:
-            trumba_cal = uwcal_group.calendar
-            uwnetid = gm.name
-            if not self.cal_per_m.has_editor_permission(trumba_cal, uwnetid):
-                self.sync_editor_perm(trumba_cal, uwnetid)
+            self.sync_editor_perm(calendar, gm.name)
 
     def sync_showon_group_perm(self, uwcal_group):
+        calendar = uwcal_group.calendar
+        if (not self.cal_per_m.has_calendar(
+                calendar.campus, calendar.calendarid)):
+            logger.error("{0} is missing!".format(calendar))
+            self.append_error(
+                "{0} is missing!".format(calendar))
+            return
         for gm in uwcal_group.members:
-            trumba_cal = uwcal_group.calendar
-            uwnetid = gm.name
-            if (not self.cal_per_m.has_showon_or_higher_permission(
-                    trumba_cal, uwnetid)):
-                self.sync_showon_perm(trumba_cal, uwnetid)
+            self.sync_showon_perm(calendar, gm.name)
 
     def sync_editor_perm(self, trumba_cal, uwnetid):
+        if self.cal_per_m.has_editor_permission(trumba_cal, uwnetid):
+            return
         action = "Set editor permission for {0} on {1}".format(
             uwnetid, trumba_cal)
         try:
@@ -97,9 +100,10 @@ class GwsToTrumba(Syncer):
             log_exception(logger, "Failed to {0}".format(action),
                           traceback.format_exc(chain=False))
             self.append_error("Failed to {0} {1}".format(action, str(ex)))
-        return False
 
     def sync_showon_perm(self, trumba_cal, uwnetid):
+        if self.cal_per_m.has_showon_or_higher_permission(trumba_cal, uwnetid):
+            return
         action = "Set showon permission for {0} on {1}".format(
             uwnetid, trumba_cal)
         try:
@@ -112,4 +116,3 @@ class GwsToTrumba(Syncer):
             log_exception(logger, "Failed to {0}".format(action),
                           traceback.format_exc(chain=False))
             self.append_error("Failed to {0} {1}".format(action, str(ex)))
-        return False
