@@ -1,7 +1,7 @@
 import logging
 from uw_trumba.models import TrumbaCalendar
 from accountsynchr.syncer import Syncer
-from accountsynchr.dao.trumba import remove_permission
+from accountsynchr.dao.trumba import get_cal_permissions, remove_permission
 
 logger = logging.getLogger(__name__)
 
@@ -83,7 +83,7 @@ class TrumbaToGws(Syncer):
         """
         Delete the edit permission no longer having the membership
         """
-        for perm in trumba_cal.permissions.values():
+        for perm in get_cal_permissions(trumba_cal):
             if not perm.in_editor_group():
                 continue
             uwnetid = perm.uwnetid
@@ -103,7 +103,7 @@ class TrumbaToGws(Syncer):
         Delete the showon permission no longer having the correspoding
         membership
         """
-        for perm in trumba_cal.permissions.values():
+        for perm in get_cal_permissions(trumba_cal):
             if not perm.in_showon_group():
                 continue
             uwnetid = perm.uwnetid

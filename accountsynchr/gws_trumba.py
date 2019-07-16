@@ -2,6 +2,8 @@ import logging
 import traceback
 from uw_trumba.models import TrumbaCalendar
 from accountsynchr.syncer import Syncer
+from accountsynchr.dao.trumba import (
+    set_editor_permission, set_showon_permission)
 from accountsynchr.util.log import log_resp_time, log_exception
 
 
@@ -62,56 +64,51 @@ class GwsToTrumba(Syncer):
             log_exception(logger, action, traceback.format_exc(chain=False))
             self.append_error("Failed to {0} {1}".format(action, str(ex)))
 
-    def sync_editor_group_perm(self, uwcal_group):
-        calendar = uwcal_group.calendar
-        if (not self.cal_per_m.has_calendar(
-                calendar.campus, calendar.calendarid)):
-            logger.error("{0} is missing!".format(calendar))
+    def _check_cal(self, uwcal_group):
+        trumba_cal = self.cal_per_m.get_calendar(
+            uwcal_group.calendar.campus, uwcal_group.calendar.calendarid)
+        if (trumba_cal is None):
+            logger.error("{0} is missing!".format(uwcal_group.calendar))
             self.append_error(
-                "{0} is missing!".format(calendar))
-            return
+                "{0} is missing!".format(uwcal_group.calendar))
+            return None
+        return trumba_cal
 
-        for gm in uwcal_group.members:
-            self.sync_editor_perm(calendar, gm.name)
+    def sync_editor_group_perm(self, uwcal_group):
+        trumba_cal = self._check_cal(uwcal_group)
+        if trumba_cal is not None:
+            for gm in uwcal_group.members:
+                self.sync_editor_perm(trumba_cal, gm.name)
 
     def sync_showon_group_perm(self, uwcal_group):
-        calendar = uwcal_group.calendar
-        if (not self.cal_per_m.has_calendar(
-                calendar.campus, calendar.calendarid)):
-            logger.error("{0} is missing!".format(calendar))
-            self.append_error(
-                "{0} is missing!".format(calendar))
-            return
-        for gm in uwcal_group.members:
-            self.sync_showon_perm(calendar, gm.name)
+        trumba_cal = self._check_cal(uwcal_group)
+        if trumba_cal is not None:
+            for gm in uwcal_group.members:
+                self.sync_showon_perm(trumba_cal, gm.name)
 
     def sync_editor_perm(self, trumba_cal, uwnetid):
-        if self.cal_per_m.has_editor_permission(trumba_cal, uwnetid):
-            return
         action = "Set editor permission for {0} on {1}".format(
             uwnetid, trumba_cal)
         try:
-            if self.cal_per_m.set_editor_permission(trumba_cal, uwnetid):
-                self.new_editor_perm_counts += 1
-                logger.info(action)
-            else:
+            ret = set_editor_permission(trumba_cal, uwnetid)
+            if ret < 0:
                 self.append_error("Failed to {0}".format(action))
+            else:
+                self.new_editor_perm_counts += ret
         except Exception as ex:
             log_exception(logger, "Failed to {0}".format(action),
                           traceback.format_exc(chain=False))
             self.append_error("Failed to {0} {1}".format(action, str(ex)))
 
     def sync_showon_perm(self, trumba_cal, uwnetid):
-        if self.cal_per_m.has_showon_or_higher_permission(trumba_cal, uwnetid):
-            return
         action = "Set showon permission for {0} on {1}".format(
             uwnetid, trumba_cal)
         try:
-            if self.cal_per_m.set_showon_permission(trumba_cal, uwnetid):
-                self.new_showon_perm_counts += 1
-                logger.info(action)
-            else:
+            ret = set_showon_permission(trumba_cal, uwnetid)
+            if ret < 0:
                 self.append_error("Failed to {0}".format(action))
+            else:
+                self.new_showon_perm_counts += ret
         except Exception as ex:
             log_exception(logger, "Failed to {0}".format(action),
                           traceback.format_exc(chain=False))
