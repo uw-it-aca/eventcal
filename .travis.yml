@@ -6,15 +6,16 @@ python:
 before_script:
   - pip install -e .
   - pip install pycodestyle
-  - pip install nose2
   - pip install coverage
   - pip install commonconf
   - pip install coveralls
   - cp travis-ci/manage.py manage.py
   - python manage.py migrate
+
 script:
   - pycodestyle accountsynchr/ --exclude=resources
   - python -m compileall accountsynchr
-  - coverage run --source=accountsynchr manage.py test accountsynchr
+  - coverage run --source=accountsynchr --omit=accountsynchr/resources/* manage.py test accountsynchr
+
 after_script:
   - coveralls
