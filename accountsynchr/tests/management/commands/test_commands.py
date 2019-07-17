@@ -21,6 +21,7 @@ class TestCommands(TestCase):
 
     def test_find_user_groups(self):
         call_command('find_user_groups', 'dummye')
+        call_command('find_user_groups', 'dummys')
 
     def test_gws_trumba(self):
         call_command('gws_trumba')
