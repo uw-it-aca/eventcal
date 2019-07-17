@@ -30,11 +30,11 @@ class CalPermManager(Calendars):
     def add_account(self, display_name, uwnetid):
         """
         Add a new account in Trumba for the given user
+        :except: uw_trumba.exceptions.
         """
         if add_editor(display_name, uwnetid):
             self.perm_loader.add_account(uwnetid)
             return True
-        return False
 
 
 def get_cal_permissions(trumba_cal):
@@ -73,21 +73,21 @@ def _has_showon_or_higher_permission(trumba_cal, uwnetid):
 
 def remove_permission(trumba_cal, uwnetid):
     """
-    :return: Ture if request is successful, False otherwise.
+    :return: Ture if request is successful.
+    :except: uw_trumba.exceptions.*
     """
     if set_perm_none(trumba_cal, uwnetid):
         del trumba_cal.permissions[uwnetid]
         logger.info("Removed permission of {0} from {1}".format(
             uwnetid, trumba_cal))
         return True
-    return False
 
 
 def set_editor_permission(trumba_cal, uwnetid):
     """
     :param trumba_cal: a valid TrumbaCalendar object
     :return: 1 if permission is set, 0 permission already exists,
-            -1 Failed to set the permission.
+    :except: uw_trumba.exceptions.*
     """
     if _has_editor_permission(trumba_cal, uwnetid):
         return 0
@@ -96,14 +96,13 @@ def set_editor_permission(trumba_cal, uwnetid):
         logger.info("Set editor permission for {0} on {1}".format(
             uwnetid, trumba_cal))
         return 1
-    return -1
 
 
 def set_showon_permission(trumba_cal, uwnetid):
     """
     :param trumba_cal: a valid TrumbaCalendar object
     :return: 1 if permission is set, 0 permission already exists,
-             -1 Failed to set the permission.
+    :except: uw_trumba.exceptions.
     """
     if _has_showon_or_higher_permission(trumba_cal, uwnetid):
         return 0
@@ -112,22 +111,19 @@ def set_showon_permission(trumba_cal, uwnetid):
         logger.info("Set showon permission for {0} on {1}".format(
             uwnetid, trumba_cal))
         return 1
-    return -1
 
 
 def _set_trumba_cal_editor(trumba_cal, uwnetid):
-    perm_dict = trumba_cal.permissions
-    perm = perm_dict.get(uwnetid)
+    perm = trumba_cal.permissions.get(uwnetid)
     if perm is not None and not perm.in_editor_group():
-        perm.set_editor()
+        perm.set_edit()
     else:
-        perm_dict[uwnetid] = new_edit_permission(uwnetid)
+        trumba_cal.permissions[uwnetid] = new_edit_permission(uwnetid)
 
 
 def _set_trumba_cal_showon(trumba_cal, uwnetid):
-    perm_dict = trumba_cal.permissions
-    perm = perm_dict.get(uwnetid)
+    perm = trumba_cal.permissions.get(uwnetid)
     if perm is not None and not perm.in_showon_group():
-        perm.set_editor()
+        perm.set_showon()
     else:
-        perm_dict[uwnetid] = new_showon_permission(uwnetid)
+        trumba_cal.permissions[uwnetid] = new_showon_permission(uwnetid)

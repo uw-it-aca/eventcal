@@ -12,4 +12,4 @@ class TestTrumbaToGws(TestCase):
         self.assertEqual(g_t.new_acounts, 2)
         self.assertEqual(g_t.new_editor_perm_counts, 2)
         self.assertEqual(g_t.new_showon_perm_counts, 1)
-        self.assertFalse(g_t.has_err())
+        self.assertTrue(g_t.has_err())

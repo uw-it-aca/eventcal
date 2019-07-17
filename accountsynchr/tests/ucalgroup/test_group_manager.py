@@ -14,7 +14,7 @@ class TestGroupManager(TestCase):
         self.assertEqual(len(gm.get_all_editors()), 6)
         self.assertEqual(len(gm.get_campus_editor_groups('bot')), 2)
         self.assertEqual(len(gm.get_campus_showon_groups('bot')), 2)
-        self.assertEqual(len(gm.get_campus_editor_groups('sea')), 2)
+        self.assertEqual(len(gm.get_campus_editor_groups('sea')), 3)
         self.assertEqual(len(gm.get_campus_showon_groups('tac')), 1)
 
         cal1 = TrumbaCalendar(calendarid=2,

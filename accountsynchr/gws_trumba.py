@@ -55,11 +55,9 @@ class GwsToTrumba(Syncer):
     def _add_account(self, uwnetid):
         action = "Create account: {0}".format(uwnetid)
         try:
-            if self.cal_per_m.add_account(uwnetid, uwnetid):
+            if self.cal_per_m.add_account(uwnetid, uwnetid) is True:
                 self.new_acounts += 1
                 logger.info(action)
-            else:
-                self.append_error("Failed to {0}".format(action))
         except Exception as ex:
             log_exception(logger, action, traceback.format_exc(chain=False))
             self.append_error("Failed to {0} {1}".format(action, str(ex)))
@@ -91,9 +89,7 @@ class GwsToTrumba(Syncer):
             uwnetid, trumba_cal)
         try:
             ret = set_editor_permission(trumba_cal, uwnetid)
-            if ret < 0:
-                self.append_error("Failed to {0}".format(action))
-            else:
+            if ret >= 0:
                 self.new_editor_perm_counts += ret
         except Exception as ex:
             log_exception(logger, "Failed to {0}".format(action),
@@ -105,9 +101,7 @@ class GwsToTrumba(Syncer):
             uwnetid, trumba_cal)
         try:
             ret = set_showon_permission(trumba_cal, uwnetid)
-            if ret < 0:
-                self.append_error("Failed to {0}".format(action))
-            else:
+            if ret >= 0:
                 self.new_showon_perm_counts += ret
         except Exception as ex:
             log_exception(logger, "Failed to {0}".format(action),

@@ -37,6 +37,11 @@
     "regid":"f750ed1fc1c84cf38a59e8277a96a8ec",
     "name":"Seattle Campus >> Seattle Academic calendar showon group",
     "description":""}
+, { "id":"u_eventcal_sea_1111-editor",
+    "type":"group",
+    "regid":"3550bea5a83d47ccafe9a32c2a1f3db1",
+    "name":"Seattle Campus >> Seattle Academic >> Holidays calendar editor group",
+    "description":""}
 ]
 }
 

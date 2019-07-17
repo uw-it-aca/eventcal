@@ -1,12 +1,13 @@
 from django.test import TestCase
 from uw_gws.models import GroupReference
 from uw_trumba.models import TrumbaCalendar
+from uw_trumba.exceptions import AccountNameEmpty, AccountNotExist
 from accountsynchr.dao import DataFailureException
 from accountsynchr.dao.trumba import (
     CalPermManager, remove_permission, set_editor_permission,
     set_showon_permission, _has_editor_permission,
     _has_showon_or_higher_permission, get_cal_permissions,
-    _get_permission, _set_trumba_cal_editor)
+    _get_permission, _set_trumba_cal_editor, _set_trumba_cal_showon)
 
 
 class TestCalPermManager(TestCase):
@@ -68,11 +69,14 @@ class TestCalPermManager(TestCase):
         cal_per_m = CalPermManager()
 
         self.assertTrue(cal_per_m.add_account('sdummye', 'sdummye'))
-        self.assertRaises(DataFailureException, cal_per_m.add_account,
-                          'u404', 'u404')
+        self.assertRaises(AccountNameEmpty, cal_per_m.add_account, '', '')
 
         sea_cal = cal_per_m.get_calendar('sea', 1)
         self.assertEqual(set_editor_permission(sea_cal, 'dummye'), 0)
+        # _set_trumba_cal_showon case.1
+        _set_trumba_cal_showon(sea_cal, 'dummye')
+        perm = _get_permission(sea_cal, 'dummye')
+        self.assertTrue(perm.in_showon_group())
 
         self.assertFalse(_has_editor_permission(sea_cal, 'sdummye'))
         self.assertEqual(set_editor_permission(sea_cal, 'sdummye'), 1)
@@ -84,12 +88,25 @@ class TestCalPermManager(TestCase):
         self.assertEqual(set_showon_permission(sea_cal, 'sdummys'), 1)
         self.assertTrue(_has_showon_or_higher_permission(sea_cal, 'sdummys'))
 
+        # _set_trumba_cal_editor case.1
+        _set_trumba_cal_editor(sea_cal, 'sdummys')
+        self.assertTrue(_has_editor_permission(sea_cal, 'sdummys'))
+
+        self.assertRaises(AccountNotExist,
+                          set_editor_permission,
+                          sea_cal, 'none')
+        self.assertRaises(AccountNotExist,
+                          set_showon_permission,
+                          sea_cal, 'none')
         self.assertRaises(DataFailureException,
                           set_editor_permission,
                           sea_cal, 'u404')
 
         self.assertTrue(remove_permission(sea_cal, 'dummyp'))
         self.assertTrue(remove_permission(sea_cal, 'dummys'))
+        self.assertRaises(AccountNotExist,
+                          remove_permission,
+                          sea_cal, 'none')
         self.assertRaises(DataFailureException, remove_permission,
                           sea_cal, 'u404')
 

@@ -88,8 +88,7 @@ class TrumbaToGws(Syncer):
                 continue
             uwnetid = perm.uwnetid
             if not_member(uwcal_group, uwnetid):
-                success = remove_permission(trumba_cal, uwnetid)
-                if success:
+                if remove_permission(trumba_cal, uwnetid) is True:
                     self.del_editor_perm_counts += 1
                     logger.info("Removed editor {0} from {1}".format(
                             uwnetid, trumba_cal))
@@ -108,8 +107,7 @@ class TrumbaToGws(Syncer):
                 continue
             uwnetid = perm.uwnetid
             if not_member(uwcal_group, uwnetid):
-                success = remove_permission(trumba_cal, uwnetid)
-                if success:
+                if remove_permission(trumba_cal, uwnetid) is True:
                     logger.info("Removed showon {0} from {1}".format(
                             uwnetid, trumba_cal))
                     self.del_showon_perm_counts += 1
