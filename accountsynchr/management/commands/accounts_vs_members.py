@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from accountsynchr.dao.trumba import CalPermManager
-from accountsynchr.dao.gws import Gws
+from accountsynchr.ucalgroup.group_manager import GroupManager
 
 
 class Command(BaseCommand):
@@ -14,8 +14,8 @@ class Command(BaseCommand):
         account_set = cal_m.perm_loader.account_set
         print("Total users in Trumba: {0:d}".format(len(account_set)))
 
-        gws = Gws()
-        member_set = gws.all_editor_uwnetids
+        grp_m = GroupManager()
+        member_set = grp_m.gws.all_editor_uwnetids
         print("Total members in UW Group: {0:d}".format(len(member_set)))
 
         print("Trumba Accounts who are not members of any group:")
