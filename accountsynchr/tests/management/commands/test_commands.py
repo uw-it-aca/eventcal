@@ -4,6 +4,9 @@ from django.core.management import call_command
 
 class TestCommands(TestCase):
 
+    def test_accounts_vs_members(self):
+        call_command('accounts_vs_members')
+
     def test_add_account(self):
         call_command('add_account', 'sdummye', 'sdummye')
 
@@ -13,11 +16,11 @@ class TestCommands(TestCase):
     def test_cal_perms(self):
         call_command('cal_perms', 'bot')
 
-    def test_group_stats(self):
-        call_command('group_stats')
-
     def test_del_account(self):
         call_command('del_account', 'test10')
+
+    def test_group_stats(self):
+        call_command('group_stats')
 
     def test_find_user_groups(self):
         call_command('find_user_groups', 'dummye')
