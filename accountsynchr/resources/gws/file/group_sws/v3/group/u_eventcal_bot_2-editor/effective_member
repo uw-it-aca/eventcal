@@ -1,0 +1,28 @@
+{
+  "schemas": [
+    "urn:mace:washington.edu:schemas:groups:1.0"
+  ],
+  "meta": {
+    "resourceType": "members",
+    "version": "v3.0",
+    "regid": "",
+    "id": "u_eventcal_bot_2-editor",
+    "type": "effective",
+    "selfRef": "",
+    "timestamp": 1562300019590
+  },
+  "data": [
+    {
+      "type": "uwnetid",
+      "id": "dummyp",
+      "mtype": "direct",
+      "source": ""
+    }
+    ,{
+      "type": "uwnetid",
+      "id": "dummye",
+      "mtype": "direct",
+      "source": ""
+    }
+  ]
+}

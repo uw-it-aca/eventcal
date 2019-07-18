@@ -1,9 +1,12 @@
+import logging
 from django.core.management.base import BaseCommand, CommandError
-from accountsynchr.trumba.permission_manager import PermissionManager
+from uw_trumba.account import add_editor
 
 
 class Command(BaseCommand):
-    help = "Create a new account on Trumba."
+    """
+    Create a new account on Trumba.
+    """
 
     def add_arguments(self, parser):
         parser.add_argument('name')
@@ -13,5 +16,5 @@ class Command(BaseCommand):
         name = options['name']
         userid = options['uwnetid']
 
-        print "PermissionManager().add_account(%s, %s) ==> %s" % (
-            name, userid, PermissionManager().add_account(name, userid))
+        print("Add account({0}, {1}) ==> {2}".format(
+                name, userid,  add_editor(name, userid)))

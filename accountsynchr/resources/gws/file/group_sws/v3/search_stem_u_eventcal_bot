@@ -1,0 +1,36 @@
+{
+"schemas": ["urn:mace:washington.edu:schemas:groups:1.0"],
+"meta":{
+ "resourceType": "search",
+ "version": "v3.0",
+ "totalResults": 83,
+ "searchParameters": {
+   "name": "",
+   "stem": "u_eventcal_bot",
+   "owner": ""
+ },
+ "selfRef":"https://groups.uw.edu/group_sws/v3/search/",
+ "timestamp": 1562368053657},
+"data":[
+ {"id":"u_eventcal_bot",
+  "type":"group",
+  "regid":"45cb833f55c64214b67f15a8efc535ce",
+  "name":"u_eventcal_bot parent group", "description":""},
+ {"id":"u_eventcal_bot_2-editor",
+   "type":"group",
+   "regid":"153f16f4fe6244bdb4be53559c9ed67b",
+   "name":"Bothell Campus Calendar", "description":""},
+ {"id":"u_eventcal_bot_2-showon",
+   "type":"group",
+   "regid":"a5bdb04b83954f089d1088bdf591f935",
+   "name":"Bothell Campus Calendar", "description":""},
+ {"id":"u_eventcal_bot_211-editor",
+  "type":"group",
+  "regid":"7a8e99ba23e641168361daafbef70409",
+  "name":"Bothell Campus >> Academic Calendars", "description":""},
+ {"id":"u_eventcal_bot_211-showon",
+  "type":"group",
+  "regid":"7bc0f3eb77c94e46a69e8ec789325ab9",
+  "name":"Bothell Campus >> Academic Calendars", "description":""}
+ ]
+}

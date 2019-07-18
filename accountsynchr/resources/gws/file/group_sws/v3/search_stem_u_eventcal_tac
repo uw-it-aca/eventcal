@@ -1,0 +1,31 @@
+{
+"schemas": ["urn:mace:washington.edu:schemas:groups:1.0"],
+"meta":{
+ "resourceType": "search",
+ "version": "v3.0",
+ "totalResults": 172,
+ "searchParameters": {
+   "name": "",
+   "stem": "u_eventcal_tac",
+   "owner": ""
+ },
+ "selfRef":"https://iam-ws.u.washington.edu/group_sws/v3/search/",
+ "timestamp": 1562869294586},
+"data":[
+ { "id":"u_eventcal_tac",
+   "type":"group",
+   "regid":"88c1565d2acb43bf8e5febc7547f4fc2",
+   "name":"u_eventcal_tac parent group",
+   "description":""}
+, { "id":"u_eventcal_tac_3-editor",
+    "type":"group",
+    "regid":"5cf97645cebb485a9feaf353534b26c7",
+    "name":"UW Tacoma Campus Events",
+    "description":""}
+, { "id":"u_eventcal_tac_3-showon",
+    "type":"group",
+    "regid":"8728168b36674a19833276f3c52766d2",
+    "name":"UW Tacoma Campus Events",
+    "description":""}
+]
+}
