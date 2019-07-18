@@ -93,8 +93,8 @@ def set_editor_permission(trumba_cal, uwnetid):
         return 0
     if set_perm_editor(trumba_cal, uwnetid):
         _set_trumba_cal_editor(trumba_cal, uwnetid)
-        logger.info("Set editor permission for {0} on {1}".format(
-            uwnetid, trumba_cal))
+        logger.info("Set {0} editor permission for {1} on {2}".format(
+            trumba_cal.campus, uwnetid, trumba_cal.name))
         return 1
 
 
@@ -108,8 +108,8 @@ def set_showon_permission(trumba_cal, uwnetid):
         return 0
     if set_perm_showon(trumba_cal, uwnetid):
         _set_trumba_cal_showon(trumba_cal, uwnetid)
-        logger.info("Set showon permission for {0} on {1}".format(
-            uwnetid, trumba_cal))
+        logger.info("Set {0} showon permission for {1} on {2}".format(
+            trumba_cal.campus, uwnetid, trumba_cal.name))
         return 1
 
 
