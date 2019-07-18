@@ -1,5 +1,5 @@
-MAILTO=fanglin@uw.edu
-PYTHONPATH=/data/eventcal/live/lib/python2.7/site-packages
+MAILTO=fanglin@uw.edu,dannylin@uw.edu
+PYTHONPATH=/data/eventcal/live/lib/python3.6/site-packages
 
 #Sync accounts from GWS to Trumba
 0,5,10,15,20,25,30,35,40,45,50,55 7-18 * * 1-5 cd /data/eventcal/live && source ./bin/activate && python manage.py gws_trumba
