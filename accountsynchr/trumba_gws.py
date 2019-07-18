@@ -58,8 +58,8 @@ class TrumbaToGws(Syncer):
         """
         uwcal_group = self.gro_m.put_editor_group(trumba_cal)
         if uwcal_group is None:
-            self.append_error(
-                "Failed to sync editor group for {0}".format(trumba_cal))
+            self.append_error("Failed to update editor group {0}".format(
+                trumba_cal.get_group_name()))
             return
         self.ttl_editor_grps_synced += 1
         if not is_new_calendar:
@@ -72,8 +72,8 @@ class TrumbaToGws(Syncer):
         """
         uwcal_group = self.gro_m.put_showon_group(trumba_cal)
         if uwcal_group is None:
-            self.append_error(
-                "Failed to sync showon group for {0}".format(trumba_cal))
+            self.append_error("Failed to update showon group {0}".format(
+                trumba_cal.get_group_name()))
             return
         self.ttl_showon_grp_synced += 1
         if not is_new_calendar:
@@ -91,11 +91,11 @@ class TrumbaToGws(Syncer):
                 if remove_permission(trumba_cal, uwnetid) is True:
                     self.del_editor_perm_counts += 1
                     logger.info("Removed editor {0} from {1}".format(
-                            uwnetid, trumba_cal))
+                            uwnetid, trumba_cal.name))
                 else:
                     self.append_error(
                         "Failed to remove editor {0} from {1}".format(
-                            uwnetid, trumba_cal))
+                            uwnetid, trumba_cal.name))
 
     def sync_showon_perms(self, trumba_cal, uwcal_group):
         """
@@ -109,12 +109,12 @@ class TrumbaToGws(Syncer):
             if not_member(uwcal_group, uwnetid):
                 if remove_permission(trumba_cal, uwnetid) is True:
                     logger.info("Removed showon {0} from {1}".format(
-                            uwnetid, trumba_cal))
+                            uwnetid, trumba_cal.name))
                     self.del_showon_perm_counts += 1
                 else:
                     self.append_error(
                         "Failed to remove showon {0} from {1}".format(
-                            uwnetid, trumba_cal))
+                            uwnetid, trumba_cal.name))
 
 
 def not_member(uwcal_group, uwnetid):
