@@ -57,8 +57,9 @@ class UwcalGroup(models.Model):
 
     def same_name(self, calendar):
         if self.group_ref is not None:
-            cal_name = get_cal_name(self.group_ref.display_name)
-            return cal_name == calendar.name
+            group_name = self.group_ref.display_name
+            return (group_name == calendar.name or
+                    group_name == calendar.get_group_title(self.gtype))
         return False
 
     def set_calendar_name(self, cal_name):
