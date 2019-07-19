@@ -47,14 +47,17 @@ class TestModels(TestCase):
                           'gtype': 'editor',
                           'members': []})
 
-        self.assertFalse(editor_gr.same_name(trumba_cal))
-        self.assertFalse(showon_gr.same_name(trumba_cal))
-
         editor_gr.group_ref = GroupReference()
         editor_gr.group_ref.name = "u_eventcal_bot_2-editor"
+        editor_gr.group_ref.display_name = 'Bothell Campus'
 
         showon_gr.group_ref = GroupReference()
         showon_gr.group_ref.name = "u_eventcal_bot_2-showon"
+        showon_gr.group_ref.display_name = \
+            'Bothell Campus calendar showon group'
+
+        self.assertTrue(editor_gr.same_name(trumba_cal))
+        self.assertTrue(showon_gr.same_name(trumba_cal))
 
         self.assertTrue(editor_gr == editor_gr)
         self.assertFalse(editor_gr == showon_gr)
