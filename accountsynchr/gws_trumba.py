@@ -85,8 +85,8 @@ class GwsToTrumba(Syncer):
                 self.sync_showon_perm(trumba_cal, gm.name)
 
     def sync_editor_perm(self, trumba_cal, uwnetid):
-        action = "Set editor permission for {0} on {1}".format(
-            uwnetid, trumba_cal)
+        action = "Set editor permission for {0} of {1}_{2}".format(
+            uwnetid, trumba_cal.campus, trumba_cal.calendarid)
         try:
             ret = set_editor_permission(trumba_cal, uwnetid)
             if ret >= 0:
@@ -97,8 +97,8 @@ class GwsToTrumba(Syncer):
             self.append_error("Failed to {0} {1}".format(action, str(ex)))
 
     def sync_showon_perm(self, trumba_cal, uwnetid):
-        action = "Set showon permission for {0} on {1}".format(
-            uwnetid, trumba_cal)
+        action = "Set showon permission for {0} of {1}_{2}".format(
+            uwnetid, trumba_cal.campus, trumba_cal.calendarid)
         try:
             ret = set_showon_permission(trumba_cal, uwnetid)
             if ret >= 0:
