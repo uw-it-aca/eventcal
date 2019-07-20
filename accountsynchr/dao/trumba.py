@@ -78,8 +78,8 @@ def remove_permission(trumba_cal, uwnetid):
     """
     if set_perm_none(trumba_cal, uwnetid):
         del trumba_cal.permissions[uwnetid]
-        logger.info("Removed permission of {0} from {1}".format(
-            uwnetid, trumba_cal))
+        logger.info("Removed {0} permission of {1} from {2}".format(
+            trumba_cal.campus, uwnetid, trumba_cal.name))
         return True
 
 
