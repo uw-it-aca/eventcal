@@ -62,6 +62,16 @@ class TestModels(TestCase):
         self.assertTrue(editor_gr == editor_gr)
         self.assertFalse(editor_gr == showon_gr)
 
+        self.assertEqual(editor_gr.to_json(),
+                         {'calendar': {'calendarid': 2,
+                                       'campus': 'bot',
+                                       'name': 'Bothell Campus',
+                                       'permissions': {}},
+                          'group_ref': {'displayName': 'Bothell Campus',
+                                        'id': 'u_eventcal_bot_2-editor',
+                                        'regid': ''},
+                          'gtype': 'editor',
+                          'members': []})
         self.assertIsNotNone(str(editor_gr))
 
     def test_get_cal_name(self):

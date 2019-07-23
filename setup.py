@@ -24,7 +24,7 @@ setup(
     install_requires=[
         'Django>=2.0.13,<2.1',
         'UW-RestClients-Core<2.0',
-        'UW-RestClients-GWS>2.1,<3.0',
+        'UW-RestClients-GWS>=2.2,<3.0',
         'UW-RestClients-Trumba>=1.2.2,<2.0',
         ],
     license='Apache License, Version 2.0',

@@ -54,7 +54,7 @@ class TestGroupManager(TestCase):
                     'permissions': {}},
              'group_ref': {
                     'displayName': 'Bothell Campus calendar editor group',
-                    'name': 'u_eventcal_bot_2-editor',
+                    'id': 'u_eventcal_bot_2-editor',
                     'regid': '806cdfb7c41843b6833e5c860b0dc615'},
              'gtype': 'editor',
              'members': [{'id': 'dummyp',
@@ -76,7 +76,7 @@ class TestGroupManager(TestCase):
                           'permissions': {}},
              'group_ref': {
                  'displayName': 'Bothell Campus calendar showon group',
-                 'name': 'u_eventcal_bot_2-showon',
+                 'id': 'u_eventcal_bot_2-showon',
                  'regid': '806cdfb7c41843b6833e5c860b0dc615'},
              'gtype': 'showon',
              'members': [{'id': 'dummys',
