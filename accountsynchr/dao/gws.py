@@ -107,10 +107,10 @@ class Gws(GWS):
         """
         timer = Timer()
         gwsgroup = _convert_to_gwsgroup(uwcalgroup)
-        action = "Create group {0}".format(gwsgroup)
+        action = "Create group {0}".format(gwsgroup.name)
         try:
             if gwsgroup.has_regid():
-                action = "Update group {0}".format(gwsgroup)
+                action = "Update group {0}".format(gwsgroup.name)
                 return self.update_group(gwsgroup)
 
             return self.create_group(gwsgroup)
@@ -149,20 +149,15 @@ def _convert_to_gwsgroup(uwcalgroup):
     Convert/map the given UwcalGroup object into a Group object
     """
     group = Group(uwregid=uwcalgroup.get_regid(),
-                  id=uwcalgroup.get_group_id(),
                   name=uwcalgroup.get_group_name(),
                   display_name=uwcalgroup.get_group_title(),
                   description=uwcalgroup.get_group_desc())
     group.admins = [GroupEntity(name=uwcalgroup.get_group_admin(),
-                                display_name=None,
                                 type=GroupEntity.GROUP_TYPE)]
     group.updaters = [GroupEntity(name=uwcalgroup.get_member_manager(),
-                                  display_name=None,
                                   type=GroupEntity.GROUP_TYPE)]
     group.readers = [GroupEntity(name='all',
-                                 display_name=None,
                                  type=GroupEntity.SET_TYPE)]
     group.optouts = [GroupEntity(name='all',
-                                 display_name=None,
                                  type=GroupEntity.SET_TYPE)]
     return group

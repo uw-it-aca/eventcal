@@ -66,19 +66,15 @@ class UwcalGroup(models.Model):
         self.calendar.name = cal_name
 
     def to_json(self):
-        group_ref = None
+        group_ref_data = None
         if self.group_ref is not None:
-            group_ref = {"name": self.group_ref.name,
-                         "regid": self.group_ref.uwregid,
-                         "displayName": self.group_ref.display_name}
-
-        members = []
-        for m in self.members:
-            members.append(m.json_data())
+            group_ref_data = {"id": self.group_ref.name,
+                              "regid": self.group_ref.uwregid,
+                              "displayName": self.group_ref.display_name}
         return {'calendar': self.calendar.to_json(),
                 'gtype': self.gtype,
-                'group_ref': group_ref,
-                'members': members}
+                'group_ref': group_ref_data,
+                'members': [m.json_data() for m in self.members]}
 
     def __eq__(self, other):
         return (self.calendar == other.calendar and

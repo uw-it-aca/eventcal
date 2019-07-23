@@ -26,13 +26,13 @@ class TestGws(TestCase):
         self.assertEqual(uwcalgroup.group_ref.name, groupr.name)
 
         gwsgroup = _convert_to_gwsgroup(uwcalgroup)
-        self.assertEqual(gwsgroup.id, "u_eventcal_bot_2-editor")
         self.assertEqual(gwsgroup.name, "u_eventcal_bot_2-editor")
         self.assertEqual(gwsgroup.display_name,
                          "Bothell Calendar calendar editor group")
         self.assertIsNotNone(gwsgroup.description)
         self.assertEqual(gwsgroup.admins[0].name, "u_eventcal_support")
         self.assertEqual(gwsgroup.updaters[0].name, "u_eventcal_bot_2-editor")
+        self.assertIsNotNone(gwsgroup.json_data(is_put_req=True))
 
     def test_get_campus_groups(self):
         gws = Gws()
