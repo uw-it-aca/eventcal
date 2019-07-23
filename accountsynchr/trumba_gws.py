@@ -1,5 +1,5 @@
 import logging
-from uw_trumba.models import TrumbaCalendar
+from uw_trumba.models import TrumbaCalendar, EDITOR, SHOWON
 from accountsynchr.syncer import Syncer
 from accountsynchr.dao.trumba import get_cal_permissions, remove_permission
 
@@ -59,7 +59,7 @@ class TrumbaToGws(Syncer):
         uwcal_group = self.gro_m.put_editor_group(trumba_cal)
         if uwcal_group is None:
             self.append_error("Failed to update editor group {0}".format(
-                trumba_cal.get_group_name()))
+                trumba_cal.get_group_name(EDITOR)))
             return
         self.ttl_editor_grps_synced += 1
         if not is_new_calendar:
@@ -73,7 +73,7 @@ class TrumbaToGws(Syncer):
         uwcal_group = self.gro_m.put_showon_group(trumba_cal)
         if uwcal_group is None:
             self.append_error("Failed to update showon group {0}".format(
-                trumba_cal.get_group_name()))
+                trumba_cal.get_group_name(SHOWON)))
             return
         self.ttl_showon_grp_synced += 1
         if not is_new_calendar:
