@@ -6,11 +6,11 @@ PYTHONPATH=/data/eventcal/live/lib/python3.6/site-packages
 
 0,10,20,30,40,50 19-22 * * 1-5 cd /data/eventcal/live && source ./bin/activate && python manage.py gws_trumba
 
-0 19 * * 6,7 cd /data/eventcal/live && source ./bin/activate && python manage.py gws_trumba
+0 22 * * 6,7 cd /data/eventcal/live && source ./bin/activate && python manage.py gws_trumba
 
 #Sync calendars and editor permissions from Trumba to GWS
 2,7,15,17,22,27,32,37,42,47,52,57 7-18 * * 1-5 cd /data/eventcal/live && source ./bin/activate && python manage.py trumba_gws
 
 5,15,25,35,45,55 19-22 * * 1-5 cd /data/eventcal/live && source ./bin/activate && python manage.py trumba_gws
 
-30 19 * * 6,7 cd /data/eventcal/live && source ./bin/activate && python manage.py trumba_gws
+30 22 * * 6,7 cd /data/eventcal/live && source ./bin/activate && python manage.py trumba_gws
