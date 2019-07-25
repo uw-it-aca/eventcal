@@ -129,7 +129,7 @@ def _convert_to_uwcalgroup(group_ref):
         calendarid = int(m.group(2))
         gtype = m.group(3)
     else:
-        logger.warn(
+        logger.warning(
             "Skip it due to invalid group name: {0}".format(group_ref.name))
         return None
 

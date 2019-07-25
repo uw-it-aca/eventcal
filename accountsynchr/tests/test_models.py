@@ -10,8 +10,8 @@ class TestModels(TestCase):
     def test_uwcalgroup(self):
         trumba_cal = TrumbaCalendar(calendarid=2, campus="bot")
         editor_gr = new_editor_group(trumba_cal)
-        editor_gr.set_calendar_name("Bothell Campus")
-        self.assertEqual(trumba_cal.name, "Bothell Campus")
+        editor_gr.set_calendar_name("Bothell >> Dean's Office")
+        self.assertEqual(trumba_cal.name, "Bothell >> Dean's Office")
         showon_gr = new_showon_group(trumba_cal)
 
         # UwcalGroup methods
@@ -25,7 +25,7 @@ class TestModels(TestCase):
         self.assertEqual(editor_gr.get_group_admin(), "u_eventcal_support")
         self.assertIsNotNone(editor_gr.get_group_desc())
         self.assertEqual(editor_gr.get_group_title(),
-                         "Bothell Campus calendar editor group")
+                         "Bothell >> Dean's Office calendar editor group")
         self.assertEqual(editor_gr.get_member_manager(),
                          "u_eventcal_bot_2-editor")
 
@@ -41,37 +41,37 @@ class TestModels(TestCase):
         self.assertEqual(editor_gr.to_json(),
                          {'calendar': {'calendarid': 2,
                                        'campus': 'bot',
-                                       'name': 'Bothell Campus',
+                                       'name': "Bothell >> Dean's Office",
                                        'permissions': {}},
                           'group_ref': None,
                           'gtype': 'editor',
                           'members': []})
 
-        editor_gr.group_ref = GroupReference()
-        editor_gr.group_ref.name = "u_eventcal_bot_2-editor"
-        editor_gr.group_ref.display_name = 'Bothell Campus'
-
-        showon_gr.group_ref = GroupReference()
-        showon_gr.group_ref.name = "u_eventcal_bot_2-showon"
-        showon_gr.group_ref.display_name = \
-            'Bothell Campus calendar showon group'
-
+        editor_gr.group_ref = GroupReference(
+            name="u_eventcal_bot_2-editor",
+            display_name="Bothell >> Dean's Office")
         self.assertTrue(editor_gr.same_name(trumba_cal))
-        self.assertTrue(showon_gr.same_name(trumba_cal))
 
+        showon_gr.group_ref = GroupReference(
+            name="u_eventcal_bot_2-showon",
+            display_name="Bothell >> Dean's Office calendar showon group")
+
+        self.assertTrue(showon_gr.same_name(trumba_cal))
         self.assertTrue(editor_gr == editor_gr)
         self.assertFalse(editor_gr == showon_gr)
 
-        self.assertEqual(editor_gr.to_json(),
-                         {'calendar': {'calendarid': 2,
-                                       'campus': 'bot',
-                                       'name': 'Bothell Campus',
-                                       'permissions': {}},
-                          'group_ref': {'displayName': 'Bothell Campus',
-                                        'id': 'u_eventcal_bot_2-editor',
-                                        'regid': ''},
-                          'gtype': 'editor',
-                          'members': []})
+        self.assertEqual(
+            editor_gr.to_json(),
+            {'calendar': {'calendarid': 2,
+                          'campus': 'bot',
+                          'name': "Bothell >> Dean's Office",
+                          'permissions': {}},
+             'group_ref': {
+                    'displayName': "Bothell >> Dean's Office",
+                    'id': 'u_eventcal_bot_2-editor',
+                    'regid': ''},
+             'gtype': 'editor',
+             'members': []})
         self.assertIsNotNone(str(editor_gr))
 
     def test_get_cal_name(self):
@@ -81,3 +81,12 @@ class TestModels(TestCase):
                          "Tacoma Campus")
         self.assertEqual(get_cal_name("Tacoma Campus calendar showon group"),
                          "Tacoma Campus")
+        self.assertEqual(get_cal_name(
+                "Foster School of Business >> Mktg & Int'l Business " +
+                "calendar showon group"),
+                         "Foster School of Business >> Mktg & Int'l Business")
+        self.assertEqual(get_cal_name("Integrated Service Center (ISC) >>" +
+                                      " Training >> Seminar >> Workday 101 " +
+                                      "- Bothell calendar editor group"),
+                         "Integrated Service Center (ISC) >>" +
+                         " Training >> Seminar >> Workday 101 - Bothell")
