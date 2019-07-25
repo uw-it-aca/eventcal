@@ -58,7 +58,7 @@ class TrumbaToGws(Syncer):
         """
         uwcal_group = self.gro_m.put_editor_group(trumba_cal)
         if uwcal_group is None:
-            self.append_error("Failed to update editor group {0}".format(
+            self.append_error("Failed to update editor group {0}\n".format(
                 trumba_cal.get_group_name(EDITOR)))
             return
         self.ttl_editor_grps_synced += 1
@@ -72,7 +72,7 @@ class TrumbaToGws(Syncer):
         """
         uwcal_group = self.gro_m.put_showon_group(trumba_cal)
         if uwcal_group is None:
-            self.append_error("Failed to update showon group {0}".format(
+            self.append_error("Failed to update showon group {0}\n".format(
                 trumba_cal.get_group_name(SHOWON)))
             return
         self.ttl_showon_grp_synced += 1
@@ -94,7 +94,7 @@ class TrumbaToGws(Syncer):
                             uwnetid, trumba_cal.name))
                 else:
                     self.append_error(
-                        "Failed to remove editor {0} from {1}".format(
+                        "Failed to remove editor {0} from {1}\n".format(
                             uwnetid, trumba_cal.name))
 
     def sync_showon_perms(self, trumba_cal, uwcal_group):
@@ -113,7 +113,7 @@ class TrumbaToGws(Syncer):
                     self.del_showon_perm_counts += 1
                 else:
                     self.append_error(
-                        "Failed to remove showon {0} from {1}".format(
+                        "Failed to remove showon {0} from {1}\n".format(
                             uwnetid, trumba_cal.name))
 
 
