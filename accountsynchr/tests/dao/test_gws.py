@@ -32,6 +32,9 @@ class TestGws(TestCase):
         self.assertEqual(gwsgroup.updaters[0].name, "u_eventcal_bot_2-editor")
         self.assertIsNotNone(gwsgroup.json_data(is_put_req=True))
 
+        groupr.name = "u_eventcal_bot_2-edit"
+        self.assertIsNone(_convert_to_uwcalgroup(groupr))
+
     def test_get_campus_groups(self):
         gws = Gws()
         self.assertIsNone(gws.get_campus_groups('s'))
