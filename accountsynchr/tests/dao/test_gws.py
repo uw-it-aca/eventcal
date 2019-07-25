@@ -11,11 +11,9 @@ from accountsynchr.tests import fdao_gws_override
 class TestGws(TestCase):
 
     def test_convert(self):
-        groupr = GroupReference()
-        groupr.uwregid = "153f16f4fe6244bdb4be53559c9ed67b"
-        groupr.display_name = "Bothell Calendar"
-        groupr.name = "u_eventcal_bot_2-editor"
-        groupr.url = ""
+        groupr = GroupReference(uwregid="153f16f4fe6244bdb4be53559c9ed67b",
+                                display_name="Bothell Calendar",
+                                name="u_eventcal_bot_2-editor")
         uwcalgroup = _convert_to_uwcalgroup(groupr)
         self.assertEqual(uwcalgroup.calendar.to_json(),
                          {'calendarid': 2,
