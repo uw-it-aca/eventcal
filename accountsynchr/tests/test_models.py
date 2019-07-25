@@ -81,3 +81,10 @@ class TestModels(TestCase):
                          "Tacoma Campus")
         self.assertEqual(get_cal_name("Tacoma Campus calendar showon group"),
                          "Tacoma Campus")
+        self.assertEqual(get_cal_name(
+                "Foster School of Business >> Mktg & Int'l Business " +
+                "calendar showon group"),
+                         "Foster School of Business >> Mktg & Int'l Business")
+        self.assertEqual(get_cal_name(
+                "Athletics >> UW Women's Basketball calendar editor group"),
+                "Athletics >> UW Women's Basketball")
