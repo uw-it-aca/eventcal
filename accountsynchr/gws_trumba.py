@@ -60,7 +60,7 @@ class GwsToTrumba(Syncer):
                 logger.info(action)
         except Exception as ex:
             log_exception(logger, action, traceback.format_exc(chain=False))
-            self.append_error("Failed to {0} {1}".format(action, str(ex)))
+            self.append_error("Failed to {0} {1}\n".format(action, str(ex)))
 
     def _check_cal(self, uwcal_group):
         trumba_cal = self.cal_per_m.get_calendar(
@@ -68,7 +68,7 @@ class GwsToTrumba(Syncer):
         if (trumba_cal is None):
             logger.error("{0} is missing!".format(uwcal_group.calendar))
             self.append_error(
-                "{0} is missing!".format(uwcal_group.calendar))
+                "{0} is missing! Please check!\n".format(uwcal_group.calendar))
             return None
         return trumba_cal
 
@@ -94,7 +94,7 @@ class GwsToTrumba(Syncer):
         except Exception as ex:
             log_exception(logger, "Failed to {0}".format(action),
                           traceback.format_exc(chain=False))
-            self.append_error("Failed to {0} {1}".format(action, str(ex)))
+            self.append_error("Failed to {0} {1}\n".format(action, str(ex)))
 
     def sync_showon_perm(self, trumba_cal, uwnetid):
         action = "Set showon permission for {0} of {1}_{2}".format(
@@ -106,4 +106,4 @@ class GwsToTrumba(Syncer):
         except Exception as ex:
             log_exception(logger, "Failed to {0}".format(action),
                           traceback.format_exc(chain=False))
-            self.append_error("Failed to {0} {1}".format(action, str(ex)))
+            self.append_error("Failed to {0} {1}\n".format(action, str(ex)))

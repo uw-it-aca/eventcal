@@ -7,7 +7,7 @@ from accountsynchr.dao.trumba import (
     CalPermManager, remove_permission, set_editor_permission,
     set_showon_permission, _has_editor_permission,
     _has_showon_or_higher_permission, get_cal_permissions,
-    _get_permission, _set_trumba_cal_editor, _set_trumba_cal_showon)
+    get_permission, _set_trumba_cal_editor, _set_trumba_cal_showon)
 
 
 class TestCalPermManager(TestCase):
@@ -62,7 +62,7 @@ class TestCalPermManager(TestCase):
         not_exsit_cal = TrumbaCalendar(calendarid=101,
                                        campus='sea',
                                        name='Not exsit')
-        self.assertIsNone(_get_permission(not_exsit_cal, 'dummyp'))
+        self.assertIsNone(get_permission(not_exsit_cal, 'dummyp'))
         self.assertEqual(len(get_cal_permissions(not_exsit_cal)), 0)
 
     def test_set_permissions(self):
@@ -75,7 +75,7 @@ class TestCalPermManager(TestCase):
         self.assertEqual(set_editor_permission(sea_cal, 'dummye'), 0)
         # _set_trumba_cal_showon case.1
         _set_trumba_cal_showon(sea_cal, 'dummye')
-        perm = _get_permission(sea_cal, 'dummye')
+        perm = get_permission(sea_cal, 'dummye')
         self.assertTrue(perm.in_showon_group())
 
         self.assertFalse(_has_editor_permission(sea_cal, 'sdummye'))
@@ -102,8 +102,14 @@ class TestCalPermManager(TestCase):
                           set_editor_permission,
                           sea_cal, 'u404')
 
+        self.assertTrue(_has_editor_permission(sea_cal, 'dummyp'))
         self.assertTrue(remove_permission(sea_cal, 'dummyp'))
+        self.assertFalse(_has_editor_permission(sea_cal, 'dummyp'))
+
+        self.assertTrue(_has_showon_or_higher_permission(sea_cal, 'dummys'))
         self.assertTrue(remove_permission(sea_cal, 'dummys'))
+        self.assertFalse(_has_showon_or_higher_permission(sea_cal, 'dummys'))
+
         self.assertRaises(AccountNotExist,
                           remove_permission,
                           sea_cal, 'none')
