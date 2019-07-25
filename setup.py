@@ -25,7 +25,7 @@ setup(
         'Django>=2.0.13,<2.1',
         'UW-RestClients-Core<2.0',
         'UW-RestClients-GWS>=2.2,<3.0',
-        'UW-RestClients-Trumba>=1.2.3,<2.0',
+        'UW-RestClients-Trumba>=1.2.4,<2.0',
         'pyopenssl'
         ],
     license='Apache License, Version 2.0',
