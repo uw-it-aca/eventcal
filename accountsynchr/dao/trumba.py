@@ -37,13 +37,18 @@ class CalPermManager(Calendars):
             return True
 
 
+"""
+Helper functions:
+"""
+
+
 def get_cal_permissions(trumba_cal):
     if len(trumba_cal.permissions) > 0:
         return sorted(trumba_cal.permissions.values())
     return []
 
 
-def _get_permission(trumba_cal, uwnetid):
+def get_permission(trumba_cal, uwnetid):
     """
     :param trumba_cal: a valid TrumbaCalendar object
     returns a Permission object of the uwnetid
@@ -57,7 +62,7 @@ def _has_editor_permission(trumba_cal, uwnetid):
     :return: True if the uwnetid has an editor or higher level
     permission on the given calendar.
     """
-    perm = _get_permission(trumba_cal, uwnetid)
+    perm = get_permission(trumba_cal, uwnetid)
     return perm is not None and perm.in_editor_group()
 
 
@@ -67,7 +72,7 @@ def _has_showon_or_higher_permission(trumba_cal, uwnetid):
     :return: True if the uwnetid has showon or higher level permission
     on the given trumba_cal.
     """
-    perm = _get_permission(trumba_cal, uwnetid)
+    perm = get_permission(trumba_cal, uwnetid)
     return perm is not None and perm.is_showon_or_higher()
 
 
