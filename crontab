@@ -1,4 +1,4 @@
-MAILTO=fanglin@uw.edu,dannylin@uw.edu
+MAILTO=trumba_cron@uw.edu
 PYTHONPATH=/data/eventcal/live/lib/python3.6/site-packages
 
 #Sync accounts from GWS to Trumba
