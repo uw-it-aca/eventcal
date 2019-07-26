@@ -40,7 +40,7 @@ class Gws(GWS):
             try:
                 return self._load_dicts(
                     self.search_groups(
-                        stem="u_eventcal_{0}".format(campus_code)))
+                        stem="u_eventcal_{0}".format(campus_code), name=""))
             finally:
                 log_resp_time(logger, action, timer)
         return None
