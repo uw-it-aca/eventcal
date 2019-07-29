@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand, CommandError
 from uw_trumba.calendars import Calendars
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("eventcal.commands")
 
 
 class Command(BaseCommand):

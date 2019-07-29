@@ -4,7 +4,7 @@ from uw_trumba.models import TrumbaCalendar
 from accountsynchr.dao.trumba import CalPermManager
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("eventcal.commands")
 
 
 class Command(BaseCommand):

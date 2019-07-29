@@ -6,7 +6,7 @@ from accountsynchr.dao.trumba import (
     CalPermManager, get_permission, remove_permission)
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("eventcal.commands")
 
 
 class Command(BaseCommand):

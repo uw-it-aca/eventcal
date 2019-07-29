@@ -4,7 +4,7 @@ from uw_trumba.models import TrumbaCalendar
 from accountsynchr.ucalgroup.group_manager import GroupManager
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("eventcal.commands")
 
 
 class Command(BaseCommand):
