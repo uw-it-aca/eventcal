@@ -3,6 +3,9 @@ from django.core.management.base import BaseCommand, CommandError
 from accountsynchr.trumba_gws import TrumbaToGws
 
 
+logger = logging.getLogger(__name__)
+
+
 class Command(BaseCommand):
     """
     Sync Trumba calendars and editors to UW groups and members.
@@ -15,4 +18,4 @@ class Command(BaseCommand):
         synchr = TrumbaToGws()
         synchr.sync()
         if synchr.has_err():
-            print(synchr.get_error_report())
+            logger.error(synchr.get_error_report())
