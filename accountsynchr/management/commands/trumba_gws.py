@@ -1,16 +1,21 @@
 import logging
-from time import strftime
 from django.core.management.base import BaseCommand, CommandError
 from accountsynchr.trumba_gws import TrumbaToGws
 
 
+logger = logging.getLogger("eventcal.commands")
+
+
 class Command(BaseCommand):
-    help = "Sync Trumba calendars and editors to UW groups and members."
+    """
+    Sync Trumba calendars and editors to UW groups and members.
+    """
 
     def add_arguments(self, parser):
-        parser.add_argument('campus_code', nargs='?', default=None,
-                            choices=['sea', 'bot', 'tac'])
+        pass
 
     def handle(self, *args, **options):
         synchr = TrumbaToGws()
-        synchr.sync(campus_code=options['campus_code'])
+        synchr.sync()
+        if synchr.has_err():
+            logger.error(synchr.get_error_report())
