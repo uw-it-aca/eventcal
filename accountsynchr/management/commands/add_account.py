@@ -3,6 +3,9 @@ from django.core.management.base import BaseCommand, CommandError
 from uw_trumba.account import add_editor
 
 
+logger = logging.getLogger("eventcal.commands")
+
+
 class Command(BaseCommand):
     """
     Create a new account on Trumba.
@@ -16,5 +19,5 @@ class Command(BaseCommand):
         name = options['name']
         userid = options['uwnetid']
 
-        print("Add account({0}, {1}) ==> {2}".format(
-                name, userid,  add_editor(name, userid)))
+        logger.info("Add account({0}, {1}) ==> {2}".format(
+            name, userid,  add_editor(name, userid)))

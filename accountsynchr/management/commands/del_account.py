@@ -6,6 +6,9 @@ from accountsynchr.dao.trumba import (
     CalPermManager, get_permission, remove_permission)
 
 
+logger = logging.getLogger("eventcal.commands")
+
+
 class Command(BaseCommand):
     """
     Close an account on Trumba.
@@ -25,8 +28,9 @@ class Command(BaseCommand):
                     if get_permission(cal, userid) is None:
                         continue
                     if not remove_permission(cal, userid):
-                        print("Failed to remove permission from {0}".format(
+                        logger.error(
+                            "Failed to remove permission from {0}".format(
                                 cal.name))
 
-        print("Delete account({0}) ==> {1}".format(
+        logger.info("Delete account({0}) ==> {1}".format(
             userid, delete_editor(userid)))

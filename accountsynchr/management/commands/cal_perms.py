@@ -1,5 +1,9 @@
+import logging
 from django.core.management.base import BaseCommand, CommandError
 from uw_trumba.calendars import Calendars
+
+
+logger = logging.getLogger("eventcal.commands")
 
 
 class Command(BaseCommand):
@@ -17,7 +21,7 @@ class Command(BaseCommand):
         cal_list = Calendars().campus_calendars[campus_code].values()
         if cal_list is not None:
             for cal in cal_list:
-                print("{0}".format(cal.name))
+                logger.info("{0}".format(cal.name))
 
                 for perm in sorted(cal.permissions.values()):
-                    print("    {0} {1}".format(perm.uwnetid, perm.level))
+                    logger.info("    {0} {1}".format(perm.uwnetid, perm.level))

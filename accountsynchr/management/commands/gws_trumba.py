@@ -3,6 +3,9 @@ from django.core.management.base import BaseCommand, CommandError
 from accountsynchr.gws_trumba import GwsToTrumba
 
 
+logger = logging.getLogger("eventcal.commands")
+
+
 class Command(BaseCommand):
     """
     Sync UW group members to Trumba user and permissions.
@@ -14,4 +17,4 @@ class Command(BaseCommand):
         synchr = GwsToTrumba()
         synchr.sync()
         if synchr.has_err():
-            print(synchr.get_error_report())
+            logger.error(synchr.get_error_report())

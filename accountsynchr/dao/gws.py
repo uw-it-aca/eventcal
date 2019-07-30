@@ -107,14 +107,14 @@ class Gws(GWS):
         """
         timer = Timer()
         gwsgroup = _convert_to_gwsgroup(uwcalgroup)
-        action = "Create group {0}".format(gwsgroup.name)
+        is_update = gwsgroup.has_regid()
+
+        action = "{0} group {1}".format(
+            "Update" if is_update else "Create", gwsgroup.name)
         try:
-            if gwsgroup.has_regid():
-                action = "Update group {0}".format(gwsgroup.name)
+            if is_update:
                 return self.update_group(gwsgroup)
-
             return self.create_group(gwsgroup)
-
         except DataFailureException:
             log_exception(logger, action, traceback.format_exc(chain=False))
         finally:

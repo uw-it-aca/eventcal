@@ -4,6 +4,9 @@ from uw_trumba.models import TrumbaCalendar
 from accountsynchr.ucalgroup.group_manager import GroupManager
 
 
+logger = logging.getLogger("eventcal.commands")
+
+
 class Command(BaseCommand):
     """
     Find all the groups the given uwnetid is in
@@ -22,9 +25,9 @@ class Command(BaseCommand):
             for group in gro_m.get_campus_editor_groups(campus_code):
                 for member in group.members:
                     if member.name == userid:
-                        print("{0}".format(group.group_ref.name))
+                        logger.info("{0}".format(group.group_ref.name))
 
             for group in gro_m.get_campus_showon_groups(campus_code):
                 for member in group.members:
                     if member.name == userid:
-                        print("{0}".format(group.group_ref.name))
+                        logger.info("{0}".format(group.group_ref.name))
