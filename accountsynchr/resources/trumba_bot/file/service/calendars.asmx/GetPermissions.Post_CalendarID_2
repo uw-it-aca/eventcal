@@ -1,5 +1,5 @@
 {"d":{"__type":"Graw.Rainbow.Import.Response","Calendars":null,"Messages":null,
 "Users":[
-{"Email":"dummyp@washington.edu","Name":"publisher","Level":"PUBLISH"},
-{"Email":"dummye@washington.edu","Name":"editor","Level":"EDIT"},
-{"Email":"dummys@washington.edu","Name":"showon","Level":"SHOWON"}]}}
+{"Email":"dummyp@uw.edu","Name":"publisher","Level":"PUBLISH"},
+{"Email":"dummye@uw.edu","Name":"editor","Level":"EDIT"},
+{"Email":"dummys@uw.edu","Name":"showon","Level":"SHOWON"}]}}
