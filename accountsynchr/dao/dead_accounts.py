@@ -14,7 +14,7 @@ def get_file_path():
     file_path = get_csv_file_path()
     if file_path is None:
         file_path = os.path.join(os.path.dirname(__file__), '..', 'data')
-    return os.path.join(file_path, 'acounts.csv')
+    return os.path.join(file_path, 'accounts.csv')
 
 
 def get_accounts_to_purge(existing_group_member_set):

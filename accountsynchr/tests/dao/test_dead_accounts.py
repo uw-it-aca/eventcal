@@ -8,7 +8,7 @@ class TestDeadAccounts(TestCase):
 
     def test_get_file_path(self):
         with self.settings(CSV_FILE_PATH='data'):
-            self.assertEqual(get_file_path(), "data/acounts.csv")
+            self.assertEqual(get_file_path(), "data/accounts.csv")
 
     def test_get_accounts_to_purge(self):
         with self.settings(CSV_FILE_PATH=None):
