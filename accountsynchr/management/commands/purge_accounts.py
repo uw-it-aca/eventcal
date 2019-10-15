@@ -19,7 +19,8 @@ class Command(BaseCommand):
             logger.info("{},{}".format(acc.uwnetid, acc.last_visit))
 
         p.sync()
-        logger.info("Total accounts purged: {}".format(p.total_accounts_deleted))
+        logger.info("Total accounts purged: {}".format(
+                p.total_accounts_deleted))
         logger.info("Total groups changed {}.".format(p.total_groups_purged))
         if p.has_err():
             logger.error(p.get_error_report())
