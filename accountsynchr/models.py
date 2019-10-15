@@ -101,3 +101,26 @@ def new_showon_group(trumba_cal):
 def get_cal_name(display_name):
     return re.sub(r'^(.+) calendar (editor|showon) group$', r'\1',
                   display_name)
+
+
+class UserAccount(models.Model):
+    uwnetid = models.CharField(max_length=32)
+    display_name = models.CharField(max_length=96, null=True, default=None)
+    last_visit = models.DateTimeField(null=True, default=None)
+    created_at = models.DateTimeField(null=True, default=None)
+
+    def to_json(self):
+        return {"uwnetid": self.uwnetid,
+                "display_name": self.display_name,
+                "last_visit": date_to_str(self.last_visit),
+                "created_at": date_to_str(self.created_at)}
+
+    def __str__(self):
+        return json.dumps(self.to_json())
+
+    def __init__(self, *args, **kwargs):
+        super(UserAccount, self).__init__(*args, **kwargs)
+
+
+def date_to_str(dt):
+    return str(dt) if dt is not None else None
