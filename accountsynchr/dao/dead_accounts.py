@@ -17,7 +17,7 @@ def get_file_path():
     return os.path.join(file_path, 'acounts.csv')
 
 
-def get_accounts_to_purge():
+def get_accounts_to_purge(existing_group_member_set):
     """
     returns: 1. a list of UserAccount
              2. a set of uwnetids
@@ -31,14 +31,20 @@ def get_accounts_to_purge():
     next(reader)
     for line in reader:
         try:
-            last_visit = str_to_datetime(line[4])
-            if (line[2].endswith("@uw.edu") and
-                    last_visit is not None and
-                    last_visit < one_year_ago):
+            if line[2].endswith("@uw.edu"):
+                last_visit = str_to_datetime(line[4])
                 acc = UserAccount(uwnetid=_extract_uwnetid(line[2]),
                                   last_visit=last_visit)
-                user_records.append(acc)
-                user_set.add(acc.uwnetid)
+                if last_visit is not None:
+                    # check last_visit
+                    if last_visit < one_year_ago:
+                        user_records.append(acc)
+                        user_set.add(acc.uwnetid)
+                else:
+                    # has never visited
+                    if acc.uwnetid not in existing_group_member_set:
+                        user_records.append(acc)
+                        user_set.add(acc.uwnetid)
         except Exception as ex:
             logger.error("{} in line: {}".format(str(ex), line))
 

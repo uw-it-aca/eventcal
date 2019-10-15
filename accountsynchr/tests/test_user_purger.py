@@ -11,12 +11,12 @@ class TestTrumbaToGws(TestCase):
         g_t = GwsToTrumba()
         g_t.sync()
 
-        gmp = AccountPurger()
-        gmp.gro_m = g_t.gro_m
-        gmp.cal_per_m = g_t.cal_per_m
-
-        gmp.sync()
-        self.assertEqual(len(gmp.accounts_to_delete), 1)
-        self.assertEqual(gmp.total_groups_purged, 2)
-        self.assertEqual(gmp.total_accounts_deleted, 0)
-        self.assertTrue(gmp.has_err())
+        acc_pgr = AccountPurger()
+        acc_pgr.gro_m = g_t.gro_m
+        acc_pgr.cal_per_m = g_t.cal_per_m
+        acc_pgr.set_accounts_to_purge()
+        acc_pgr.sync()
+        self.assertEqual(len(acc_pgr.accounts_to_delete), 2)
+        self.assertEqual(acc_pgr.total_groups_purged, 2)
+        self.assertEqual(acc_pgr.total_accounts_deleted, 1)
+        self.assertTrue(acc_pgr.has_err())

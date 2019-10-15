@@ -31,3 +31,6 @@ class TestCommands(TestCase):
 
     def test_trumba_gws(self):
         call_command('trumba_gws')
+
+    def test_del_account(self):
+        call_command('purge_accounts')

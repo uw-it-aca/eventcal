@@ -1,3 +1,4 @@
+from copy import deepcopy 
 import logging
 from uw_trumba.models import TrumbaCalendar
 from accountsynchr.gws_trumba import GwsToTrumba
@@ -13,10 +14,13 @@ logger = logging.getLogger(__name__)
 class AccountPurger(GwsToTrumba):
     def __init__(self):
         super(AccountPurger, self).__init__()
-        self.accounts_to_delete, self.netid_set = get_accounts_to_purge()
         self.gws = Gws()
         self.total_accounts_deleted = 0
         self.total_groups_purged = 0
+
+    def set_accounts_to_purge(self):
+        self.accounts_to_delete, self.netid_set = get_accounts_to_purge(
+            self.gro_m.gws.all_editor_uwnetids)
 
     def sync(self):
         self.clean_editor_groups()
@@ -46,23 +50,26 @@ class AccountPurger(GwsToTrumba):
                 logger.info("DELETED {0} from {1}".format(
                         members_to_del, group_name))
             except Exception as ex:
-                logger.error("{} when delete_members({}, {})".format(
-                            str(ex), group_name, members_to_del))
+                msg = "{} when delete_members({}, {})".format(
+                    str(ex), group_name, members_to_del)
+                logger.error(msg)
+                self.append_error(msg)
 
     def get_members_to_delete(self, group_members):
         members_to_del = []
-        for gmember in group_members:
+        for gmember in deepcopy(group_members):
             if gmember.name in self.netid_set:
                 members_to_del.append(gmember.name)
+                group_members.remove(gmember)
         return members_to_del
 
     def clean_accounts_in_trumba(self):
         for acc in self.accounts_to_delete:
-            if self.cal_per_m.account_exists(acc.uwnetid):
-                try:
-                    if delete_editor(acc.uwnetid):
-                        logger.info("delete_editor({})".format(acc))
-                        self.total_accounts_deleted += 1
-                except Exception as ex:
-                    logger.error("{} when delete_editor({})".format(
-                            str(ex), acc))
+            try:
+                if delete_editor(acc.uwnetid):
+                    logger.info("delete_editor({})".format(acc))
+                    self.total_accounts_deleted += 1
+            except Exception as ex:
+                msg = "{} when delete_editor({})".format(str(ex), acc)
+                logger.error(msg)
+                self.append_error(msg)

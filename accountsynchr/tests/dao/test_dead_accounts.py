@@ -12,7 +12,9 @@ class TestDeadAccounts(TestCase):
 
     def test_get_accounts_to_purge(self):
         with self.settings(CSV_FILE_PATH=None):
-            accounts_to_purge, user_set = get_accounts_to_purge()
-            self.assertEqual(len(accounts_to_purge), 1)
+            accounts_to_purge, user_set = get_accounts_to_purge(set())
+            self.assertEqual(len(accounts_to_purge), 2)
             self.assertTrue('sdummys' in user_set)
+            self.assertTrue('sdummyp' in user_set)
             self.assertEqual(accounts_to_purge[0].uwnetid, 'sdummys')
+            self.assertEqual(accounts_to_purge[1].uwnetid, 'sdummyp')
