@@ -1,4 +1,4 @@
-from copy import deepcopy 
+from copy import deepcopy
 import logging
 from uw_trumba.models import TrumbaCalendar
 from accountsynchr.gws_trumba import GwsToTrumba
