@@ -23,7 +23,8 @@ def get_accounts_to_purge(existing_group_member_set):
              2. a set of uwnetids
     """
     path = get_file_path()
-    one_year_ago = datetime.now() + timedelta(days=365)
+
+    one_year_ago = datetime.now() - timedelta(days=365)
 
     user_records = []
     user_set = set()
