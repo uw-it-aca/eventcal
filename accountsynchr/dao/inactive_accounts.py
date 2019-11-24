@@ -6,6 +6,7 @@ from dateutil.parser import parse
 from datetime import date, datetime, timedelta
 from accountsynchr.util.settings import get_csv_file_path
 from accountsynchr.models import UserAccount
+from accountsynchr.dao.notifier import send_acc_removal_email
 
 logger = logging.getLogger(__name__)
 
@@ -17,15 +18,17 @@ def get_file_path():
     return os.path.join(file_path, 'accounts.csv')
 
 
-def get_accounts_to_purge(existing_group_member_set):
+def get_accounts_to_purge(existing_group_member_set,
+                          notify_inactive_users=False):
     """
-    returns: 1. a list of UserAccount
-             2. a set of uwnetids
+    Also email users to be purged in the next month.
+    returns: 1. a list of UserAccounts of the users to be purged
+             2. a set of uwnetids of the users to be purged
     """
+    notify_timedelta = datetime.now() - timedelta(days=365)
+    purge_timedelta = notify_timedelta - timedelta(days=30)
+
     path = get_file_path()
-
-    one_year_ago = datetime.now() - timedelta(days=365)
-
     user_records = []
     user_set = set()
     reader = csv.reader(open(path, 'r', encoding='utf8'), delimiter=',')
@@ -38,9 +41,13 @@ def get_accounts_to_purge(existing_group_member_set):
                                   last_visit=last_visit)
                 if last_visit is not None:
                     # check last_visit
-                    if last_visit < one_year_ago:
+                    if last_visit < purge_timedelta:
                         user_records.append(acc)
                         user_set.add(acc.uwnetid)
+
+                    elif last_visit < notify_timedelta:
+                        if notify_inactive_users:
+                            send_acc_removal_email(acc.uwnetid)
                 else:
                     # has never visited
                     if acc.uwnetid not in existing_group_member_set:

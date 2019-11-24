@@ -3,7 +3,7 @@ import logging
 from uw_trumba.models import TrumbaCalendar
 from accountsynchr.gws_trumba import GwsToTrumba
 from uw_trumba.account import delete_editor
-from accountsynchr.dao.dead_accounts import get_accounts_to_purge
+from accountsynchr.dao.inactive_accounts import get_accounts_to_purge
 from accountsynchr.dao.gws import Gws
 from accountsynchr.dao.trumba import (
     CalPermManager, get_permission, remove_permission)
@@ -20,7 +20,7 @@ class AccountPurger(GwsToTrumba):
 
     def set_accounts_to_purge(self):
         self.accounts_to_delete, self.netid_set = get_accounts_to_purge(
-            self.gro_m.gws.all_editor_uwnetids)
+            self.gro_m.gws.all_editor_uwnetids, notify_inactive_users=True)
 
     def sync(self):
         self.clean_editor_groups()

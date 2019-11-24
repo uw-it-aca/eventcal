@@ -16,9 +16,6 @@ class TestCommands(TestCase):
     def test_cal_perms(self):
         call_command('cal_perms', 'bot')
 
-    def test_del_account(self):
-        call_command('del_account', 'sdummys')
-
     def test_group_stats(self):
         call_command('group_stats')
 
