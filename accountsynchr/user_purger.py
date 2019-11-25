@@ -21,6 +21,7 @@ class AccountPurger(GwsToTrumba):
     def set_accounts_to_purge(self):
         self.accounts_to_delete, self.netid_set = get_accounts_to_purge(
             self.gro_m.gws.all_editor_uwnetids, notify_inactive_users=True)
+        logger.info("{} accounts will be purged".format(len(self.netid_set)))
 
     def sync(self):
         self.clean_editor_groups()
@@ -47,11 +48,11 @@ class AccountPurger(GwsToTrumba):
             try:
                 self.gws.delete_members(group_name, members_to_del)
                 self.total_groups_purged += 1
-                logger.info("DELETED {0} from {1}".format(
+                logger.info("DELETED MEMBER {0} from {1}".format(
                         members_to_del, group_name))
             except Exception as ex:
-                msg = "{} when delete_members({}, {})".format(
-                    str(ex), group_name, members_to_del)
+                msg = "delete_members({}, {}) ==> {}".format(
+                    group_name, members_to_del, str(ex))
                 logger.error(msg)
                 self.append_error(msg)
 
@@ -67,9 +68,9 @@ class AccountPurger(GwsToTrumba):
         for acc in self.accounts_to_delete:
             try:
                 if delete_editor(acc.uwnetid):
-                    logger.info("delete_editor({})".format(acc))
+                    logger.info("CLOSED EDITOR: {}".format(acc))
                     self.total_accounts_deleted += 1
             except Exception as ex:
-                msg = "{} when delete_editor({})".format(str(ex), acc)
+                msg = "close_editor({}) ==> {}".format(acc, str(ex))
                 logger.error(msg)
                 self.append_error(msg)

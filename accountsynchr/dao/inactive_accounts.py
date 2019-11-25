@@ -27,6 +27,8 @@ def get_accounts_to_purge(existing_group_member_set,
     """
     notify_timedelta = datetime.now() - timedelta(days=365)
     purge_timedelta = notify_timedelta - timedelta(days=30)
+    total_notified_users = 0
+    total_notify_err = 0
 
     path = get_file_path()
     user_records = []
@@ -40,22 +42,31 @@ def get_accounts_to_purge(existing_group_member_set,
                 acc = UserAccount(uwnetid=_extract_uwnetid(line[2]),
                                   last_visit=last_visit)
                 if last_visit is not None:
-                    # check last_visit
+
                     if last_visit < purge_timedelta:
+                        # Will be purged in this run
                         user_records.append(acc)
                         user_set.add(acc.uwnetid)
 
                     elif last_visit < notify_timedelta:
+                        # Notify user before purging
                         if notify_inactive_users:
-                            send_acc_removal_email(acc.uwnetid)
+                            if send_acc_removal_email(acc.uwnetid):
+                                total_notified_users += 1
+                            else:
+                                total_notify_err += 1
                 else:
-                    # has never visited
+                    # Has never accessed Trumba
                     if acc.uwnetid not in existing_group_member_set:
+                        # Not in any editor group, purged
                         user_records.append(acc)
                         user_set.add(acc.uwnetid)
         except Exception as ex:
             logger.error("{} in line: {}".format(str(ex), line))
-
+        if notify_inactive_users:
+            logger.info("Notified {} users".format(total_notified_users))
+            logger.info("{} errors when sending notification email".format(
+                    total_notified_users))
     return user_records, user_set
 
 

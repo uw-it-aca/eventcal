@@ -26,7 +26,8 @@ setup(
         'UW-RestClients-Core>=1.2.1,<2.0',
         'UW-RestClients-GWS>=2.2.4,<3.0',
         'UW-RestClients-Trumba>=1.3.1,<2.0',
-        'pyopenssl'
+        'Django-Safe-EmailBackend<2.0',
+        # 'pyopenssl'
         ],
     license='Apache License, Version 2.0',
     description=('App synchronizes uw calendar groups and Trumba permissions'),

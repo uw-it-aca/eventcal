@@ -9,7 +9,7 @@ class TestNotification(TestCase):
     def test_acc_removal_email(self):
         with self.settings(EMAIL_BACKEND='saferecipient.EmailBackend',
                            SAFE_EMAIL_RECIPIENT='uweventcalweb@uw.edu'):
-            self.assertEqual(len(MESSAGE), 421)
+            self.assertEqual(len(MESSAGE), 422)
             self.assertEqual(SENDER, 'uweventcalweb@uw.edu')
             self.assertEqual(SUBJECT,
                              'Your Trumba Account Will Be Closed')

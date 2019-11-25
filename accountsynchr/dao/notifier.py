@@ -19,7 +19,7 @@ MESSAGE = (
     'the next month. If you wish to remain an editor, simply log into ' +
     'trumba.uw.edu before then. Otherwise no action is needed.\n\n' +
     'Contact us at help@uw.edu if you have any questions.\n\n' +
-    'Best,\nThe UW campus event calendars team'
+    'Best,\nThe UW campus event calendars team\n'
     )
 SENDER = 'uweventcalweb@uw.edu'
 SUBJECT = 'Your Trumba Account Will Be Closed'
