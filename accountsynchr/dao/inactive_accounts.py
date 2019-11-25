@@ -4,7 +4,8 @@ import os
 import re
 from dateutil.parser import parse
 from datetime import date, datetime, timedelta
-from accountsynchr.util.settings import get_csv_file_path
+from accountsynchr.util.settings import (
+    get_csv_file_path, get_email_address_domain)
 from accountsynchr.models import UserAccount
 from accountsynchr.dao.notifier import send_acc_removal_email
 
@@ -29,7 +30,7 @@ def get_accounts_to_purge(existing_group_member_set,
     purge_timedelta = notify_timedelta - timedelta(days=30)
     total_notified_users = 0
     total_notify_err = 0
-
+    email_address_domain = get_email_address_domain()
     path = get_file_path()
     user_records = []
     user_set = set()
@@ -37,10 +38,12 @@ def get_accounts_to_purge(existing_group_member_set,
     next(reader)
     for line in reader:
         try:
-            if line[2].endswith("@uw.edu"):
+            if line[2].endswith(email_address_domain):
                 last_visit = str_to_datetime(line[4])
-                acc = UserAccount(uwnetid=_extract_uwnetid(line[2]),
-                                  last_visit=last_visit)
+                acc = UserAccount(
+                    uwnetid=re.sub(email_address_domain, "", line[2],
+                                   flags=re.I).lower(),
+                    last_visit=last_visit)
                 if last_visit is not None:
 
                     if last_visit < purge_timedelta:
@@ -72,7 +75,3 @@ def get_accounts_to_purge(existing_group_member_set,
 
 def str_to_datetime(s):
     return parse(s) if (s is not None and len(s)) else None
-
-
-def _extract_uwnetid(email):
-    return re.sub("@uw.edu", "", email, flags=re.I).lower()

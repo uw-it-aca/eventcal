@@ -4,14 +4,15 @@ from accountsynchr.dao.inactive_accounts import (
     get_accounts_to_purge, get_file_path)
 
 
-class TestDeadAccounts(TestCase):
+class TestInactiveAccounts(TestCase):
 
     def test_get_file_path(self):
         with self.settings(CSV_FILE_PATH='data'):
             self.assertEqual(get_file_path(), "data/accounts.csv")
 
     def test_get_accounts_to_purge(self):
-        with self.settings(CSV_FILE_PATH=None):
+        with self.settings(CSV_FILE_PATH=None,
+                           EMAIL_ADDRESS_DOMAIN='@uw.edu'):
             accounts_to_purge, user_set = get_accounts_to_purge(set())
             self.assertEqual(len(accounts_to_purge), 2)
             self.assertTrue('sdummys' in user_set)
