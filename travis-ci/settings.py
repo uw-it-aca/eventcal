@@ -79,3 +79,5 @@ TEMPLATES = [
         },
     },
 ]
+
+EMAIL_BACKEND = 'saferecipient.EmailBackend'

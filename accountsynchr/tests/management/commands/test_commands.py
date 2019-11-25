@@ -1,5 +1,4 @@
 from django.test import TestCase
-from django.conf import settings
 from django.core.management import call_command
 
 
@@ -31,6 +30,4 @@ class TestCommands(TestCase):
         call_command('trumba_gws')
 
     def test_del_account(self):
-        with self.settings(EMAIL_BACKEND='saferecipient.EmailBackend',
-                           SAFE_EMAIL_RECIPIENT='uweventcalweb@uw.edu'):
-            call_command('purge_accounts')
+        call_command('purge_accounts')
