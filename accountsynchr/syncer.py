@@ -15,7 +15,7 @@ class Syncer:
         self.errors.append(message)
 
     def get_error_report(self):
-        return ',\n'.join(self.errors)
+        return ',\n\n'.join(self.errors)
 
     def has_err(self):
         return len(self.errors) > 0

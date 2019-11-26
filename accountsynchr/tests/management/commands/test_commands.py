@@ -16,9 +16,6 @@ class TestCommands(TestCase):
     def test_cal_perms(self):
         call_command('cal_perms', 'bot')
 
-    def test_del_account(self):
-        call_command('del_account', 'test10')
-
     def test_group_stats(self):
         call_command('group_stats')
 
@@ -31,3 +28,6 @@ class TestCommands(TestCase):
 
     def test_trumba_gws(self):
         call_command('trumba_gws')
+
+    def test_del_account(self):
+        call_command('purge_accounts')
