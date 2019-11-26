@@ -16,7 +16,6 @@ class TestSettings(TestCase):
             self.assertEqual(get_email_address_domain(),
                              "@uw.edu")
 
-
     def test_get_email_sender(self):
         with self.settings(EMAIL_SENDER='eventcal@uw.edu'):
             self.assertEqual(get_email_sender(),
