@@ -12,7 +12,7 @@ class TestInactiveAccounts(TestCase):
 
     def test_get_accounts_to_purge(self):
         with self.settings(CSV_FILE_PATH=None,
-                           EMAIL_ADDRESS_DOMAIN='@uw.edu'):
+                           EMAIL_ADDRESS_DOMAIN='@test.edu'):
             accounts_to_purge, user_set = get_accounts_to_purge(set())
             self.assertEqual(len(accounts_to_purge), 2)
             self.assertTrue('sdummys' in user_set)

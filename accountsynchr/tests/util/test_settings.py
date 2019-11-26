@@ -12,14 +12,14 @@ class TestSettings(TestCase):
             self.assertEqual(get_csv_file_path(), "data")
 
     def test_get_email_address_domain(self):
-        with self.settings(EMAIL_ADDRESS_DOMAIN='@uw.edu'):
+        with self.settings(EMAIL_ADDRESS_DOMAIN='@test.edu'):
             self.assertEqual(get_email_address_domain(),
-                             "@uw.edu")
+                             "@test.edu")
 
     def test_get_email_sender(self):
-        with self.settings(EMAIL_SENDER='eventcal@uw.edu'):
+        with self.settings(EMAIL_SENDER='eventcal@test.edu'):
             self.assertEqual(get_email_sender(),
-                             "eventcal@uw.edu")
+                             "eventcal@test.edu")
 
     def test_get_email_message(self):
         with self.settings(PURGE_EMAIL_MESSAGE='Body'):
