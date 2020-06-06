@@ -52,7 +52,7 @@ class AccountPurger(GwsToTrumba):
                         members_to_del, group_name))
             except Exception as ex:
                 msg = "delete_members({}, {}) ==> {}".format(
-                    group_name, members_to_del, str(ex))
+                    group_name, members_to_del, ex)
                 logger.error(msg)
                 self.append_error(msg)
 
@@ -71,6 +71,6 @@ class AccountPurger(GwsToTrumba):
                     logger.info("CLOSED EDITOR: {}".format(acc))
                     self.total_accounts_deleted += 1
             except Exception as ex:
-                msg = "close_editor({}) ==> {}".format(acc, str(ex))
+                msg = "close_editor({}) ==> {}".format(acc, ex)
                 logger.error(msg)
                 self.append_error(msg)
