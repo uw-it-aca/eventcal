@@ -14,7 +14,7 @@ class Command(BaseCommand):
 
         p = AccountPurger()
         p.set_accounts_to_purge()
-        logger.info("Accounts will be closed in this run:")
+        logger.info("Accounts closed in this run:")
         for acc in p.accounts_to_delete:
             logger.info("{},{}".format(acc.uwnetid, acc.last_visit))
 
