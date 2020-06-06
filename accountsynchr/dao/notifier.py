@@ -28,5 +28,5 @@ def send_acc_removal_email(uwnetid):
         logger.info("Sent deletion notification to {}".format(recipient))
         return True
     except Exception as ex:
-        logger.error("send_mail({}) ==> {}".format(recipient, str(ex)))
+        logger.error("send_mail({}) ==> {}".format(recipient, ex))
     return False

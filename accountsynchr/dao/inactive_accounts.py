@@ -32,8 +32,8 @@ def get_accounts_to_purge(existing_group_member_set,
     total_notify_err = 0
     email_address_domain = get_email_address_domain()
     path = get_file_path()
-    user_records = []
-    user_set = set()
+    user_records = []  # store in a list
+    user_set = set()  # store in a set
     reader = csv.reader(open(path, 'r', encoding='utf8'), delimiter=',')
     next(reader)
     for line in reader:
@@ -64,12 +64,15 @@ def get_accounts_to_purge(existing_group_member_set,
                         # Not in any editor group, purged
                         user_records.append(acc)
                         user_set.add(acc.uwnetid)
+
         except Exception as ex:
-            logger.error("{} in line: {}".format(str(ex), line))
-        if notify_inactive_users:
-            logger.info("Notified {} users".format(total_notified_users))
-            logger.info("{} errors when sending notification email".format(
-                    total_notified_users))
+            logger.error("{} in line: {}".format(ex, line))
+
+    if notify_inactive_users:
+        logger.info("Notified {} users".format(total_notified_users))
+        logger.info("{} errors when sending notification email".format(
+                total_notify_err))
+
     return user_records, user_set
 
 
