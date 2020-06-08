@@ -104,7 +104,7 @@ def get_cal_name(display_name):
 
 
 class UserAccount(models.Model):
-    uwnetid = models.CharField(max_length=32)
+    uwnetid = models.CharField(max_length=128)
     display_name = models.CharField(max_length=96, null=True, default=None)
     last_visit = models.DateTimeField(null=True, default=None)
     created_at = models.DateTimeField(null=True, default=None)
