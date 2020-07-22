@@ -1,0 +1,8 @@
+[run]
+source = eventcal
+parallel = True
+
+[paths]
+source =
+  accountsynchr/
+  /app/accountsynchr/
