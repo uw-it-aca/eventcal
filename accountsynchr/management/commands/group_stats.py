@@ -27,7 +27,7 @@ class Command(BaseCommand):
                 len(gro_m.get_campus_editor_groups('tac')),
                 len(gro_m.get_campus_showon_groups('tac'))))
 
-        sender = "{}@uw.edu".format(get_cronjob_sender())
+        sender = get_cronjob_sender()
         message = "\n".join(msgs)
         send_mail("The Calendar Groups Stats", message, sender, [sender])
         print(message)

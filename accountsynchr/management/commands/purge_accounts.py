@@ -33,5 +33,5 @@ class Command(BaseCommand):
             logger.error(err)
 
         message = "\n".join(msgs)
-        sender = "{}@uw.edu".format(get_cronjob_sender())
+        sender = get_cronjob_sender()
         send_mail("Purge Inactive User Accounts", message, sender, [sender])

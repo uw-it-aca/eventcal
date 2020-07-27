@@ -30,7 +30,7 @@ class Command(BaseCommand):
                     if member.name == userid:
                         msgs.append(group.group_ref.name)
 
-        sender = "{}@uw.edu".format(get_cronjob_sender())
+        sender = get_cronjob_sender()
         message = "\n".join(msgs)
         send_mail("The Groups of the User {}".format(userid),
                   message, sender, [sender])

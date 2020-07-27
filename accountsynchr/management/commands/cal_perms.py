@@ -24,7 +24,7 @@ class Command(BaseCommand):
                     msgs.append("    {0} {1}".format(perm.uwnetid, perm.level))
 
             message = "\n".join(msgs)
-            sender = "{}@uw.edu".format(get_cronjob_sender())
+            sender = get_cronjob_sender()
             send_mail("Permissions of {} Calendars".format(campus_code),
                       message, sender, [sender])
             print(message)

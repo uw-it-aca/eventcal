@@ -19,7 +19,7 @@ class Command(BaseCommand):
         synchr.sync()
         if synchr.has_err():
             err = synchr.get_error_report()
-            sender = "{}@uw.edu".format(get_cronjob_sender())
+            sender = get_cronjob_sender()
             logger.error(err)
             send_mail("Sync UW Group members to Trumba user and permissions",
                       err, sender, [sender])

@@ -36,7 +36,7 @@ class Command(BaseCommand):
                 " ".join(users)))
 
         message = "\n".join(msgs)
-        sender = "{}@uw.edu".format(get_cronjob_sender())
+        sender = get_cronjob_sender()
         send_mail("Trumba accounts vs. UW group members",
                   message, sender, [sender])
         print(message)

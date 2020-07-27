@@ -36,6 +36,6 @@ class Command(BaseCommand):
                             cal.name, len(cal.permissions)))
 
         message = "\n".join(msgs)
-        sender = "{}@uw.edu".format(get_cronjob_sender())
+        sender = get_cronjob_sender()
         send_mail("Calendars Stats", message, sender, [sender])
         print(message)
