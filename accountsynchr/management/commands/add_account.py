@@ -1,9 +1,5 @@
-import logging
 from django.core.management.base import BaseCommand, CommandError
 from uw_trumba.account import add_editor
-
-
-logger = logging.getLogger("eventcal.commands")
 
 
 class Command(BaseCommand):
@@ -18,6 +14,5 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         name = options['name']
         userid = options['uwnetid']
-
-        logger.info("Add account({0}, {1}) ==> {2}".format(
-            name, userid,  add_editor(name, userid)))
+        print("Add account({0}, {1}) ==> {2}".format(
+            name, userid, add_editor(name, userid)))
