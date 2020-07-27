@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.conf import settings
 from accountsynchr.util.settings import (
     get_csv_file_path, get_email_address_domain, get_email_sender,
-    get_email_message, get_email_subject)
+    get_email_message, get_email_subject, get_cronjob_sender)
 
 
 class TestSettings(TestCase):
@@ -30,3 +30,7 @@ class TestSettings(TestCase):
         with self.settings(PURGE_EMAIL_SUBJECT='Subject'):
             self.assertEqual(get_email_subject(),
                              "Subject")
+
+    def test_get_cronjob_sender(self):
+        with self.settings(CRONJOB_SENDER='none'):
+             self.assertEqual(get_cronjob_sender(), 'none')

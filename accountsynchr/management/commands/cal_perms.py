@@ -25,6 +25,6 @@ class Command(BaseCommand):
 
             message = "\n".join(msgs)
             sender = "{}@uw.edu".format(get_cronjob_sender())
-            send_mail("The permissions of {} Calendars".format(campus_code),
+            send_mail("Permissions of {} Calendars".format(campus_code),
                       message, sender, [sender])
             print(message)

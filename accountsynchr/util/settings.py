@@ -20,3 +20,7 @@ def get_email_message():
 
 def get_email_subject():
     return getattr(settings, 'PURGE_EMAIL_SUBJECT', None)
+
+
+def get_cronjob_sender():
+    return getattr(settings, 'CRONJOB_SENDER', 'trumba_cron')
