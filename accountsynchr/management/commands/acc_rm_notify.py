@@ -12,5 +12,5 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         userid = options['uwnetid']
-        if send_acc_removal_email(userid):
-            print("Purge Notification email sent to {}".format(userid))
+        print("Purge Notification email sent to {} ==> {}".format(
+                userid, send_acc_removal_email(userid)))
