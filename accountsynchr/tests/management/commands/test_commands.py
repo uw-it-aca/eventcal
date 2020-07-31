@@ -30,6 +30,5 @@ class TestCommands(TestCase):
         call_command('trumba_gws')
 
     def test_purge_accounts(self):
-        with self.settings(PURGE_DATE='Aug 30, 2020'):
-            call_command('purge_accounts')
-            call_command('acc_rm_notify', 'sdummyp')
+        call_command('purge_accounts')
+        call_command('acc_rm_notify', 'sdummyp')

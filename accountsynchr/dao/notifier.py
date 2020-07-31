@@ -1,7 +1,9 @@
 import logging
+from datetime import datetime, date, timedelta
+from django.utils import timezone
 from django.core.mail import send_mail
 from accountsynchr.util.settings import (
-    get_email_address_domain, get_user_email_sender, get_next_purge_date)
+    get_email_address_domain, get_user_email_sender)
 
 logger = logging.getLogger(__name__)
 RM_MSG_BODY = (
@@ -31,10 +33,16 @@ def send_acc_removal_email(uwnetid):
     recipient = "{}{}".format(uwnetid, get_email_address_domain())
     try:
         send_mail('Your Trumba Account Will Be Closed',
-                  RM_MSG_BODY.format(get_next_purge_date()),
+                  RM_MSG_BODY.format(get_next_purge_date(datetime.now())),
                   sender, [recipient], fail_silently=False)
         logger.info("Sent deletion notification to {}".format(recipient))
         return True
     except Exception as ex:
         logger.error("send_mail({}) ==> {}".format(recipient, ex))
     return False
+
+
+def get_next_purge_date(dt_now):
+    now = timezone.make_aware(dt_now, timezone.get_default_timezone())
+    next_date = now + timedelta(days=31)
+    return date(next_date.year, next_date.month, 1)
