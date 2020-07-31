@@ -16,10 +16,6 @@ def get_user_email_sender():
         get_email_address_domain())
 
 
-def get_next_purge_date():
-    return getattr(settings, 'PURGE_DATE', None)
-
-
 def get_cronjob_sender():
     return "{}{}".format(
         getattr(settings, 'CRONJOB_SENDER', 'trumba_cron'),
