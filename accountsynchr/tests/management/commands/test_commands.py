@@ -29,5 +29,6 @@ class TestCommands(TestCase):
     def test_trumba_gws(self):
         call_command('trumba_gws')
 
-    def test_del_account(self):
+    def test_purge_accounts(self):
         call_command('purge_accounts')
+        call_command('acc_rm_notify', 'sdummyp')
