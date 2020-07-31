@@ -1,10 +1,8 @@
-import logging
+from django.core.mail import send_mail
 from django.core.management.base import BaseCommand, CommandError
 from uw_trumba.models import TrumbaCalendar
 from accountsynchr.ucalgroup.group_manager import GroupManager
-
-
-logger = logging.getLogger("eventcal.commands")
+from accountsynchr.util.settings import get_cronjob_sender
 
 
 class Command(BaseCommand):
@@ -17,7 +15,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         userid = options['uwnetid']
-
+        msgs = []
         gro_m = GroupManager()
         for campus_code in (TrumbaCalendar.SEA_CAMPUS_CODE,
                             TrumbaCalendar.BOT_CAMPUS_CODE,
@@ -25,9 +23,15 @@ class Command(BaseCommand):
             for group in gro_m.get_campus_editor_groups(campus_code):
                 for member in group.members:
                     if member.name == userid:
-                        logger.info("{0}".format(group.group_ref.name))
+                        msgs.append(group.group_ref.name)
 
             for group in gro_m.get_campus_showon_groups(campus_code):
                 for member in group.members:
                     if member.name == userid:
-                        logger.info("{0}".format(group.group_ref.name))
+                        msgs.append(group.group_ref.name)
+
+        sender = get_cronjob_sender()
+        message = "\n".join(msgs)
+        send_mail("The Groups of the User {}".format(userid),
+                  message, sender, [sender])
+        print(message)

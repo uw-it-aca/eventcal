@@ -1,9 +1,7 @@
-import logging
+from django.core.mail import send_mail
 from django.core.management.base import BaseCommand, CommandError
 from uw_trumba.calendars import Calendars
-
-
-logger = logging.getLogger("eventcal.commands")
+from accountsynchr.util.settings import get_cronjob_sender
 
 
 class Command(BaseCommand):
@@ -17,11 +15,16 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         campus_code = options['campus_code']
-
+        msgs = []
         cal_list = Calendars().campus_calendars[campus_code].values()
         if cal_list is not None:
             for cal in cal_list:
-                logger.info("{0}".format(cal.name))
-
+                msgs.append(cal.name)
                 for perm in sorted(cal.permissions.values()):
-                    logger.info("    {0} {1}".format(perm.uwnetid, perm.level))
+                    msgs.append("    {0} {1}".format(perm.uwnetid, perm.level))
+
+            message = "\n".join(msgs)
+            sender = get_cronjob_sender()
+            send_mail("Permissions of {} Calendars".format(campus_code),
+                      message, sender, [sender])
+            print(message)

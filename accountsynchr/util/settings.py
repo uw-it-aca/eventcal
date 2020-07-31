@@ -10,13 +10,13 @@ def get_email_address_domain():
     return getattr(settings, 'EMAIL_ADDRESS_DOMAIN', None)
 
 
-def get_email_sender():
-    return getattr(settings, 'EMAIL_SENDER', None)
+def get_user_email_sender():
+    return "{}{}".format(
+        getattr(settings, 'EMAIL_SENDER', 'uweventcalweb'),
+        get_email_address_domain())
 
 
-def get_email_message():
-    return getattr(settings, 'PURGE_EMAIL_MESSAGE', None)
-
-
-def get_email_subject():
-    return getattr(settings, 'PURGE_EMAIL_SUBJECT', None)
+def get_cronjob_sender():
+    return "{}{}".format(
+        getattr(settings, 'CRONJOB_SENDER', 'trumba_cron'),
+        get_email_address_domain())

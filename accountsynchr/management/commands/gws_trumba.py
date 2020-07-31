@@ -1,9 +1,10 @@
 import logging
+from django.core.mail import send_mail
 from django.core.management.base import BaseCommand, CommandError
 from accountsynchr.gws_trumba import GwsToTrumba
+from accountsynchr.util.settings import get_cronjob_sender
 
-
-logger = logging.getLogger("eventcal.commands")
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -17,4 +18,8 @@ class Command(BaseCommand):
         synchr = GwsToTrumba()
         synchr.sync()
         if synchr.has_err():
-            logger.error(synchr.get_error_report())
+            err = synchr.get_error_report()
+            sender = get_cronjob_sender()
+            logger.error(err)
+            send_mail("Sync UW Group members to Trumba user and permissions",
+                      err, sender, [sender])

@@ -81,3 +81,4 @@ TEMPLATES = [
 ]
 
 EMAIL_BACKEND = 'saferecipient.EmailBackend'
+SAFE_EMAIL_RECIPIENT = 'none'
