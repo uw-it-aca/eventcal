@@ -1,17 +1,17 @@
+#!/bin/sh
 trap 'exit 1' ERR
 
 # travis test script for django app
 #
-# PRECONDITION: inherited env vars from application's .travis.yml MUST include:
-#      DJANGO_APP: django application directory name
+# PRECONDITION:
+#   inherited env vars from application's .travis.yml MUST include:
+#   DJANGO_APP: django application directory name
 
 # start virtualenv
 source bin/activate
 
 # install test tooling
 pip install pycodestyle coverage
-apt-get install -y nodejs npm
-npm install -g jshint
 
 function run_test {
     echo "##########################"
@@ -19,17 +19,17 @@ function run_test {
     eval $1
 }
 
-run_test "pycodestyle ${DJANGO_APP}/ --exclude=migrations,static"
+function catch {
+    echo "Test failure occurred on line $LINENO"
+    exit 1
+}
 
-if [ -d ${DJANGO_APP}/static/${DJANGO_APP}/js ]; then
-    run_test "jshint ${DJANGO_APP}/static/${DJANGO_APP}/js --verbose"
-elif [ -d ${DJANGO_APP}/static/js ]; then
-    run_test "jshint ${DJANGO_APP}/static/js --verbose"
-fi
+run_test pycodestyle ${DJANGO_APP}/
 
-run_test "coverage run --source=${DJANGO_APP} '--omit=*/migrations/*' manage.py test ${DJANGO_APP}"
+run_test "coverage run --source=${DJANGO_APP} '--omit=*/resources/*' manage.py test ${DJANGO_APP}"
 
 # put generated coverage result where it will get processed
 cp .coverage.* /coverage
+cp coverage/lcov.info /coverage
 
 exit 0
