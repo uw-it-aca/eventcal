@@ -43,9 +43,6 @@ after_success:
         "qa")
           export APP_INSTANCE="test";
           ;;
-        "develop")
-          export APP_INSTANCE="dev";
-          ;;
         *)
           unset APP_INSTANCE
           ;;
