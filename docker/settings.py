@@ -16,22 +16,17 @@ LOGGING = {
         },
         'stdout_stream': {
             '()': 'django.utils.log.CallbackFilter',
-            'callback': lambda record: record.levelno < logging.WARNING
+            'callback': lambda record: record.levelno <= logging.WARNING
         },
         'stderr_stream': {
             '()': 'django.utils.log.CallbackFilter',
-            'callback': lambda record: record.levelno > logging.ERROR
+            'callback': lambda record: record.levelno >= logging.ERROR
         }
     },
     'formatters': {
         'standard': {
-            'format': '%(levelname)-4s %(asctime)s %(message)s [%(name)s]',
-            'datefmt': '[%Y-%m-%d %H:%M:%S]',
-        },
-        'restclients_timing': {
-            'format': '%(levelname)-4s restclients_timing %(module)s %(asctime)s %(message)s [%(name)s]',
-            'datefmt': '[%Y-%m-%d %H:%M:%S]',
-        },
+            'format': '%(name)s %(levelname)-4s %(asctime)s %(message)s',
+        }
     },
     'handlers': {
         'stdout': {
@@ -48,20 +43,13 @@ LOGGING = {
         },
     },
     'loggers': {
-        'eventcal.commands': {
-            'handlers': ['stdout'],
-            'level': 'INFO',
-            'propagate': False,
-        },
         '': {
-            'handlers': ['stdout'],
+            'handlers': ['stdout', 'stderr'],
             'level': 'INFO',
-            'propagate': False,
         },
     }
 }
 
-EVENTCAL_ADMIN_GROUP = os.getenv('ADMIN_GROUP')
 #CSV_FILE_PATH = '/data/eventcal/csv'
 
 if os.getenv('ENV', 'localdev') == 'prod':
@@ -69,12 +57,9 @@ if os.getenv('ENV', 'localdev') == 'prod':
 else:
     EMAIL_BACKEND = 'saferecipient.EmailBackend'
     SAFE_EMAIL_RECIPIENT = os.getenv('SAFE_EMAIL_RECIPIENT')
+EMAIL_ADDRESS_DOMAIN = '@uw.edu'
+EMAIL_SSL_CERTFILE = os.getenv('CERT_PATH', '')
+EMAIL_SSL_KEYFILE = os.getenv('KEY_PATH', '')
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = 587
 EMAIL_TIMEOUT = 15
-EMAIL_ADDRESS_DOMAIN = '@uw.edu'
-EMAIL_SENDER = os.getenv('EMAIL_SENDER', 'uweventcalweb@uw.edu')
-EMAIL_SSL_CERTFILE = os.getenv('CERT_PATH', '')
-EMAIL_SSL_KEYFILE = os.getenv('KEY_PATH', '')
-PURGE_EMAIL_MESSAGE = 'Greetings!\n\nYou are receiving this message because you have an editor account in Trumba (campus event calendars) that has been inactive for over a year. Upon the recommendation of the vendor, we will regularly close unused editor accounts.\n\nYour account is scheduled to be deleted on Aug 2, 2020. If you wish to remain an editor, simply log into http://trumba.uw.edu/ with your UW NetID before then. Otherwise no action is needed.\n\nContact us at help@uw.edu if you have any questions.\n\nBest,\nThe UW campus event calendars team\n'
-PURGE_EMAIL_SUBJECT = 'Your Trumba Account Will Be Closed'
