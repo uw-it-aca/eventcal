@@ -45,4 +45,4 @@ def send_acc_removal_email(uwnetid):
 def get_next_purge_date(dt_now):
     now = timezone.make_aware(dt_now, timezone.get_default_timezone())
     next_date = now + timedelta(days=31)
-    return date(next_date.year, next_date.month, 1)
+    return date(next_date.year, next_date.month, 1).strftime("%b 1, %Y")

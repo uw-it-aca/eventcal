@@ -8,11 +8,11 @@ from accountsynchr.dao.notifier import (
 class TestNotification(TestCase):
     def test_get_next_purge_date(self):
         now = datetime(2020, 1, 1, 0, 0, 1)
-        self.assertEqual(str(get_next_purge_date(now)), "2020-02-01")
+        self.assertEqual(str(get_next_purge_date(now)), "Feb 1, 2020")
         now = datetime(2020, 2, 1, 0, 0, 1)
-        self.assertEqual(str(get_next_purge_date(now)), "2020-03-01")
+        self.assertEqual(str(get_next_purge_date(now)), "Mar 1, 2020")
         now = datetime(2020, 12, 1, 0, 0, 1)
-        self.assertEqual(str(get_next_purge_date(now)), "2021-01-01")
+        self.assertEqual(str(get_next_purge_date(now)), "Jan 1, 2021")
 
     def test_acc_removal_email(self):
         with self.settings(EMAIL_BACKEND='saferecipient.EmailBackend',
