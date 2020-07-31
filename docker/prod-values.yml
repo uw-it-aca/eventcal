@@ -1,0 +1,76 @@
+repo: eventcal
+instance: prod
+image:
+  repository: registry.hub.docker.com/acait/eventcal
+  tag: IMAGE_TAG
+cronjob:
+  enabled: true
+  jobs:
+    - name: sync-accounts-from-gws-to-trumba-day
+      schedule: "0,5,10,15,20,25,30,35,40,45,50,55 7-18 * * 1-5"
+      command: ["/scripts/management_command.sh"]
+      args: ["gws_trumba"]
+    - name: sync-accounts-from-gws-to-trumba-evening
+      schedule: "0,10,20,30,40,50 19-22 * * 1-5"
+      command: ["/scripts/management_command.sh"]
+      args: ["gws_trumba"]
+    - name: sync-cal-from-trumba-to-gws-day
+      schedule: "2,7,15,17,22,27,32,37,42,47,52,57 7-18 * * 1-5"
+      command: ["/scripts/management_command.sh"]
+      args: ["trumba_gws"]
+    - name: sync-cal-from-trumba-to-gws-evening
+      schedule: "5,15,25,35,45,55 19-22 * * 1-5"
+      command: ["/scripts/management_command.sh"]
+      args: ["trumba_gws"]
+    - name: purge-inactive-accuonts
+      schedule: "0 2 2 * *"
+      command: ["/scripts/management_command.sh"]
+      args: ["purge_accounts"]
+
+certs:
+  mounted: true
+  certPath: /certs/eventcal.uw.edu-uwca.cert
+  keyPath: /certs/eventcal.uw.edu-uwca.key
+  secretName: eventcal.uw.edu-uwca-certs
+
+environmentVariables:
+  - name: ENV
+    value: prod
+  - name: GWS_ENV
+    value: PROD
+  - name: TRUMBA_ENV
+    value: PROD
+
+externalSecrets:
+  enabled: true
+  secrets:
+    - name: eventcal.uw.edu-secrets
+      externalKey: axdd/kv/data/eventcal/prod/secrets
+      data:
+        - name: django-secret
+          property: django-secret
+        - name: email-host
+          property: email-host
+        - name: safe-email-recipient
+          property: safe-email-recipient
+    - name: eventcal.uw.edu-uwca-certs
+      externalKey: axdd/kv/data/eventcal/prod/uwca-certs
+      data:
+        - name: eventcal.uw.edu-uwca.cert
+          property: eventcal.uw.edu-uwca.cert
+        - name: eventcal.uw.edu-uwca.key
+          property: eventcal.uw.edu-uwca.key
+
+environmentVariablesSecrets:
+  djangoSecret:
+    name: DJANGO_SECRET
+    secretName: eventcal.uw.edu-secrets
+    secretKey: django-secret
+  emailHost:
+    name: EMAIL_HOST
+    secretName: eventcal.uw.edu-secrets
+    secretKey: email-host
+  safeEmailRecipient:
+    name: SAFE_EMAIL_RECIPIENT
+    secretName: eventcal.uw.edu-secrets
+    secretKey: safe-email-recipient
