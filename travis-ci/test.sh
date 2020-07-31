@@ -24,12 +24,11 @@ function catch {
     exit 1
 }
 
-run_test pycodestyle ${DJANGO_APP}/
+run_test "pycodestyle ${DJANGO_APP}/ --exclude=resources"
 
 run_test "coverage run --source=${DJANGO_APP} '--omit=*/resources/*' manage.py test ${DJANGO_APP}"
 
 # put generated coverage result where it will get processed
 cp .coverage.* /coverage
-cp coverage/lcov.info /coverage
 
 exit 0

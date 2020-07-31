@@ -1,11 +1,16 @@
 sudo: required
+
 language: python
+
 python:
   - "3.6"
+
 services:
 - docker
+
 os:
 - linux
+
 env:
   global:
   - RELEASE_NAME="eventcal"
@@ -13,20 +18,44 @@ env:
   - COMMIT_HASH="$(git rev-parse --short=7 HEAD)"
   - IMAGE_TAG="${RELEASE_NAME}:${COMMIT_HASH}"
   - DEPLOY_SCRIPT_BASE=https://raw.githubusercontent.com/uw-it-aca/gcp-app-deploy/master
+
 install:
-- docker build --target app-container -t "$IMAGE_TAG" .
-- docker build -t "${IMAGE_TAG}-test" .
+  - docker build --target app-container -t "$IMAGE_TAG" .
+  - docker build -t "${IMAGE_TAG}-test" .
+
 before_script:
-- pip install coverage
-- pip install coveralls
+  - pip install coverage
+  - pip install coveralls
+
 script:
-- docker run -u root -it -v /tmp:/coverage -e DJANGO_APP="$DJANGO_APP" -e "ENV=localdev"
-  "${IMAGE_TAG}-test" bash -c ". ./travis-ci/test.sh"
+  - docker run -u root -it -v /tmp:/coverage -e DJANGO_APP="$DJANGO_APP" -e "ENV=localdev" "${IMAGE_TAG}-test" bash -c ". ./travis-ci/test.sh"
+
 after_success:
-- cp /tmp/.coverage.* .
-- coverage combine
-- coveralls
+  - cp /tmp/.coverage.* .
+  - coverage combine
+  - coveralls
+  - |
+    if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+      case "$TRAVIS_BRANCH" in
+        "master")
+          export APP_INSTANCE="prod";
+          ;;
+        "qa")
+          export APP_INSTANCE="test";
+          ;;
+        "develop")
+          export APP_INSTANCE="dev";
+          ;;
+        *)
+          unset APP_INSTANCE
+          ;;
+      esac
+      if [[ "$APP_INSTANCE" ]]; then
+        curl -Ls ${DEPLOY_SCRIPT_BASE}/travis-ci/deploy.sh | bash;
+      fi
+    fi
+
 cache:
   directories:
-  - "$HOME/helm"
-  - "$HOME/kubeval"
+    - "$HOME/helm"
+    - "$HOME/kubeval"

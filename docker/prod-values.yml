@@ -28,7 +28,7 @@ cronjob:
       command: ["/scripts/management_command.sh"]
       args: ["trumba_gws"]
     - name: sync-cal-from-trumba-to-gws-weekend
-      schedule: "0 22 * * 6,7"
+      schedule: "30 22 * * 6,7"
       command: ["/scripts/management_command.sh"]
       args: ["trumba_gws"]
 
