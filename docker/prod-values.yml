@@ -61,8 +61,6 @@ externalSecrets:
           property: django-secret
         - name: email-host
           property: email-host
-        - name: safe-email-recipient
-          property: safe-email-recipient
     - name: eventcal.uw.edu-uwca-certs
       externalKey: axdd/kv/data/eventcal/prod/uwca-certs
       data:
@@ -80,7 +78,3 @@ environmentVariablesSecrets:
     name: EMAIL_HOST
     secretName: eventcal.uw.edu-secrets
     secretKey: email-host
-  safeEmailRecipient:
-    name: SAFE_EMAIL_RECIPIENT
-    secretName: eventcal.uw.edu-secrets
-    secretKey: safe-email-recipient
