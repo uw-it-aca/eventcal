@@ -30,17 +30,6 @@ class TestCommands(TestCase):
         call_command('trumba_gws')
 
     def test_purge_accounts(self):
-        with self.settings(EMAIL_BACKEND='saferecipient.EmailBackend',
-                           SAFE_EMAIL_RECIPIENT='none',
-                           EMAIL_ADDRESS_DOMAIN='@uw.edu',
-                           EMAIL_SENDER='none@uw.edu',
-                           PURGE_DATE='Aug 30, 2020'):
+        with self.settings(PURGE_DATE='Aug 30, 2020'):
             call_command('purge_accounts')
-
-    def test_acc_rm_notify(self):
-        with self.settings(EMAIL_BACKEND='saferecipient.EmailBackend',
-                           SAFE_EMAIL_RECIPIENT='none',
-                           EMAIL_ADDRESS_DOMAIN='@uw.edu',
-                           EMAIL_SENDER='none@uw.edu',
-                           PURGE_DATE='Aug 30, 2020'):
             call_command('acc_rm_notify', 'sdummyp')
