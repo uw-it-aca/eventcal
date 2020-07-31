@@ -7,9 +7,8 @@ class TestNotification(TestCase):
 
     def test_acc_removal_email(self):
         with self.settings(EMAIL_BACKEND='saferecipient.EmailBackend',
-                           SAFE_EMAIL_RECIPIENT='eventcal@test.edu',
-                           EMAIL_ADDRESS_DOMAIN='@test.edu',
-                           EMAIL_SENDER='eventcal@test.edu',
-                           PURGE_EMAIL_MESSAGE='Body',
-                           PURGE_EMAIL_SUBJECT='Subject'):
+                           SAFE_EMAIL_RECIPIENT='none',
+                           EMAIL_ADDRESS_DOMAIN='@uw.edu',
+                           EMAIL_SENDER='none@uw.edu',
+                           PURGE_DATE='Jun 1, 2020'):
             self.assertFalse(send_acc_removal_email('sdummyp'))
