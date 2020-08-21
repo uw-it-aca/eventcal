@@ -1,16 +1,11 @@
 sudo: required
-
 language: python
-
 python:
-  - "3.6"
-
+- '3.6'
 services:
 - docker
-
 os:
 - linux
-
 env:
   global:
   - RELEASE_NAME="eventcal"
@@ -18,41 +13,40 @@ env:
   - COMMIT_HASH="$(git rev-parse --short=7 HEAD)"
   - IMAGE_TAG="${RELEASE_NAME}:${COMMIT_HASH}"
   - DEPLOY_SCRIPT_BASE=https://raw.githubusercontent.com/uw-it-aca/gcp-app-deploy/master
-
+  - secure: mIJOTKvoRSsFflBImmgsGwgRxauV/zMHvuFwlsLFPBp+o626ODZl7XT7oHSbvwmkRg9Q1Db8fQHLJkXzYAwxDya/UjHXUnEfqKYFyvv0HHNYoLSI5wF0f3b/bLPA1hRl1WxrT33KWmwB28JqoJB9ig1lDfvfQd8mlm0ZlLWFId14NarbCt6wOf7Wg193Gz51/K/jt1DTdmiRziHq53jci4aob4UMZ4m9x9LkdCr18yqe21AOdABY1GEKRpYfcBkyyvvP67w0hpvztxLyTK2pZu4ccCCuJ24EQDwBtM6iEx14GOCni5qoLPtckw20L/i0vFaicaL/WMkXU7Bq83sxa1Lpjcxcp51HJQWN1R7GLTT6MzGsSMiMCvDpN3uXhYj3gqmRSww88EDzj0fxoVk7cdDUznhSjDUvJTz3vYmmpMFyrliBiL3xPEyJ5tM9Zj5Lz+aCr1ut6cxghPvO8K5+fVeF+bSltSzdpCDD/yi27EzqJRLIJSbZOOlzyqj7XuUhaF+lnosLH3up/eFDidsE3/PoSKzUQ7jVe22fgYQHs6u5GPk3e1JwC6vE+qnyGed1PmMacjr55Y2AEsAtKR2f7HsOUyPyc+vSElAa4YWDJc2BcHKMTbXoD82HWBVq23EVAEizQffwWscfVlJJlyKZO0TFS+ZtBe2FphaLpYjuNZo=
+  - secure: is6CWhm2Mn7Nxe8eqSueP1kUzQIAHlRP3dd9kBmZ2ECxW2zeb3TqVlAQk0Wpah66kga1fpFGBKJpJfb9FpGqVnLjalS3cYvcn97a+YvvqWJALwXUkwJ6meAJguqi5SfavHan+ou7d8tJR/ph+50eEXuWyBUyVjX9gKQXXBhvtOLN8H/1WBx9CZJdUbBolZw/rxrOe2NrRyqmvzzAGUejDXVkjqzPgtBZcA7xoiirc+FilqFSPUieGDDxdV98vSQ1UwDHm3n1qbgdRM8XHOVlW8/8QSpbL/AxjNkNcmXmM4vPKITtjBBHMQ9ueYy9PMeIdjmrls5olqv1GeK+SGfx+NwPZyXdKM4ZNEcTklX4jVAa+7oe8CAOnN9YBCqSWlqBvNJE+rjNotBua7/bUwZ6eAwZwJEYfcF0IIlttPWBXMbDtqJoSxmwQO2Kqn1GFIdc5Wryetgr1Bq2D1tES5Q5D8DCbs36xNuycLX9yyZ+YNe1d4UZ5pyxqvbGWNC8obqZjKYpZ8ij2mqq+AfuQEPBD8hU+XThVtvTM81zmmWzAtMaSARGmTIkRIk3vc31GzUwPqkdLONsIgalv82CmNm/9IGlgVNTlDCq6EdrjjbSpy29XMPzzjlKBNNSts3pWrqWNd0/IO8m6LGwUITAf3+hQ9iruwZvnVScjQA3UN83/bs=
+  - secure: aDfgSxGvRaAOCJrgdofUFXrxAm5OGTVwDr43k4xXdYRZ4D+VJLSwPdUAMnNTQYhMjJDmvejWNL7TkPYirtJP6OuSXMEFxwd9BJctiBoFoCa7yXaC4vRz+l28bZBVEqxWVoTZR7/e/G8K2udsnN8swhEOWd7cY7r+YP1ty9wvPwj+guEXFWJPER3EtS5zAqAjWB35tARvomWT0GL7EEyi+dwaqupX4O8E2DZeV3oJ2KXG/c2Hgtdhnuvd3crcHeW6wBF2cJkymsf1Pcs/HhsIcSYf5EPD5F+ElKBpeN8LhYX7PQSjxXb5nz6JaUrpaFoapOAJHO56nJJXjecbIbVfINPIljH6AYxDai0UDEhLhrTRmsB9UJIZjc4CMYV4QSrBRb6pqz3Uz0FUqyYdSgZp5eVnxakKJGrBIkQA/qnTeU/uwA7Ipy8PID3SwOFHvY9oERfQl3wG7yGdyrof9F6ISi2xqTUfqroLe1eP2w3YGpr48wubPfTbDjwPI2/rYVw6X3LW3392UhMToxfc6i5XCTBK6bGl92SoxhHnmIV1SpNgguzKnQkIZmMeBV2C4FxomO0hzliV5zSlPxrJLN7ac0eN+ATnaXYSC/+fmQLAnt/EZy+hmUTAYRYy65kkeBKd0aYVJ9RFQPrIWU2ODuihYNX9Gxo/sjdYEjL2b23v0C8=
 install:
-  - docker build --target app-container -t "$IMAGE_TAG" .
-  - docker build -t "${IMAGE_TAG}-test" .
-
+- docker build --target app-container -t "$IMAGE_TAG" .
+- docker build -t "${IMAGE_TAG}-test" .
 before_script:
-  - pip install coverage
-  - pip install coveralls
-
+- pip install coverage
+- pip install coveralls
 script:
-  - docker run -u root -it -v /tmp:/coverage -e DJANGO_APP="$DJANGO_APP" -e "ENV=localdev" "${IMAGE_TAG}-test" bash -c ". ./travis-ci/test.sh"
-
+- docker run -u root -it -v /tmp:/coverage -e DJANGO_APP="$DJANGO_APP" -e "ENV=localdev"
+  "${IMAGE_TAG}-test" bash -c ". ./travis-ci/test.sh"
 after_success:
-  - cp /tmp/.coverage.* .
-  - coverage combine
-  - coveralls
-  - |
-    if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-      case "$TRAVIS_BRANCH" in
-        "master")
-          export APP_INSTANCE="prod";
-          ;;
-        "qa")
-          export APP_INSTANCE="test";
-          ;;
-        *)
-          unset APP_INSTANCE
-          ;;
-      esac
-      if [[ "$APP_INSTANCE" ]]; then
-        curl -Ls ${DEPLOY_SCRIPT_BASE}/travis-ci/deploy.sh | bash;
-      fi
+- cp /tmp/.coverage.* .
+- coverage combine
+- coveralls
+- |
+  if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+    case "$TRAVIS_BRANCH" in
+      "master")
+        export APP_INSTANCE="prod";
+        ;;
+      "qa")
+        export APP_INSTANCE="test";
+        ;;
+      *)
+        unset APP_INSTANCE
+        ;;
+    esac
+    if [[ "$APP_INSTANCE" ]]; then
+      curl -Ls ${DEPLOY_SCRIPT_BASE}/travis-ci/deploy.sh | bash;
     fi
-
+  fi
 cache:
   directories:
-    - "$HOME/helm"
-    - "$HOME/kubeval"
+  - "$HOME/helm"
+  - "$HOME/kubeval"
