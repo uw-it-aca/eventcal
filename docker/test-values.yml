@@ -49,7 +49,7 @@ externalSecrets:
         - name: safe-email-recipient
           property: safe-email-recipient
     - name: test.eventcal.uw.edu-trumba-secrets
-      externalKey: axdd/kv/data/eventcal/prod/trumba-secrets
+      externalKey: axdd/kv/data/eventcal/shared/trumba-secrets
       data:
         - name: trumba_sea_id
           property: trumba_sea_id
@@ -64,7 +64,7 @@ externalSecrets:
         - name: trumba_tac_pswd
           property: trumba_tac_pswd
     - name: test.eventcal.uw.edu-uwca-certs
-      externalKey: axdd/kv/data/eventcal/prod/uwca-certs
+      externalKey: axdd/kv/data/eventcal/shared/uwca-certs
       data:
         - name: eventcal.uw.edu-uwca.cert
           property: eventcal.uw.edu-uwca.cert
