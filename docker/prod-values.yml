@@ -77,21 +77,23 @@ externalSecrets:
           property: django-secret
         - name: email-host
           property: email-host
+        - name: git-crypt-key
+          property: git-crypt-key
     - name: eventcal.uw.edu-trumba-secrets
       externalKey: axdd/kv/data/eventcal/shared/trumba-secrets
       data:
-        - name: trumba_sea_id
-          property: trumba_sea_id
-        - name: trumba_sea_pswd
-          property: trumba_sea_pswd
-        - name: trumba_bot_id
-          property: trumba_bot_id
-        - name: trumba_bot_pswd
-          property: trumba_bot_pswd
-        - name: trumba_tac_id
-          property: trumba_tac_id
-        - name: trumba_tac_pswd
-          property: trumba_tac_pswd
+        - name: trumba-sea-id
+          property: trumba-sea-id
+        - name: trumba-sea-pswd
+          property: trumba-sea-pswd
+        - name: trumba-bot-id
+          property: trumba-bot-id
+        - name: trumba-bot-pswd
+          property: trumba-bot-pswd
+        - name: trumba-tac-id
+          property: trumba-tac-id
+        - name: trumba-tac-pswd
+          property: trumba-tac-pswd
     - name: eventcal.uw.edu-uwca-certs
       externalKey: axdd/kv/data/eventcal/shared/uwca-certs
       data:
@@ -109,27 +111,31 @@ environmentVariablesSecrets:
     name: EMAIL_HOST
     secretName: eventcal.uw.edu-secrets
     secretKey: email-host
+  gitCryptKey:
+    name: GIT_CRYPT_KEY
+    secretName: eventcal.uw.edu-secrets
+    secretKey: git-crypt-key
   trumbaSeaId:
     name: TRUMBA_SEA_ID
     secretName: eventcal.uw.edu-trumba-secrets
-    secretKey: trumba_sea_id
+    secretKey: trumba-sea-id
   trumbaSeaPswd:
     name: TRUMBA_SEA_PSWD
     secretName: eventcal.uw.edu-trumba-secrets
-    secretKey: trumba_sea_pswd
+    secretKey: trumba-sea-pswd
   trumbaBotId:
     name: TRUMBA_BOT_ID
     secretName: eventcal.uw.edu-trumba-secrets
-    secretKey: trumba_bot_id
+    secretKey: trumba-bot-id
   trumbaBotPswd:
     name: TRUMBA_BOT_PSWD
     secretName: eventcal.uw.edu-trumba-secrets
-    secretKey: trumba_bot_pswd
+    secretKey: trumba-bot-pswd
   trumbaTacId:
     name: TRUMBA_TAC_ID
     secretName: eventcal.uw.edu-trumba-secrets
-    secretKey: trumba_tac_id
+    secretKey: trumba-tac-id
   trumbaTacPswd:
     name: TRUMBA_TAC_PSWD
     secretName: eventcal.uw.edu-trumba-secrets
-    secretKey: trumba_tac_pswd
+    secretKey: trumba-tac-pswd
