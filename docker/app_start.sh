@@ -3,4 +3,5 @@
 if [ "$ENV" = "prod" ]
 then
     cd /app
-    git-crypt unlock
+    cat $GIT_CRYPT_KEY > git-crypt-key
+    git-crypt unlock git-crypt-key
