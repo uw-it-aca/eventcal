@@ -1,0 +1,116 @@
+repo: eventcal
+instance: test
+image:
+  repository: registry.hub.docker.com/acait/eventcal
+  tag: IMAGE_TAG
+certs:
+  mounted: true
+  certPath: /certs/test.eventcal.uw.edu-uwca.cert
+  keyPath: /certs/test.eventcal.uw.edu-uwca.key
+  secretName: test.eventcal.uw.edu-uwca-certs
+
+cronjob:
+  enabled: false
+
+environmentVariables:
+  - name: ENV
+    value: test
+
+  - name: GWS_ENV
+    value: PROD
+  - name: GWS_TIMEOUT
+    value: "30"
+
+  - name: TRUMBA_SEA_ENV
+    value: PROD
+  - name: TRUMBA_SEA_TIMEOUT
+    value: "30"
+
+  - name: TRUMBA_BOT_ENV
+    value: PROD
+  - name: TRUMBA_BOT_TIMEOUT
+    value: "30"
+
+  - name: TRUMBA_TAC_ENV
+    value: PROD
+  - name: TRUMBA_TAC_TIMEOUT
+    value: "30"
+
+externalSecrets:
+  enabled: true
+  secrets:
+    - name: test.eventcal.uw.edu-secrets
+      externalKey: axdd/kv/data/eventcal/test/secrets
+      data:
+        - name: django-secret
+          property: django-secret
+        - name: email-host
+          property: email-host
+        - name: safe-email-recipient
+          property: safe-email-recipient
+        - name: git-crypt-key
+          property: git-crypt-key
+    - name: test.eventcal.uw.edu-trumba-secrets
+      externalKey: axdd/kv/data/eventcal/shared/trumba-secrets
+      data:
+        - name: trumba-sea-id
+          property: trumba-sea-id
+        - name: trumba-sea-pswd
+          property: trumba-sea-pswd
+        - name: trumba-bot-id
+          property: trumba-bot-id
+        - name: trumba-bot-pswd
+          property: trumba-bot-pswd
+        - name: trumba-tac-id
+          property: trumba-tac-id
+        - name: trumba-tac-pswd
+          property: trumba-tac-pswd
+    - name: test.eventcal.uw.edu-uwca-certs
+      externalKey: axdd/kv/data/eventcal/shared/uwca-certs
+      data:
+        - name: eventcal.uw.edu-uwca.cert
+          property: eventcal.uw.edu-uwca.cert
+        - name: eventcal.uw.edu-uwca.key
+          property: eventcal.uw.edu-uwca.key
+
+environmentVariablesSecrets:
+  djangoSecret:
+    name: DJANGO_SECRET
+    secretName: test.eventcal.uw.edu-secrets
+    secretKey: django-secret
+  emailHost:
+    name: EMAIL_HOST
+    secretName: test.eventcal.uw.edu-secrets
+    secretKey: email-host
+  safeEmailRecipient:
+    name: SAFE_EMAIL_RECIPIENT
+    secretName: test.eventcal.uw.edu-secrets
+    secretKey: safe-email-recipient
+  gitCryptKey:
+    name: GIT_CRYPT_KEY
+    secretName: test.eventcal.uw.edu-secrets
+    secretKey: git-crypt-key
+  trumbaSeaId:
+    name: TRUMBA_SEA_ID
+    secretName: test.eventcal.uw.edu-trumba-secrets
+    secretKey: trumba-sea-id
+  trumbaSeaPswd:
+    name: TRUMBA_SEA_PSWD
+    secretName: test.eventcal.uw.edu-trumba-secrets
+    secretKey: trumba-sea-pswd
+  trumbaBotId:
+    name: TRUMBA_BOT_ID
+    secretName: test.eventcal.uw.edu-trumba-secrets
+    secretKey: trumba-bot-id
+  trumbaBotPswd:
+    name: TRUMBA_BOT_PSWD
+    secretName: test.eventcal.uw.edu-trumba-secrets
+    secretKey: trumba-bot-pswd
+  trumbaTacId:
+    name: TRUMBA_TAC_ID
+    secretName: test.eventcal.uw.edu-trumba-secrets
+    secretKey: trumba-tac-id
+  trumbaTacPswd:
+    name: TRUMBA_TAC_PSWD
+    secretName: test.eventcal.uw.edu-trumba-secrets
+    secretKey: trumba-tac-pswd

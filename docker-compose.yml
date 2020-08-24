@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+  app:
+    environment:
+      - ENV=localdev
+      - PORT=8000
+    restart: always
+    container_name: eventcal
+    build:
+      context: .
+    volumes:
+      - ./eventcal:/app/eventcal
+    ports:
+      - "8000:8000"
