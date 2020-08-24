@@ -1,13 +1,13 @@
 ingress:
   enabled: true
   tls:
-    notify:
+    eventcal:
       secretName: test.eventcal.uw.edu-ingress-cert
       hosts:
         - test.eventcal.uw.edu
   hosts:
-    notify:
-      host: test.event.uw.edu
+    eventcal:
+      host: test.eventcal.uw.edu
       paths:
         - "/"
   annotations:
