@@ -48,6 +48,8 @@ externalSecrets:
           property: email-host
         - name: safe-email-recipient
           property: safe-email-recipient
+        - name: git-crypt-key
+          property: git-crypt-key
     - name: test.eventcal.uw.edu-trumba-secrets
       externalKey: axdd/kv/data/eventcal/shared/trumba-secrets
       data:
@@ -84,6 +86,10 @@ environmentVariablesSecrets:
     name: SAFE_EMAIL_RECIPIENT
     secretName: test.eventcal.uw.edu-secrets
     secretKey: safe-email-recipient
+  gitCryptKey:
+    name: GIT_CRYPT_KEY
+    secretName: test.eventcal.uw.edu-secrets
+    secretKey: git-crypt-key
   trumbaSeaId:
     name: TRUMBA_SEA_ID
     secretName: test.eventcal.uw.edu-trumba-secrets
