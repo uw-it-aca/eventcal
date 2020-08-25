@@ -20,6 +20,17 @@ affinity:
   podsSpanNodes: true
 readiness:
   enabled: true
+externalService:
+  enabled: true
+  name: eventcal-db-service
+  type: ClusterIP
+  serviceAddress: 172.18.0.24
+  servicePort: 3306
+database:
+  engine: mysql
+  name: eventcal_test
+  hostname: eventcal-db-service
+  secretName: test.eventcal.uw.edu-sql-secrets
 repo: eventcal
 instance: test
 image:
@@ -87,6 +98,13 @@ externalSecrets:
           property: trumba-tac-id
         - name: trumba-tac-pswd
           property: trumba-tac-pswd
+    - name: test.eventcal.uw.edu-sql-secrets
+      externalKey: axdd/kv/data/eventcal/shared/sql-secrets
+      data:
+        - name: username
+          property: username
+        - name: password
+          property: password
     - name: test.eventcal.uw.edu-uwca-certs
       externalKey: axdd/kv/data/eventcal/shared/uwca-certs
       data:
