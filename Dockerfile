@@ -1,6 +1,7 @@
 FROM acait/django-container:1.0.39 as app-container
 
 USER root
+RUN apt-get update && apt-get install mysql-client libmysqlclient-dev -y
 RUN apt-get install -y git-crypt && apt-get install gnupg
 USER acait
 
@@ -8,6 +9,8 @@ ADD --chown=acait:acait accountsynchr/VERSION /app/accountsynchr/
 ADD --chown=acait:acait setup.py /app/
 ADD --chown=acait:acait requirements.txt /app/
 RUN . /app/bin/activate && pip install -r requirements.txt
+
+RUN . /app/bin/activate && pip install mysqlclient
 
 ADD --chown=acait:acait . /app/
 ADD --chown=acait:acait docker/ project/
