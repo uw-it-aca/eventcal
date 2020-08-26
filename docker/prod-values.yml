@@ -1,3 +1,36 @@
+ingress:
+  enabled: true
+  tls:
+    eventcal:
+      secretName: eventcal.uw.edu-ingress-cert
+      hosts:
+        - eventcal.uw.edu
+  hosts:
+    eventcal:
+      host: eventcal.uw.edu
+      paths:
+        - "/"
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+lifecycle:
+  enabled: true
+  preStop:
+    enabled: true
+affinity:
+  podsSpanNodes: true
+readiness:
+  enabled: true
+externalService:
+  enabled: true
+  name: eventcal-db-service
+  type: ClusterIP
+  serviceAddress: 172.18.0.24
+  servicePort: 3306
+database:
+  engine: mysql
+  name: eventcal_prod
+  hostname: eventcal-db-service
+  secretName: eventcal.uw.edu-sql-secrets
 repo: eventcal
 instance: prod
 image:
@@ -47,6 +80,9 @@ environmentVariables:
   - name: ENV
     value: prod
 
+  - name: CLUSTER_CNAME
+    value: eventcal.uw.edu
+
   - name: GWS_ENV
     value: PROD
   - name: GWS_TIMEOUT
@@ -94,6 +130,13 @@ externalSecrets:
           property: trumba-tac-id
         - name: trumba-tac-pswd
           property: trumba-tac-pswd
+    - name: eventcal.uw.edu-sql-secrets
+      externalKey: axdd/kv/data/eventcal/shared/sql-secrets
+      data:
+        - name: username
+          property: username
+        - name: password
+          property: password
     - name: eventcal.uw.edu-uwca-certs
       externalKey: axdd/kv/data/eventcal/shared/uwca-certs
       data:
