@@ -80,6 +80,9 @@ environmentVariables:
   - name: ENV
     value: prod
 
+  - name: CLUSTER_CNAME
+    value: eventcal.uw.edu
+
   - name: GWS_ENV
     value: PROD
   - name: GWS_TIMEOUT
