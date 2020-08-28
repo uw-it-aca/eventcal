@@ -38,9 +38,9 @@ image:
   tag: IMAGE_TAG
 certs:
   mounted: true
-  certPath: /certs/test.eventcal.uw.edu-uwca.cert
-  keyPath: /certs/test.eventcal.uw.edu-uwca.key
-  secretName: test.eventcal.uw.edu-uwca-certs
+  certPath: /certs/eventcal.uw.edu-uwca.cert
+  keyPath: /certs/eventcal.uw.edu-uwca.key
+  secretName: eventcal.uw.edu-uwca-certs
 
 cronjob:
   enabled: false
