@@ -40,7 +40,7 @@ certs:
   mounted: true
   certPath: /certs/eventcal.uw.edu-uwca.cert
   keyPath: /certs/eventcal.uw.edu-uwca.key
-  secretName: eventcal.uw.edu-uwca-certs
+  secretName: test.eventcal.uw.edu-uwca-certs
 
 cronjob:
   enabled: false
