@@ -45,33 +45,33 @@ certs:
 cronjob:
   enabled: true
   jobs:
-    - name: sync-accs-gws-trumba-daytime
+    - name: gws-trumba-daytime
       schedule: "0,5,10,15,20,25,30,35,40,45,50,55 7-18 * * 1-5"
       command: ["/scripts/management_command.sh"]
       args: ["gws_trumba"]
-    - name: sync-accs-gws-trumba-evening
+    - name: gws-trumba-evening
       schedule: "0,10,20,30,40,50 19-22 * * 1-5"
       command: ["/scripts/management_command.sh"]
       args: ["gws_trumba"]
-    - name: sync-accs-gws-trumba-weekend
+    - name: gws-trumba-weekend
       schedule: "0 22 * * 6,7"
       command: ["/scripts/management_command.sh"]
       args: ["gws_trumba"]
 
-#    - name: sync-cal-trumba-gws-daytime
+#    - name: trumba-gws-daytime
 #     schedule: "2,7,15,17,22,27,32,37,42,47,52,57 7-18 * * 1-5"
 #      command: ["/scripts/management_command.sh"]
 #      args: ["trumba_gws"]
-#    - name: sync-cal-trumba-gws-evening
+#    - name: trumba-gws-evening
 #      schedule: "5,15,25,35,45,55 19-22 * * 1-5"
 #      command: ["/scripts/management_command.sh"]
 #      args: ["trumba_gws"]
-#    - name: sync-cal-trumba-gws-weekend
+#    - name: trumba-gws-weekend
 #      schedule: "30 22 * * 6,7"
 #      command: ["/scripts/management_command.sh"]
 #      args: ["trumba_gws"]
 
-#    - name: purge-inactive-accuonts
+#    - name: purge-inactive-accs
 #      schedule: "0 2 1 * *"
 #      command: ["/scripts/management_command.sh"]
 #      args: ["purge_accounts"]
