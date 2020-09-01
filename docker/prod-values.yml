@@ -54,7 +54,7 @@ cronjob:
       command: ["/scripts/management_command.sh"]
       args: ["gws_trumba"]
     - name: gws-trumba-weekend
-      schedule: "0 22 * * 6,7"
+      schedule: "0 22 * * 6,0"
       command: ["/scripts/management_command.sh"]
       args: ["gws_trumba"]
 
@@ -67,7 +67,7 @@ cronjob:
 #      command: ["/scripts/management_command.sh"]
 #      args: ["trumba_gws"]
 #    - name: trumba-gws-weekend
-#      schedule: "30 22 * * 6,7"
+#      schedule: "30 22 * * 6,0"
 #      command: ["/scripts/management_command.sh"]
 #      args: ["trumba_gws"]
 
