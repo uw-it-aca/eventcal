@@ -46,33 +46,33 @@ cronjob:
   enabled: true
   jobs:
     - name: gws-trumba-daytime
-      schedule: "0,5,10,15,20,25,30,35,40,45,50,55 7-18 * * 1-5"
+      schedule: "0,5,10,15,20,25,30,35,40,45,50,55 14-23 * * 1-5"
       command: ["/scripts/management_command.sh"]
       args: ["gws_trumba"]
     - name: gws-trumba-evening
-      schedule: "0,10,20,30,40,50 19-22 * * 1-5"
+      schedule: "0,10,20,30,40,50 0-5 * * 2-6"
       command: ["/scripts/management_command.sh"]
       args: ["gws_trumba"]
     - name: gws-trumba-weekend
-      schedule: "0 22 * * 6,0"
+      schedule: "0 5 * * 0,1"
       command: ["/scripts/management_command.sh"]
       args: ["gws_trumba"]
 
 #    - name: trumba-gws-daytime
-#     schedule: "2,7,15,17,22,27,32,37,42,47,52,57 7-18 * * 1-5"
+#     schedule: "2,7,15,17,22,27,32,37,42,47,52,57 14-23 * * 1-5"
 #      command: ["/scripts/management_command.sh"]
 #      args: ["trumba_gws"]
 #    - name: trumba-gws-evening
-#      schedule: "5,15,25,35,45,55 19-22 * * 1-5"
+#      schedule: "5,15,25,35,45,55 0-5 * * 2-6"
 #      command: ["/scripts/management_command.sh"]
 #      args: ["trumba_gws"]
 #    - name: trumba-gws-weekend
-#      schedule: "30 22 * * 6,0"
+#      schedule: "30 5 * * 0,1"
 #      command: ["/scripts/management_command.sh"]
 #      args: ["trumba_gws"]
 
 #    - name: purge-inactive-accs
-#      schedule: "0 2 1 * *"
+#      schedule: "0 9 1 * *"
 #      command: ["/scripts/management_command.sh"]
 #      args: ["purge_accounts"]
 
