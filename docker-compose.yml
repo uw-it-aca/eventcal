@@ -1,14 +1,18 @@
-version: '2'
+version: '3.4'
 
 services:
   app:
     environment:
-      - ENV=localdev
-      - PORT=8000
+      ENV: localdev
+      PORT: 8000
+      MEMCACHED_SERVER_COUNT: 1
+      MEMCACHED_SERVER_SPEC: memcached
+      SESSION_BACKEND: MEMCACHED
     restart: always
     container_name: eventcal
     build:
       context: .
+      target: app-container
     volumes:
       - ./eventcal:/app/eventcal
     ports:
