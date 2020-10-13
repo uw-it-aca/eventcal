@@ -1,4 +1,4 @@
-FROM acait/django-container:1.1.3 as app-container
+FROM acait/django-container:1.1.7 as app-container
 
 USER root
 RUN apt-get install -y git-crypt && apt-get install gnupg
@@ -16,6 +16,6 @@ RUN chmod u+x /scripts/management_command.sh
 
 RUN . /app/bin/activate && python manage.py test
 
-FROM acait/django-test-container:1.1.3 as app-test-container
+FROM acait/django-test-container:1.1.7 as app-test-container
 
 COPY --from=app-container /app/ /app/
