@@ -79,7 +79,7 @@ environmentVariables:
   - name: CLUSTER_CNAME
     value: eventcal.uw.edu
 
-  - name: SESSION_BACKEN
+  - name: SESSION_BACKEND
     value: MEMCACHED
 
   - name: GWS_ENV
