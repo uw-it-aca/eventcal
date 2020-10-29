@@ -42,11 +42,11 @@ cronjob:
   enabled: true
   jobs:
     - name: gws-trumba-daytime
-      schedule: "0,5,10,15,20,25,30,35,40,45,50,55 14-23 * * 1-5"
+      schedule: "6,18,30,42,54 15-23 * * 1-5"
       command: ["/scripts/management_command.sh"]
       args: ["gws_trumba"]
     - name: gws-trumba-evening
-      schedule: "0,10,20,30,40,50 0-5 * * 2-6"
+      schedule: "6,18,30,42,54 0-6 * * 2-6"
       command: ["/scripts/management_command.sh"]
       args: ["gws_trumba"]
     - name: gws-trumba-weekend
@@ -55,11 +55,11 @@ cronjob:
       args: ["gws_trumba"]
 
     - name: trumba-gws-daytime
-      schedule: "2,7,15,17,22,27,32,37,42,47,52,57 14-23 * * 1-5"
+      schedule: "0,12,24,36,48 15-23 * * 1-5"
       command: ["/scripts/management_command.sh"]
       args: ["trumba_gws"]
     - name: trumba-gws-evening
-      schedule: "5,15,25,35,45,55 0-5 * * 2-6"
+      schedule: "0,12,24,36,48 0-6 * * 2-6"
       command: ["/scripts/management_command.sh"]
       args: ["trumba_gws"]
     - name: trumba-gws-weekend
