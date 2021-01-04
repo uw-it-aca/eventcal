@@ -58,8 +58,9 @@ class UwcalGroup(models.Model):
     def same_name(self, calendar):
         if self.group_ref is not None:
             group_name = self.group_ref.display_name
-            return (group_name == calendar.name or
-                    group_name == calendar.get_group_title(self.gtype))
+            return (
+                group_name == calendar.name or
+                group_name == calendar.get_group_title(self.gtype))
         return False
 
     def set_calendar_name(self, cal_name):
@@ -68,18 +69,24 @@ class UwcalGroup(models.Model):
     def to_json(self):
         group_ref_data = None
         if self.group_ref is not None:
-            group_ref_data = {"id": self.group_ref.name,
-                              "regid": self.group_ref.uwregid,
-                              "displayName": self.group_ref.display_name}
-        return {'calendar': self.calendar.to_json(),
-                'gtype': self.gtype,
-                'group_ref': group_ref_data,
-                'members': [m.json_data() for m in self.members]}
+            group_ref_data = {
+                "id": self.group_ref.name,
+                "regid": self.group_ref.uwregid,
+                "displayName": self.group_ref.display_name}
+        return {
+            'calendar': self.calendar.to_json(),
+            'gtype': self.gtype,
+            'group_ref': group_ref_data,
+            'members': [m.json_data() for m in self.members]}
 
     def __eq__(self, other):
-        return (self.calendar == other.calendar and
-                self.gtype == other.gtype and
-                self.group_ref == other.group_ref)
+        return (
+            self.calendar == other.calendar and
+            self.gtype == other.gtype and
+            self.group_ref == other.group_ref)
+
+    def __hash__(self):
+        return super().__hash__()
 
     def __str__(self):
         return json.dumps(self.to_json())
@@ -110,16 +117,20 @@ class UserAccount(models.Model):
     created_at = models.DateTimeField(null=True, default=None)
 
     def to_json(self):
-        return {"uwnetid": self.uwnetid,
-                "display_name": self.display_name,
-                "last_visit": date_to_str(self.last_visit),
-                "created_at": date_to_str(self.created_at)}
+        return {
+            "uwnetid": self.uwnetid,
+            "display_name": self.display_name,
+            "last_visit": date_to_str(self.last_visit),
+            "created_at": date_to_str(self.created_at)}
 
     def __str__(self):
         return json.dumps(self.to_json())
 
     def __init__(self, *args, **kwargs):
         super(UserAccount, self).__init__(*args, **kwargs)
+
+    def __hash__(self):
+        return super().__hash__()
 
 
 def date_to_str(dt):
