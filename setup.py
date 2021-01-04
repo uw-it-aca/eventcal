@@ -26,7 +26,7 @@ setup(
         'uw-memcached-clients>=1.0.7,<2.0',
         'UW-RestClients-Core>=1.3.3,<2.0',
         'UW-RestClients-GWS>=2.3,<3.0',
-        'UW-RestClients-Trumba>=1.3.3,<2.0',
+        'UW-RestClients-Trumba>=1.3.4,<2.0',
         'Django-Safe-EmailBackend<2.0',
         ],
     license='Apache License, Version 2.0',
