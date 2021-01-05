@@ -67,10 +67,10 @@ cronjob:
       command: ["/scripts/management_command.sh"]
       args: ["trumba_gws"]
 
-#    - name: purge-inactive-accs
-#      schedule: "0 9 1 * *"
-#      command: ["/scripts/management_command.sh"]
-#      args: ["purge_accounts"]
+    - name: purge-inactive-accs
+      schedule: "0 10 5 * *"
+      command: ["/scripts/management_command.sh"]
+      args: ["purge_accounts"]
 
 environmentVariables:
   - name: ENV
