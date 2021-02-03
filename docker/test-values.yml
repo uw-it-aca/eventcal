@@ -13,7 +13,10 @@ securityPolicy:
 database:
   engine: null
 memcached:
-  enabled: false
+  enabled: true
+  replicaCount: 1
+  updateStrategy:
+    type: RollingUpdate
 repo: eventcal
 instance: test
 image:
