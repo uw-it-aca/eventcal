@@ -22,7 +22,7 @@ class Command(BaseCommand):
                 for gm in gro_m.gws.get_members(group.name):
                     if (not gm.is_uwnetid() and
                             gm.name is not None and
-                            not gm.name.startswith("u_eventcal"):
+                            not gm.name.startswith("u_eventcal")):
                         ret_list.append(group.name)
 
         sender = get_cronjob_sender()
