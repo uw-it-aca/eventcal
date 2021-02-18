@@ -23,7 +23,7 @@ class Command(BaseCommand):
                     if (not gm.is_uwnetid() and
                             gm.name is not None and
                             not gm.name.startswith("u_eventcal")):
-                        ret_list.append(group.name)
+                        ret_list.append(group.get_group_id())
 
         sender = get_cronjob_sender()
         message = "\n".join(ret_list)
