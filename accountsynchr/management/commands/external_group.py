@@ -19,7 +19,7 @@ class Command(BaseCommand):
                             TrumbaCalendar.BOT_CAMPUS_CODE,
                             TrumbaCalendar.TAC_CAMPUS_CODE):
             for group in gro_m.get_campus_editor_groups(campus_code):
-                for gm in gro_m.gws.get_members(group.name):
+                for gm in gro_m.gws.get_members(group.get_group_id()):
                     if (not gm.is_uwnetid() and
                             gm.name is not None and
                             not gm.name.startswith("u_eventcal")):
