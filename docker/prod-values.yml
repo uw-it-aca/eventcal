@@ -1,17 +1,5 @@
 ingress:
-  enabled: true
-  tls:
-    eventcal:
-      secretName: eventcal.uw.edu-ingress-cert
-      hosts:
-        - eventcal.uw.edu
-  hosts:
-    eventcal:
-      host: eventcal.uw.edu
-      paths:
-        - "/"
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt
+  enabled: false
 lifecycle:
   enabled: true
   preStop:
@@ -30,7 +18,7 @@ memcached:
 repo: eventcal
 instance: prod
 image:
-  repository: registry.hub.docker.com/acait/eventcal
+  repository: gcr.io/uwit-mci-axdd/eventcal
   tag: IMAGE_TAG
 certs:
   mounted: true
@@ -68,7 +56,7 @@ cronjob:
       args: ["trumba_gws"]
 
     - name: purge-inactive-accs
-      schedule: "0 10 5 * *"
+      schedule: "0 10 27 * *"
       command: ["/scripts/management_command.sh"]
       args: ["purge_accounts"]
 

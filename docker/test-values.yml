@@ -1,17 +1,5 @@
 ingress:
-  enabled: true
-  tls:
-    eventcal:
-      secretName: test.eventcal.uw.edu-ingress-cert
-      hosts:
-        - test.eventcal.uw.edu
-  hosts:
-    eventcal:
-      host: test.eventcal.uw.edu
-      paths:
-        - "/"
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt
+  enabled: false
 lifecycle:
   enabled: true
   preStop:
@@ -19,6 +7,8 @@ lifecycle:
 affinity:
   podsSpanNodes: true
 readiness:
+  enabled: true
+securityPolicy:
   enabled: true
 database:
   engine: null
@@ -30,7 +20,7 @@ memcached:
 repo: eventcal
 instance: test
 image:
-  repository: registry.hub.docker.com/acait/eventcal
+  repository: gcr.io/uwit-mci-axdd/eventcal
   tag: IMAGE_TAG
 certs:
   mounted: true
