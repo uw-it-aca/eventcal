@@ -27,8 +27,8 @@ certs:
   certPath: /certs/eventcal.uw.edu-uwca.cert
   keyPath: /certs/eventcal.uw.edu-uwca.key
   secretName: test.eventcal.uw.edu-uwca-certs
-accountData:
-  mounted: true
+mountedSecrets:
+  enabled: true
   mountPath: /csv
   secretName: test.eventcal.uw.edu-data-files
 
