@@ -49,7 +49,7 @@ LOGGING = {
 }
 
 if os.getenv('ENV') != 'localdev':
-    CSV_FILE_PATH = '/app/csv'
+    CSV_FILE_PATH = '/csv'
 
 if os.getenv('ENV', 'localdev') == 'prod':
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
