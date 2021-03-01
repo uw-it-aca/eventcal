@@ -25,6 +25,10 @@ certs:
   certPath: /certs/eventcal.uw.edu-uwca.cert
   keyPath: /certs/eventcal.uw.edu-uwca.key
   secretName: eventcal.uw.edu-uwca-certs
+mountedSecrets:
+  enabled: true
+  mountPath: /csv
+  secretName: eventcal.uw.edu-data-files
 
 cronjob:
   enabled: true
@@ -56,7 +60,7 @@ cronjob:
       args: ["trumba_gws"]
 
     - name: purge-inactive-accs
-      schedule: "0 10 28 * *"
+      schedule: "0 10 2 * *"
       command: ["/scripts/management_command.sh"]
       args: ["purge_accounts"]
 
@@ -100,8 +104,6 @@ externalSecrets:
           property: django-secret
         - name: email-host
           property: email-host
-        - name: git-crypt-key
-          property: git-crypt-key
     - name: eventcal.uw.edu-trumba-secrets
       externalKey: axdd/kv/data/eventcal/shared/trumba-secrets
       data:
@@ -124,6 +126,11 @@ externalSecrets:
           property: eventcal.uw.edu-uwca.cert
         - name: eventcal.uw.edu-uwca.key
           property: eventcal.uw.edu-uwca.key
+    - name: eventcal.uw.edu-data-files
+      externalKey: axdd/kv/data/eventcal/shared/data-files
+      data:
+        - name: accounts.csv
+          property: accounts.csv
 
 environmentVariablesSecrets:
   djangoSecret:
@@ -134,10 +141,6 @@ environmentVariablesSecrets:
     name: EMAIL_HOST
     secretName: eventcal.uw.edu-secrets
     secretKey: email-host
-  gitCryptKey:
-    name: GIT_CRYPT_KEY
-    secretName: eventcal.uw.edu-secrets
-    secretKey: git-crypt-key
   trumbaSeaId:
     name: TRUMBA_SEA_ID
     secretName: eventcal.uw.edu-trumba-secrets
