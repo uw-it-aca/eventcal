@@ -22,7 +22,8 @@ class Command(BaseCommand):
                 err = synchr.get_error_report()
                 sender = get_cronjob_sender()
                 logger.error(err)
-                send_mail("Sync UW Group members to Trumba user and permissions",
+                send_mail(
+                    "Sync UW Group members to Trumba user and permissions",
                     err, sender, [sender])
         except Exception as ex:
             logger.error(ex)
