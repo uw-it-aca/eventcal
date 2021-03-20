@@ -16,11 +16,17 @@ class Command(BaseCommand):
         pass
 
     def handle(self, *args, **options):
-        synchr = TrumbaToGws()
-        synchr.sync()
-        if synchr.has_err():
-            err = synchr.get_error_report()
-            sender = get_cronjob_sender()
-            logger.error(err)
+        try:
+            synchr = TrumbaToGws()
+            synchr.sync()
+            if synchr.has_err():
+                err = synchr.get_error_report()
+                sender = get_cronjob_sender()
+                logger.error(err)
+                send_mail(
+                    "Sync Trumba calendars to UW groups and members",
+                    err, sender, [sender])
+        except Exception as ex:
+            logger.error(ex)
             send_mail("Sync Trumba calendars to UW groups and members",
-                      err, sender, [sender])
+                      ex, sender, [sender])
