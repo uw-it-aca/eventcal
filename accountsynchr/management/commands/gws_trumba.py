@@ -15,8 +15,8 @@ class Command(BaseCommand):
         pass
 
     def handle(self, *args, **options):
-        synchr = GwsToTrumba()
         try:
+            synchr = GwsToTrumba()
             synchr.sync()
             if synchr.has_err():
                 err = synchr.get_error_report()
