@@ -16,7 +16,6 @@ from accountsynchr.util.log import log_resp_time, Timer, log_exception
 
 logger = logging.getLogger(__name__)
 GROUP_NAME = re.compile(r'^u_eventcal_([a-z]{3})_([1-9]\d*)-([es][a-z]{5})$')
-UW_GROUPS = ["uw_member"]
 
 
 class Gws(GWS):
