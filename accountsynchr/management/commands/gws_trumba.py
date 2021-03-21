@@ -15,12 +15,12 @@ class Command(BaseCommand):
         pass
 
     def handle(self, *args, **options):
+        sender = get_cronjob_sender()
         try:
             synchr = GwsToTrumba()
             synchr.sync()
             if synchr.has_err():
                 err = synchr.get_error_report()
-                sender = get_cronjob_sender()
                 logger.error(err)
                 send_mail(
                     "Sync UW Group members to Trumba user and permissions",
