@@ -1,4 +1,4 @@
-FROM gcr.io/uwit-mci-axdd/django-container:1.3.0 as app-container
+FROM gcr.io/uwit-mci-axdd/django-container:1.3.1 as app-container
 
 USER root
 RUN apt-get install -y git-crypt && apt-get install gnupg
