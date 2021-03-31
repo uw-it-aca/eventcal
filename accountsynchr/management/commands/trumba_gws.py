@@ -29,4 +29,4 @@ class Command(BaseCommand):
         except Exception as ex:
             logger.error(ex)
             send_mail("Sync Trumba calendars to UW groups and members",
-                      ex, sender, [sender])
+                      "ERROR: {}".format(ex), sender, [sender])
