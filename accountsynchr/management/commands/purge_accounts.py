@@ -35,7 +35,8 @@ class Command(BaseCommand):
 
             message = "\n".join(msgs)
             sender = get_cronjob_sender()
-            send_mail("Purge Inactive User Accounts", message, sender, [sender])
+            send_mail("Purge Inactive User Accounts",
+                message, sender, [sender])
         except Exception as ex:
             logger.error(ex)
             send_mail("Purge Inactive User Account",
