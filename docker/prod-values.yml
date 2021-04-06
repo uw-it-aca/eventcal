@@ -34,11 +34,11 @@ cronjob:
   enabled: true
   jobs:
     - name: gws-trumba-daytime
-      schedule: "6,18,30,42,54 15-23 * * 1-5"
+      schedule: "6,18,30,42,54 14-23 * * 1-5"
       command: ["/scripts/management_command.sh"]
       args: ["gws_trumba"]
     - name: gws-trumba-evening
-      schedule: "6,18,30,42,54 0-4 * * 2-6"
+      schedule: "6,18,30,42,54 0-2 * * 2-6"
       command: ["/scripts/management_command.sh"]
       args: ["gws_trumba"]
     - name: gws-trumba-weekend
@@ -47,11 +47,11 @@ cronjob:
       args: ["gws_trumba"]
 
     - name: trumba-gws-daytime
-      schedule: "0,12,24,36,48 15-23 * * 1-5"
+      schedule: "0,12,24,36,48 14-23 * * 1-5"
       command: ["/scripts/management_command.sh"]
       args: ["trumba_gws"]
     - name: trumba-gws-evening
-      schedule: "0,12,24,36,48 0-4 * * 2-6"
+      schedule: "0,12,24,36,48 0-2 * * 2-6"
       command: ["/scripts/management_command.sh"]
       args: ["trumba_gws"]
     - name: trumba-gws-weekend
@@ -60,7 +60,7 @@ cronjob:
       args: ["trumba_gws"]
 
     - name: purge-inactive-accs
-      schedule: "0 4 2 * *"
+      schedule: "0 3 2 * *"
       command: ["/scripts/management_command.sh"]
       args: ["purge_accounts"]
 
