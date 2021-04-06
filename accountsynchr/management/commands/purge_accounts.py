@@ -1,4 +1,5 @@
 import logging
+import time
 from django.core.mail import send_mail
 from django.core.management.base import BaseCommand, CommandError
 from accountsynchr.gws_trumba import GwsToTrumba
@@ -12,8 +13,7 @@ class Command(BaseCommand):
     """
     Purge inactive user accounts from Groups and Trumba.
     """
-
-    def handle(self, *args, **options):
+    def run_purge(self):
         msgs = []
         purger = AccountPurger()
         purger.set_accounts_to_purge()
@@ -23,9 +23,9 @@ class Command(BaseCommand):
 
         purger.sync()
         msgs.append("Total accounts purged: {}".format(
-                purger.total_accounts_deleted))
+            purger.total_accounts_deleted))
         msgs.append("Total groups updated: {}".format(
-                purger.total_groups_purged))
+            purger.total_groups_purged))
 
         if purger.has_err():
             err = purger.get_error_report()
@@ -34,4 +34,20 @@ class Command(BaseCommand):
 
         message = "\n".join(msgs)
         sender = get_cronjob_sender()
-        send_mail("Purge Inactive User Accounts", message, sender, [sender])
+        send_mail(
+            "Purge Inactive User Accounts",
+            message, sender, [sender])
+
+    def handle(self, *args, **options):
+        try:
+            self.run_purge()
+        except Exception as ex:
+            logger.error(ex)
+            time.sleep(60)
+            try:
+                self.run_purge()
+            except Exception as ex1:
+                logger.error(ex1)
+                send_mail(
+                    "Purge Inactive User Account",
+                    "{}".format(ex1), sender, [sender])
