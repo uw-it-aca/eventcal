@@ -60,7 +60,7 @@ cronjob:
       args: ["trumba_gws"]
 
     - name: purge-inactive-accs
-      schedule: "0 3 2 * *"
+      schedule: "0 3 1 * *"
       command: ["/scripts/management_command.sh"]
       args: ["purge_accounts"]
 
