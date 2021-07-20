@@ -1,3 +1,6 @@
+# Copyright 2021 UW-IT, University of Washington
+# SPDX-License-Identifier: Apache-2.0
+
 from django.test import TestCase
 from accountsynchr.gws_trumba import GwsToTrumba
 from accountsynchr.tests import fdao_gws_override
