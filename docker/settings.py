@@ -5,48 +5,13 @@ INSTALLED_APPS += [
     'accountsynchr.apps.EventCalConfig',
 ]
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        },
-        'stdout_stream': {
-            '()': 'django.utils.log.CallbackFilter',
-            'callback': lambda record: record.levelno <= logging.WARNING
-        },
-        'stderr_stream': {
-            '()': 'django.utils.log.CallbackFilter',
-            'callback': lambda record: record.levelno >= logging.ERROR
-        }
+LOGGING['formatters'] = {
+    'std': {
+        'format': '%(name)s %(levelname)-4s %(asctime)s %(message)s',
     },
-    'formatters': {
-        'standard': {
-            'format': '%(name)s %(levelname)-4s %(asctime)s %(message)s',
-        }
-    },
-    'handlers': {
-        'stdout': {
-            'class': 'logging.StreamHandler',
-            'stream': sys.stdout,
-            'filters': ['stdout_stream'],
-            'formatter': 'standard',
-        },
-        'stderr': {
-            'class': 'logging.StreamHandler',
-            'stream': sys.stderr,
-            'filters': ['stderr_stream'],
-            'formatter': 'standard',
-        },
-    },
-    'loggers': {
-        '': {
-            'handlers': ['stdout', 'stderr'],
-            'level': 'INFO',
-        },
-    }
 }
+LOGGING['handlers']['stdout']['formatter'] = 'std'
+LOGGING['handlers']['stderr']['formatter'] = 'std'
 
 if os.getenv('ENV') != 'localdev':
     CSV_FILE_PATH = '/csv'
