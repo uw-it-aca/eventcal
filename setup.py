@@ -22,7 +22,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'Django~=2.2.24',
-        'lxml==4.6.2',
+        'lxml==4.6.3',
         'uw-memcached-clients~=1.0.10',
         'UW-RestClients-Core~=1.3.8',
         'UW-RestClients-GWS~=2.3.4',
