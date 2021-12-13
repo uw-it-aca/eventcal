@@ -39,7 +39,7 @@ cronjob:
       args: ["gws_trumba"]
       resources:
         limits:
-          cpu: 400m
+          cpu: 200m
           memory: 512Mi
         requests:
           cpu: 50m
@@ -50,7 +50,7 @@ cronjob:
       args: ["gws_trumba"]
       resources:
         limits:
-          cpu: 200m
+          cpu: 125m
           memory: 512Mi
         requests:
           cpu: 50m
@@ -73,7 +73,7 @@ cronjob:
       args: ["trumba_gws"]
       resources:
         limits:
-          cpu: 300m
+          cpu: 400m
           memory: 512Mi
         requests:
           cpu: 50m
@@ -84,7 +84,7 @@ cronjob:
       args: ["trumba_gws"]
       resources:
         limits:
-          cpu: 125m
+          cpu: 200m
           memory: 512Mi
         requests:
           cpu: 25m
@@ -95,7 +95,7 @@ cronjob:
       args: ["trumba_gws"]
       resources:
         limits:
-          cpu: 100m
+          cpu: 150m
           memory: 512Mi
         requests:
           cpu: 25m
