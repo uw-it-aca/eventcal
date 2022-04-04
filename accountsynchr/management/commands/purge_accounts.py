@@ -1,5 +1,6 @@
-# Copyright 2021 UW-IT, University of Washington
+# Copyright 2022 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
+
 
 import logging
 import time
@@ -51,6 +52,7 @@ class Command(BaseCommand):
                 self.run_purge()
             except Exception as ex1:
                 logger.error(ex1)
+                sender = get_cronjob_sender()
                 send_mail(
                     "Purge Inactive User Account",
                     "{}".format(ex1), sender, [sender])
