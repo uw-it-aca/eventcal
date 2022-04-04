@@ -51,6 +51,7 @@ class Command(BaseCommand):
                 self.run_purge()
             except Exception as ex1:
                 logger.error(ex1)
+                sender = get_cronjob_sender()
                 send_mail(
                     "Purge Inactive User Account",
                     "{}".format(ex1), sender, [sender])
