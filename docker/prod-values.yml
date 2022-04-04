@@ -37,32 +37,81 @@ cronjob:
       schedule: "6,18,30,42,54 14-23 * * 1-5"
       command: ["/scripts/management_command.sh"]
       args: ["gws_trumba"]
+      resources:
+        limits:
+          cpu: 200m
+          memory: 512Mi
+        requests:
+          cpu: 50m
+          memory: 256Mi
     - name: gws-trumba-evening
       schedule: "6,18,30,42,54 0-2 * * 2-6"
       command: ["/scripts/management_command.sh"]
       args: ["gws_trumba"]
+      resources:
+        limits:
+          cpu: 125m
+          memory: 512Mi
+        requests:
+          cpu: 50m
+          memory: 256Mi
     - name: gws-trumba-weekend
       schedule: "0 5 * * 0,1"
       command: ["/scripts/management_command.sh"]
       args: ["gws_trumba"]
+      resources:
+        limits:
+          cpu: 100m
+          memory: 512Mi
+        requests:
+          cpu: 50m
+          memory: 256Mi
 
     - name: trumba-gws-daytime
       schedule: "0,12,24,36,48 14-23 * * 1-5"
       command: ["/scripts/management_command.sh"]
       args: ["trumba_gws"]
+      resources:
+        limits:
+          cpu: 400m
+          memory: 512Mi
+        requests:
+          cpu: 50m
+          memory: 256Mi
     - name: trumba-gws-evening
       schedule: "0,12,24,36,48 0-2 * * 2-6"
       command: ["/scripts/management_command.sh"]
       args: ["trumba_gws"]
+      resources:
+        limits:
+          cpu: 200m
+          memory: 512Mi
+        requests:
+          cpu: 25m
+          memory: 256Mi
     - name: trumba-gws-weekend
       schedule: "30 5 * * 0,1"
       command: ["/scripts/management_command.sh"]
       args: ["trumba_gws"]
+      resources:
+        limits:
+          cpu: 150m
+          memory: 512Mi
+        requests:
+          cpu: 25m
+          memory: 256Mi
 
     - name: purge-inactive-accs
-      schedule: "0 10 1 * *"
+      schedule: "0 10 2 * *"
       command: ["/scripts/management_command.sh"]
       args: ["purge_accounts"]
+      resources:
+        limits:
+          cpu: 100m
+          memory: 256Mi
+        requests:
+          cpu: 25m
+          memory: 128Mi
 
 environmentVariables:
   - name: ENV
