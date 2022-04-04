@@ -1,6 +1,7 @@
 # Copyright 2022 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
+
 import logging
 from uw_trumba.models import TrumbaCalendar, EDITOR, SHOWON
 from accountsynchr.syncer import Syncer

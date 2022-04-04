@@ -1,6 +1,7 @@
 # Copyright 2022 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
+
 from copy import deepcopy
 import logging
 from uw_trumba.models import TrumbaCalendar
