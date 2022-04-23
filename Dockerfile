@@ -1,4 +1,4 @@
-FROM gcr.io/uwit-mci-axdd/django-container:1.3.8 as app-container
+FROM gcr.io/uwit-mci-axdd/django-container:1.4.0 as app-container
 
 USER root
 RUN apt-get install -y git-crypt && apt-get install gnupg
@@ -14,6 +14,6 @@ ADD --chown=acait:acait docker/ project/
 
 #RUN . /app/bin/activate && python manage.py test
 
-FROM gcr.io/uwit-mci-axdd/django-test-container:1.3.8 as app-test-container
+FROM gcr.io/uwit-mci-axdd/django-test-container:1.4.0 as app-test-container
 
 COPY --from=app-container /app/ /app/
