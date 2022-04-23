@@ -1,6 +1,7 @@
 # Copyright 2022 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
+
 import logging
 from django.core.mail import send_mail
 from django.core.management.base import BaseCommand, CommandError
