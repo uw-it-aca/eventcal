@@ -24,8 +24,8 @@ setup(
     author_email="aca-it@uw.edu",
     include_package_data=True,
     install_requires=[
-        'Django~=2.2',
-        'lxml==4.6.5',
+        'Django~=3.2',
+        'lxml',
         'uw-memcached-clients~=1.0.10',
         'UW-RestClients-Core~=1.3.8',
         'UW-RestClients-GWS~=2.3.5',
