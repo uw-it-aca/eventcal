@@ -173,7 +173,7 @@ externalSecrets:
       data:
         - name: eventcal.washington.edu-ic.cert
           property: eventcal.washington.edu-ic.cert
-        - name: eventcal.washington.edu-ic.cert
+        - name: eventcal.washington.edu-ic.key
           property: eventcal.washington.edu-ic.key
     - name: eventcal.uw.edu-data-files
       externalKey: axdd/kv/data/eventcal/shared/data-files
