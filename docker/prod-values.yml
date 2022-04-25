@@ -22,9 +22,9 @@ image:
   tag: IMAGE_TAG
 certs:
   mounted: true
-  certPath: /certs/eventcal.uw.edu-uwca.cert
-  keyPath: /certs/eventcal.uw.edu-uwca.key
-  secretName: eventcal.uw.edu-uwca-certs
+  certPath: /certs/eventcal.washington.edu-ic.cert
+  keyPath: /certs/eventcal.washington.edu-ic.key
+  secretName: eventcal.uw.edu-ic-certs
 mountedSecrets:
   enabled: true
   mountPath: /csv
@@ -168,13 +168,13 @@ externalSecrets:
           property: trumba-tac-id
         - name: trumba-tac-pswd
           property: trumba-tac-pswd
-    - name: eventcal.uw.edu-uwca-certs
-      externalKey: axdd/kv/data/eventcal/shared/uwca-certs
+    - name: eventcal.uw.edu-ic-certs
+      externalKey: axdd/kv/data/eventcal/shared/ic-certs
       data:
-        - name: eventcal.uw.edu-uwca.cert
-          property: eventcal.uw.edu-uwca.cert
-        - name: eventcal.uw.edu-uwca.key
-          property: eventcal.uw.edu-uwca.key
+        - name: eventcal.washington.edu-ic.cert
+          property: eventcal.washington.edu-ic.cert
+        - name: eventcal.washington.edu-ic.cert
+          property: eventcal.washington.edu-ic.key
     - name: eventcal.uw.edu-data-files
       externalKey: axdd/kv/data/eventcal/shared/data-files
       data:
