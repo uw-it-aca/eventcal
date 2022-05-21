@@ -17,9 +17,7 @@ memcached:
     type: RollingUpdate
 repo: eventcal
 instance: prod
-image:
-  repository: gcr.io/uwit-mci-axdd/eventcal
-  tag: IMAGE_TAG
+
 certs:
   mounted: true
   certPath: /certs/eventcal.washington.edu-ic.cert
@@ -147,14 +145,14 @@ externalSecrets:
   enabled: true
   secrets:
     - name: eventcal.uw.edu-secrets
-      externalKey: axdd/kv/data/eventcal/prod/secrets
+      externalKey: eventcal/prod/secrets
       data:
         - name: django-secret
           property: django-secret
         - name: email-host
           property: email-host
     - name: eventcal.uw.edu-trumba-secrets
-      externalKey: axdd/kv/data/eventcal/shared/trumba-secrets
+      externalKey: eventcal/shared/trumba-secrets
       data:
         - name: trumba-sea-id
           property: trumba-sea-id
@@ -169,14 +167,14 @@ externalSecrets:
         - name: trumba-tac-pswd
           property: trumba-tac-pswd
     - name: eventcal.uw.edu-ic-certs
-      externalKey: axdd/kv/data/eventcal/shared/ic-certs
+      externalKey: eventcal/shared/ic-certs
       data:
         - name: eventcal.washington.edu-ic.cert
           property: eventcal.washington.edu-ic.cert
         - name: eventcal.washington.edu-ic.key
           property: eventcal.washington.edu-ic.key
     - name: eventcal.uw.edu-data-files
-      externalKey: axdd/kv/data/eventcal/shared/data-files
+      externalKey: eventcal/shared/data-files
       data:
         - name: accounts.csv
           property: accounts.csv
