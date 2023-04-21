@@ -1,4 +1,4 @@
-# Copyright 2022 UW-IT, University of Washington
+# Copyright 2023 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
 import os
@@ -26,10 +26,10 @@ setup(
     install_requires=[
         'Django~=3.2',
         'lxml',
-        'uw-memcached-clients~=1.0.10',
-        'UW-RestClients-Core~=1.3.8',
-        'UW-RestClients-GWS~=2.3.5',
-        'UW-RestClients-Trumba~=1.3.7',
+        'uw-memcached-clients~=1.0',
+        'UW-RestClients-Core~=1.4',
+        'UW-RestClients-GWS~=2.3',
+        'UW-RestClients-Trumba~=1.4',
         'Django-Safe-EmailBackend~=1.2',
         ],
     license='Apache License, Version 2.0',
