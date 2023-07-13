@@ -10,8 +10,6 @@ readiness:
   enabled: true
 securityPolicy:
   enabled: true
-database:
-  engine: null
 memcached:
   enabled: true
   replicaCount: 1
@@ -19,6 +17,18 @@ memcached:
     type: RollingUpdate
 repo: eventcal
 instance: test
+
+externalService:
+  enabled: true
+  name: eventcal-db-service
+  type: ClusterIP
+  serviceAddress: 172.18.1.49
+  servicePort: 5432
+database:
+  engine: postgres
+  name: eventcal
+  hostname: eventcal-db-service
+  secretName: eventcal.uw.edu-sql-secrets
 
 certs:
   mounted: true
@@ -75,6 +85,13 @@ externalSecrets:
           property: email-host
         - name: safe-email-recipient
           property: safe-email-recipient
+    - name: eventcal.uw.edu-sql-secrets
+      externalKey: eventcal/shared/sql-secrets
+      data:
+        - name: username
+          property: username
+        - name: password
+          property: password
     - name: test.eventcal.uw.edu-trumba-secrets
       externalKey: eventcal/shared/trumba-secrets
       data:
