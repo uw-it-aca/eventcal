@@ -17,14 +17,14 @@ class Migration(migrations.Migration):
             name='GCalendar',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('calendar_id', models.PositiveIntegerField(db_index=True)),
+                ('calendarid', models.PositiveIntegerField(db_index=True)),
                 ('campus', models.CharField(max_length=3)),
                 ('name', models.CharField(default=None, max_length=255)),
                 ('last_updated', models.DateTimeField()),
             ],
             options={
                 'db_table': 'accountsynchr_gcalendar',
-                'unique_together': {('calendar_id', 'campus')},
+                'unique_together': {('calendarid', 'campus')},
             },
         ),
     ]

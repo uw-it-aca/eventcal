@@ -10,7 +10,7 @@ from uw_trumba.models import TrumbaCalendar
 
 
 class GCalendar(models.Model):
-    calendar_id = models.PositiveIntegerField(db_index=True)
+    calendarid = models.PositiveIntegerField(db_index=True)
     campus = models.CharField(max_length=3)
     name = models.CharField(max_length=255, default=None)
     last_updated = models.DateTimeField(editable=True)
@@ -26,6 +26,9 @@ class GCalendar(models.Model):
     def __hash__(self):
         return super().__hash__()
 
+    def __init__(self, *args, **kwargs):
+        super(GCalendar, self).__init__(*args, **kwargs)
+
     def __lt__(self, other):
         return (self.campus == other.campus and
                 self.name < other.name)
@@ -36,17 +39,27 @@ class GCalendar(models.Model):
     @classmethod
     def exists(cls, trumba_calendar):
         return GCalendar.objects.filter(
-            calendar_id=trumba_calendar.calendar_id).filter(
+            calendarid=trumba_calendar.calendarid,
             campus=trumba_calendar.campus).exists()
+
+    @classmethod
+    @transaction.atomic
+    def create(cls, trumba_calendar):
+        obj = GCalendar(
+            calendarid=trumba_calendar.calendarid,
+            campus=trumba_calendar.campus,
+            name=trumba_calendar.name,
+            last_updated=timezone.now())
+        obj.save()
+        return obj
 
     @classmethod
     @transaction.atomic
     def update(cls, trumba_calendar):
         obj = GCalendar.objects.select_for_update().get(
-            calendar_id=trumba_calendar.calendarid,
+            calendarid=trumba_calendar.calendarid,
             campus=trumba_calendar.campus)
-        obj.calendar_id = trumba_calendar.calendarid
-        obj.campus = trumba_calendar.campus
+        obj.name = trumba_calendar.name
         obj.last_updated = timezone.now()
         obj.save()
         return obj
@@ -54,4 +67,4 @@ class GCalendar(models.Model):
     class Meta:
         app_label = 'accountsynchr'
         db_table = "accountsynchr_gcalendar"
-        unique_together = (("calendar_id", "campus"),)
+        unique_together = (("calendarid", "campus"),)
