@@ -101,12 +101,12 @@ class UwcalGroup(models.Model):
         self.members = []  # a list of uw_gws.GroupMember
 
 
-def new_editor_group(trumba_cal):
-    return UwcalGroup(calendar=trumba_cal, gtype=EDITOR, group_ref=None)
+def new_editor_group(trumba_cal, group_ref=None):
+    return UwcalGroup(calendar=trumba_cal, gtype=EDITOR, group_ref=group_ref)
 
 
-def new_showon_group(trumba_cal):
-    return UwcalGroup(calendar=trumba_cal, gtype=SHOWON, group_ref=None)
+def new_showon_group(trumba_cal, group_ref=None):
+    return UwcalGroup(calendar=trumba_cal, gtype=SHOWON, group_ref=group_ref)
 
 
 def get_cal_name(display_name):

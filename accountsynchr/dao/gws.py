@@ -124,6 +124,18 @@ class Gws(GWS):
             log_resp_time(logger, action, timer)
         return None
 
+    def get_uw_group(self, trumba_calendar, type):
+        """
+        Returns a restclients.gws Group object
+        """
+        group_id = trumba_calendar.get_group_name(type)
+        action = "get_{}_group {}".format(type, group_id)
+        try:
+            return self.get_group_by_id(group_id)
+        except DataFailureException:
+            log_exception(logger, action, traceback.format_exc(chain=False))
+        return None
+
 
 def _convert_to_uwcalgroup(group_ref):
     m = GROUP_NAME.match(group_ref.name)
