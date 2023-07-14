@@ -90,7 +90,7 @@ class TrumbaGwsLite:
         Create the corrsponding editor group
         or update the group general info
         """
-        uw_editor_group = self.gws.get_uw_group(trumba_cal, EDITOR)
+        uw_editor_group = self.gws.get_uwgroup(trumba_cal, EDITOR)
         editor_uwcalgroup = new_editor_group(
             trumba_cal, uw_editor_group)
         ret_group = self.gsw.put_group(editor_uwcalgroup)
@@ -105,7 +105,7 @@ class TrumbaGwsLite:
         Create the corrsponding showon group
         or update the group general info
         """
-        uw_showon_group = self.gws.get_uw_group(trumba_cal, SHOWON)
+        uw_showon_group = self.gws.get_uwgroup(trumba_cal, SHOWON)
         showon_uwcalgroup = new_showon_group(
             trumba_cal, uw_showon_group)
         ret_group = self.self.gsw.put_group(showon_uwcalgroup)

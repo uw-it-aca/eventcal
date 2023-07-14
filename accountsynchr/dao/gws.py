@@ -124,7 +124,7 @@ class Gws(GWS):
             log_resp_time(logger, action, timer)
         return None
 
-    def get_uw_group(self, trumba_calendar, type):
+    def get_uwgroup(self, trumba_calendar, type):
         """
         Returns a restclients.gws Group object
         """
