@@ -12,7 +12,7 @@ from uw_trumba.models import TrumbaCalendar
 class GCalendar(models.Model):
     calendar_id = models.PositiveIntegerField(db_index=True)
     campus = models.CharField(max_length=3)
-    name = models.CharField(max_length=128, default=None)
+    name = models.CharField(max_length=255, default=None)
     last_updated = models.DateTimeField(editable=True)
 
     def to_json(self):
