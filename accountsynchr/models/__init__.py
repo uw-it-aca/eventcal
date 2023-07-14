@@ -5,9 +5,9 @@
 import json
 import re
 from restclients_core import models
-from uw_gws.models import GroupReference
 from uw_trumba.models import (
     TrumbaCalendar, is_editor, is_showon, EDITOR, SHOWON)
+from accountsynchr.models.gcalendar import GCalendar
 
 
 class UwcalGroup(models.Model):
