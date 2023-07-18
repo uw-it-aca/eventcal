@@ -19,7 +19,7 @@ class TestModels(TransactionTestCase):
 
         records = GCalendar.objects.all()
         self.assertEqual(len(records), 6)
-        
+
         self.assertTrue(GCalendar.exists(trumba_cal))
 
         obj = GCalendar.update(TrumbaCalendar(
