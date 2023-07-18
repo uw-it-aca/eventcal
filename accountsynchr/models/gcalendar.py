@@ -6,7 +6,6 @@ import json
 from django.db import models
 from django.db import transaction
 from django.utils import timezone
-from uw_trumba.models import TrumbaCalendar
 
 
 class GCalendar(models.Model):
@@ -38,6 +37,7 @@ class GCalendar(models.Model):
 
     @classmethod
     def exists(cls, trumba_calendar):
+        # uw_trumba.models.TrumbaCalendar
         return GCalendar.objects.filter(
             calendarid=trumba_calendar.calendarid,
             campus=trumba_calendar.campus).exists()
@@ -45,12 +45,11 @@ class GCalendar(models.Model):
     @classmethod
     @transaction.atomic
     def create(cls, trumba_calendar):
-        obj = GCalendar(
+        obj = GCalendar.objects.create(
             calendarid=trumba_calendar.calendarid,
             campus=trumba_calendar.campus,
             name=trumba_calendar.name,
             last_updated=timezone.now())
-        obj.save()
         return obj
 
     @classmethod

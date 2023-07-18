@@ -84,10 +84,13 @@ class UwcalGroup(models.Model):
             'members': [m.json_data() for m in self.members]}
 
     def __eq__(self, other):
-        return (
-            self.calendar == other.calendar and
-            self.gtype == other.gtype and
-            self.group_ref == other.group_ref)
+        try:
+            return (
+                self.calendar == other.calendar and
+                self.gtype == other.gtype and
+                self.group_ref == other.group_ref)
+        except Exception:
+            return False
 
     def __hash__(self):
         return super().__hash__()
