@@ -44,7 +44,7 @@ class TrumbaGwsLite:
         """
         self.collect_changes()
         if len(self.updated_cals):
-            for trumba_cal in self.updated_gcals:
+            for trumba_cal in self.updated_cals:
                 self.put_editor_group(trumba_cal)
                 self.put_showon_group(trumba_cal)
             self.log_report()
@@ -93,7 +93,7 @@ class TrumbaGwsLite:
         uw_editor_group = self.gws.get_uwgroup(trumba_cal, EDITOR)
         editor_uwcalgroup = new_editor_group(
             trumba_cal, uw_editor_group)
-        ret_group = self.gsw.put_group(editor_uwcalgroup)
+        ret_group = self.gws.put_group(editor_uwcalgroup)
         if ret_group is None:
             self.append_error("Failed to update editor group {0}\n".format(
                 editor_uwcalgroup))
@@ -108,7 +108,7 @@ class TrumbaGwsLite:
         uw_showon_group = self.gws.get_uwgroup(trumba_cal, SHOWON)
         showon_uwcalgroup = new_showon_group(
             trumba_cal, uw_showon_group)
-        ret_group = self.self.gsw.put_group(showon_uwcalgroup)
+        ret_group = self.gws.put_group(showon_uwcalgroup)
         if ret_group is None:
             self.append_error("Failed to update showon group {0}\n".format(
                 showon_uwcalgroup))

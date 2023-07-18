@@ -21,16 +21,17 @@ class Command(BaseCommand):
         pass
 
     def handle(self, *args, **options):
+        GCalendar.objects.all().delete()
         for choice in TrumbaCalendar.CAMPUS_CHOICES:
             campus_code = choice[0]
             cals = trumba_cals.get_campus_calendars(campus_code)
             if cals:
-                GCalendar.objects.all().delete()
                 for trumba_calendar in cals:
                     try:
-                        GCalendar.create(trumba_calendar)
+                        obj = GCalendar.create(trumba_calendar)
+                        logger.info(obj)
                     except Exception as ex:
-                        logger.error("Failed to add: {}\n".format(
+                        logger.error("Failed to add {}\n".format(
                             {'calendarid': trumba_calendar.calendarid,
                              'campus': trumba_calendar.campus,
                              'name': trumba_calendar.name,

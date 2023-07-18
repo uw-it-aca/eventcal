@@ -2,11 +2,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 
-from django.test import TestCase
+from django.test import TransactionTestCase
 from django.core.management import call_command
+from accountsynchr.models.gcalendar import GCalendar
 
 
-class TestCommands(TestCase):
+class TestCommands(TransactionTestCase):
 
     def test_accounts_vs_members(self):
         call_command('accounts_vs_members')
@@ -36,3 +37,13 @@ class TestCommands(TestCase):
     def test_purge_accounts(self):
         call_command('purge_accounts')
         call_command('acc_rm_notify', 'sdummyp')
+
+    def test_load_gcal(self):
+        call_command('load_gcal')
+        records = GCalendar.objects.all()
+        self.assertEqual(len(records), 6)
+
+    def test_trumba_gcal_gws(self):
+        call_command('trumba_gcal_gws')
+        records = GCalendar.objects.all()
+        self.assertEqual(len(records), 6)
