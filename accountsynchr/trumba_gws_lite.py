@@ -18,6 +18,7 @@ class TrumbaGwsLite:
         self.gws = Gws()
         self.updated_cals = []
         self.errors = []
+        self.ttl_gcal_updated = 0
         self.ttl_editor_grps_synced = 0
         self.ttl_showon_grp_synced = 0
 
@@ -31,9 +32,11 @@ class TrumbaGwsLite:
         return len(self.errors) > 0
 
     def log_report(self):
-        logger.info("{0:d} editor groups sync-ed".format(
+        logger.info("Updated {0:d} gcal records".format(
+            self.ttl_gcal_updated))
+        logger.info("Sync-ed {0:d} editor groups.".format(
             self.ttl_editor_grps_synced))
-        logger.info("{0:d} showon groups sync-ed".format(
+        logger.info("Sync-ed {0:d} showon groups".format(
             self.ttl_showon_grp_synced))
         if self.has_err():
             logger.error(self.get_error_report())
@@ -43,33 +46,36 @@ class TrumbaGwsLite:
         Synchronizes calendar changes from Trumba to GCal to UW Groups
         """
         self.collect_changes()
-        if len(self.updated_cals):
+        logger.info("Total {0:d} calendar changes".format(
+            len(self.updated_cals)))
+        if len(self.updated_cals) > 0:
             for trumba_cal in self.updated_cals:
+                if self.save_gcal(trumba_cal) is not None:
+                    self.ttl_gcal_updated += 1
                 self.put_editor_group(trumba_cal)
                 self.put_showon_group(trumba_cal)
             self.log_report()
-        else:
-            logger.info("No change detected.")
 
     def collect_changes(self):
         for choice in TrumbaCalendar.CAMPUS_CHOICES:
             campus_code = choice[0]
             if self.trumba_cals.exists(campus_code):
                 calendars = self.trumba_cals.get_campus_calendars(campus_code)
+                logger.info("Total {} {} calendars".format(
+                    len(calendars), campus_code))
                 for trumba_calendar in calendars:
                     if not GCalendar.exists(trumba_calendar):
-                        # it is a new calendar, create editor, showon groups
+                        # For new calendar, create editor, showon groups
                         trumba_calendar.is_new = True
-                        if self.save_gcal(trumba_calendar) is not None:
-                            self.updated_cals.append(trumba_calendar)
+                        self.updated_cals.append(trumba_calendar)
                     else:
+                        # Existing calendar, check if name has been changed
                         gcal = GCalendar.objects.get(
                             calendarid=trumba_calendar.calendarid,
                             campus=trumba_calendar.campus)
                         if gcal.name != trumba_calendar.name:
                             trumba_calendar.is_new = False
-                            if self.save_gcal(trumba_calendar) is not None:
-                                self.updated_cals.append(trumba_calendar)
+                            self.updated_cals.append(trumba_calendar)
 
     def save_gcal(self, trumba_calendar):
         try:
