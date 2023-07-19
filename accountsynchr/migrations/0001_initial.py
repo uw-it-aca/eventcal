@@ -16,7 +16,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='GCalendar',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(
+                    auto_created=True, primary_key=True,
+                    serialize=False, verbose_name='ID')),
                 ('calendarid', models.PositiveIntegerField(db_index=True)),
                 ('campus', models.CharField(max_length=3)),
                 ('name', models.CharField(default=None, max_length=255)),
