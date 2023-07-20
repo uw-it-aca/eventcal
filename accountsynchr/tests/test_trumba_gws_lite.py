@@ -19,4 +19,4 @@ class TestTrumbaGwsLite(TransactionTestCase):
         self.assertTrue(tg.has_err())
         self.assertTrue(len(tg.get_error_report()) > 0)
         records = GCalendar.objects.all()
-        self.assertEqual(len(records), 6)
+        self.assertEqual(len(records), 2)

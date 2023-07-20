@@ -46,4 +46,4 @@ class TestCommands(TransactionTestCase):
     def test_trumba_gcal_gws(self):
         call_command('trumba_gcal_gws')
         records = GCalendar.objects.all()
-        self.assertEqual(len(records), 6)
+        self.assertEqual(len(records), 2)

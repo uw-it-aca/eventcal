@@ -50,10 +50,24 @@ class TrumbaGwsLite:
             len(self.updated_cals)))
         if len(self.updated_cals) > 0:
             for trumba_cal in self.updated_cals:
+                if self.put_editor_group(trumba_cal) is None:
+                    self.append_error(
+                        "Failed to update editor group of {0}\n".format(
+                            trumba_cal))
+                    continue
+                else:
+                    self.ttl_editor_grps_synced += 1
+
+                if self.put_showon_group(trumba_cal) is None:
+                    self.append_error(
+                        "Failed to update showon group of {0}\n".format(
+                            trumba_cal))
+                    continue
+                else:
+                    self.ttl_showon_grp_synced += 1
+
                 if self.save_gcal(trumba_cal) is not None:
                     self.ttl_gcal_updated += 1
-                self.put_editor_group(trumba_cal)
-                self.put_showon_group(trumba_cal)
             self.log_report()
 
     def collect_changes(self):
@@ -99,12 +113,7 @@ class TrumbaGwsLite:
         uw_editor_group = self.gws.get_uwgroup(trumba_cal, EDITOR)
         editor_uwcalgroup = new_editor_group(
             trumba_cal, uw_editor_group)
-        ret_group = self.gws.put_group(editor_uwcalgroup)
-        if ret_group is None:
-            self.append_error("Failed to update editor group {0}\n".format(
-                editor_uwcalgroup))
-            return
-        self.ttl_editor_grps_synced += 1
+        return self.gws.put_group(editor_uwcalgroup)
 
     def put_showon_group(self, trumba_cal):
         """
@@ -114,9 +123,4 @@ class TrumbaGwsLite:
         uw_showon_group = self.gws.get_uwgroup(trumba_cal, SHOWON)
         showon_uwcalgroup = new_showon_group(
             trumba_cal, uw_showon_group)
-        ret_group = self.gws.put_group(showon_uwcalgroup)
-        if ret_group is None:
-            self.append_error("Failed to update showon group {0}\n".format(
-                showon_uwcalgroup))
-            return
-        self.ttl_showon_grp_synced += 1
+        return self.gws.put_group(showon_uwcalgroup)
