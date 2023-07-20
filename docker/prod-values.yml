@@ -20,7 +20,7 @@ externalService:
   enabled: true
   name: eventcal-db-service
   type: ClusterIP
-  serviceAddress: 172.18.1.49
+  serviceAddress: 172.18.1.41
   servicePort: 5432
 database:
   engine: postgres
@@ -174,7 +174,7 @@ externalSecrets:
         - name: username
           property: username
         - name: password
-          property: password
+          property: userpass
     - name: eventcal.uw.edu-trumba-secrets
       externalKey: eventcal/shared/trumba-secrets
       data:
