@@ -49,25 +49,7 @@ class TrumbaGwsLite:
         logger.info("Total {0:d} calendar changes".format(
             len(self.updated_cals)))
         if len(self.updated_cals) > 0:
-            for trumba_cal in self.updated_cals:
-                if self.put_editor_group(trumba_cal) is None:
-                    self.append_error(
-                        "Failed to update editor group of {0}\n".format(
-                            trumba_cal))
-                    continue
-                else:
-                    self.ttl_editor_grps_synced += 1
-
-                if self.put_showon_group(trumba_cal) is None:
-                    self.append_error(
-                        "Failed to update showon group of {0}\n".format(
-                            trumba_cal))
-                    continue
-                else:
-                    self.ttl_showon_grp_synced += 1
-
-                if self.save_gcal(trumba_cal) is not None:
-                    self.ttl_gcal_updated += 1
+            self.make_changes()
             self.log_report()
 
     def collect_changes(self):
@@ -91,19 +73,26 @@ class TrumbaGwsLite:
                             trumba_calendar.is_new = False
                             self.updated_cals.append(trumba_calendar)
 
-    def save_gcal(self, trumba_calendar):
-        try:
-            if trumba_calendar.is_new:
-                return GCalendar.create(trumba_calendar)
+    def make_changes(self):
+        for trumba_cal in self.updated_cals:
+            if self.put_editor_group(trumba_cal) is None:
+                self.append_error(
+                    "Failed to update editor group of {0}\n".format(
+                        trumba_cal))
+                continue
             else:
-                return GCalendar.update(trumba_calendar)
-        except Exception as ex:
-            self.append_error("Failed to {} GCalendar: {}\n".format(
-                "create" if trumba_calendar.is_new else "update",
-                {'calendarid': trumba_calendar.calendarid,
-                 'campus': trumba_calendar.campus,
-                 'name': trumba_calendar.name}))
-        return None
+                self.ttl_editor_grps_synced += 1
+
+            if self.put_showon_group(trumba_cal) is None:
+                self.append_error(
+                    "Failed to update showon group of {0}\n".format(
+                        trumba_cal))
+                continue
+            else:
+                self.ttl_showon_grp_synced += 1
+
+            if self.save_gcal(trumba_cal) is not None:
+                self.ttl_gcal_updated += 1
 
     def put_editor_group(self, trumba_cal):
         """
@@ -124,3 +113,17 @@ class TrumbaGwsLite:
         showon_uwcalgroup = new_showon_group(
             trumba_cal, uw_showon_group)
         return self.gws.put_group(showon_uwcalgroup)
+
+    def save_gcal(self, trumba_calendar):
+        try:
+            if trumba_calendar.is_new:
+                return GCalendar.create(trumba_calendar)
+            else:
+                return GCalendar.update(trumba_calendar)
+        except Exception as ex:
+            self.append_error("Failed to {} GCalendar: {}\n".format(
+                "create" if trumba_calendar.is_new else "update",
+                {'calendarid': trumba_calendar.calendarid,
+                 'campus': trumba_calendar.campus,
+                 'name': trumba_calendar.name}))
+        return None
