@@ -4,6 +4,7 @@
 
 from django.test import TransactionTestCase
 from unittest.mock import patch
+from uw_trumba.models import TrumbaCalendar
 from accountsynchr.models.gcalendar import GCalendar
 from accountsynchr.dao.gws import Gws
 from accountsynchr.trumba_gws_lite import TrumbaGwsLite
@@ -15,6 +16,8 @@ class TestTrumbaGwsLite(TransactionTestCase):
 
     @patch.object(Gws, 'put_group')
     def test_sync_success(self, mock):
+        GCalendar.create(
+            TrumbaCalendar(calendarid=1, campus="sea", name="Seattle"))
         mock.return_value = 1
         tg = TrumbaGwsLite()
         tg.sync()
@@ -25,6 +28,7 @@ class TestTrumbaGwsLite(TransactionTestCase):
         self.assertTrue(len(tg.get_error_report()) == 0)
         records = GCalendar.objects.all()
         self.assertEqual(len(records), 6)
+        self.assertEqual(records[0].name, "Seattle Campus")
 
     @patch.object(TrumbaGwsLite, 'put_editor_group')
     def test_sync_showon_failure(self, mock):
