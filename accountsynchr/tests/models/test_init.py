@@ -6,7 +6,7 @@ from django.test import TestCase
 from uw_gws.models import GroupReference
 from uw_trumba.models import TrumbaCalendar
 from accountsynchr.models import (
-    UwcalGroup, new_editor_group, new_showon_group, get_cal_name)
+    new_editor_group, new_showon_group, get_cal_name)
 
 
 class TestModels(TestCase):
@@ -16,7 +16,6 @@ class TestModels(TestCase):
         editor_gr = new_editor_group(trumba_cal)
         editor_gr.set_calendar_name("Bothell >> Dean's Office")
         self.assertEqual(trumba_cal.name, "Bothell >> Dean's Office")
-        showon_gr = new_showon_group(trumba_cal)
 
         # UwcalGroup methods
         self.assertEqual(editor_gr.get_calendarid(), 2)
@@ -33,6 +32,7 @@ class TestModels(TestCase):
         self.assertEqual(editor_gr.get_member_manager(),
                          "u_eventcal_bot_2-editor")
 
+        showon_gr = new_showon_group(trumba_cal)
         self.assertTrue(editor_gr.is_editor_group())
         self.assertFalse(showon_gr.is_editor_group())
         self.assertFalse(editor_gr.is_showon_group())

@@ -4,7 +4,7 @@
 
 from django.test import TestCase
 from django.conf import settings
-from restclients_core.exceptions import DataFailureException
+from uw_trumba.models import TrumbaCalendar
 from accountsynchr.dao.gws import (
     Gws, _convert_to_gwsgroup, _convert_to_uwcalgroup)
 from uw_gws.models import GroupReference
@@ -107,6 +107,14 @@ class TestGws(TestCase):
         self.assertTrue(gws.is_existing_editor("sdummye"))
         self.assertTrue(gws.is_existing_editor("sdummys"))
         self.assertTrue(gws.is_existing_editor("tdummye"))
+
+    def test_get_uwgroup(self):
+        gws = Gws()
+        cal = TrumbaCalendar(
+            calendarid="2", campus='bot',
+            name="Bothell Campus calendar editor group")
+        grp = gws.get_uwgroup(cal, 'editor')
+        self.assertEqual(grp.uwregid, "806cdfb7c41843b6833e5c860b0dc615")
 
     def test_put_groups(self):
         gws = Gws()
