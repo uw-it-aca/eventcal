@@ -4,6 +4,7 @@ FROM gcr.io/uwit-mci-axdd/django-container:${DJANGO_CONTAINER_VERSION} as app-co
 USER root
 RUN apt-get install -y git-crypt && apt-get install gnupg
 RUN apt-get update && apt-get install libpq-dev -y
+RUN apt-get update && apt-get install postgresql-client -y
 
 RUN mkdir /data
 USER acait
