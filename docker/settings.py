@@ -16,8 +16,10 @@ LOGGING['formatters'] = {
 LOGGING['handlers']['stdout']['formatter'] = 'std'
 LOGGING['handlers']['stderr']['formatter'] = 'std'
 
+DEBUG = False
 if os.getenv('ENV') != 'localdev':
     CSV_FILE_PATH = '/csv'
+    DEBUG = True
 
 if os.getenv('ENV', 'localdev') == 'prod':
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -33,3 +35,11 @@ EMAIL_PORT = 587
 EMAIL_TIMEOUT = 60
 
 RESTCLIENTS_DAO_CACHE_CLASS = None
+
+LOGGING['formatters'] = {
+    'std': {
+        'format': '%(name)s %(levelname)-4s %(asctime)s %(message)s',
+    },
+}
+LOGGING['handlers']['stdout']['formatter'] = 'std'
+LOGGING['handlers']['stderr']['formatter'] = 'std'
