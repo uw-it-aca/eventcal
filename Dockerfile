@@ -2,8 +2,8 @@ ARG DJANGO_CONTAINER_VERSION=1.4.1
 FROM gcr.io/uwit-mci-axdd/django-container:${DJANGO_CONTAINER_VERSION} as app-container
 
 USER root
-RUN apt-get update && apt-get install mysql-client libmysqlclient-dev -y
 RUN apt-get install -y git-crypt && apt-get install gnupg
+RUN apt-get update && apt-get install mysql-client libmysqlclient-dev -y
 
 RUN mkdir /data
 USER acait
