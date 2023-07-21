@@ -29,7 +29,7 @@ externalService:
 
 database:
   engine: postgres
-  name: eventcal
+  name: eventcal-test
   hostname: eventcal-db-service
   secretName: eventcal.uw.edu-sql-secrets
 
