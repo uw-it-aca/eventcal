@@ -25,14 +25,18 @@ class Command(BaseCommand):
         for choice in TrumbaCalendar.CAMPUS_CHOICES:
             campus_code = choice[0]
             cals = trumba_cals.get_campus_calendars(campus_code)
+            logger.info("Total {} {} calendars".format(
+                len(cals), campus_code))
             if cals:
+                loaded_count = 0
                 for trumba_calendar in cals:
                     try:
                         obj = GCalendar.create(trumba_calendar)
-                        logger.info(obj)
+                        loaded_count += 1
                     except Exception as ex:
                         logger.error("Failed to add {}\n".format(
                             {'calendarid': trumba_calendar.calendarid,
                              'campus': trumba_calendar.campus,
                              'name': trumba_calendar.name,
                              'err': ex}))
+                logger.info("Loaded {} entries".format(loaded_count))
