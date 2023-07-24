@@ -5,9 +5,9 @@
 import json
 import re
 from restclients_core import models
-from uw_gws.models import GroupReference
 from uw_trumba.models import (
     TrumbaCalendar, is_editor, is_showon, EDITOR, SHOWON)
+from accountsynchr.models.gcalendar import GCalendar
 
 
 class UwcalGroup(models.Model):
@@ -84,10 +84,13 @@ class UwcalGroup(models.Model):
             'members': [m.json_data() for m in self.members]}
 
     def __eq__(self, other):
-        return (
-            self.calendar == other.calendar and
-            self.gtype == other.gtype and
-            self.group_ref == other.group_ref)
+        try:
+            return (
+                self.calendar == other.calendar and
+                self.gtype == other.gtype and
+                self.group_ref == other.group_ref)
+        except Exception:
+            return False
 
     def __hash__(self):
         return super().__hash__()
@@ -101,12 +104,12 @@ class UwcalGroup(models.Model):
         self.members = []  # a list of uw_gws.GroupMember
 
 
-def new_editor_group(trumba_cal):
-    return UwcalGroup(calendar=trumba_cal, gtype=EDITOR, group_ref=None)
+def new_editor_group(trumba_cal, group_ref=None):
+    return UwcalGroup(calendar=trumba_cal, gtype=EDITOR, group_ref=group_ref)
 
 
-def new_showon_group(trumba_cal):
-    return UwcalGroup(calendar=trumba_cal, gtype=SHOWON, group_ref=None)
+def new_showon_group(trumba_cal, group_ref=None):
+    return UwcalGroup(calendar=trumba_cal, gtype=SHOWON, group_ref=group_ref)
 
 
 def get_cal_name(display_name):
