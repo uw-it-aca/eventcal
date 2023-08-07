@@ -24,7 +24,7 @@ setup(
     author_email="aca-it@uw.edu",
     include_package_data=True,
     install_requires=[
-        'Django~=3.2',
+        'Django~=4.2',
         'lxml',
         'uw-memcached-clients~=1.0',
         'UW-RestClients-Core~=1.4',
@@ -41,6 +41,5 @@ setup(
         'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 3.8',
     ],
 )
