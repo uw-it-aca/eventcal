@@ -82,21 +82,21 @@ cronjob:
       resources:
         limits:
           cpu: 75m
-          memory: 512Mi
+          memory: 256Mi
         requests:
           cpu: 25m
-          memory: 256Mi
+          memory: 96Mi
     - name: trumba-gws-lite-evening
       schedule: "5,15,25,35,45,55 0-2 * * 2-6"
       command: ["/scripts/management_command.sh"]
       args: ["trumba_gcal_gws"]
       resources:
         limits:
-          cpu: 75m
-          memory: 384Mi
+          cpu: 50m
+          memory: 196Mi
         requests:
           cpu: 25m
-          memory: 256Mi
+          memory: 96Mi
     - name: trumba-gws-2
       schedule: "30 5,13 * * 0-6"
       command: ["/scripts/management_command.sh"]
@@ -104,7 +104,7 @@ cronjob:
       resources:
         limits:
           cpu: 75m
-          memory: 384Mi
+          memory: 256Mi
         requests:
           cpu: 25m
           memory: 96Mi
