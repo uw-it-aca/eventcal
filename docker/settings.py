@@ -21,18 +21,7 @@ if os.getenv('ENV') != 'localdev':
     CSV_FILE_PATH = '/csv'
     DEBUG = True
 
-if os.getenv('ENV', 'localdev') == 'prod':
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-else:
-    EMAIL_BACKEND = 'saferecipient.EmailBackend'
-    SAFE_EMAIL_RECIPIENT = os.getenv('SAFE_EMAIL_RECIPIENT')
 EMAIL_ADDRESS_DOMAIN = '@uw.edu'
-EMAIL_USE_TLS=True
-EMAIL_SSL_CERTFILE = os.getenv('CERT_PATH', '')
-EMAIL_SSL_KEYFILE = os.getenv('KEY_PATH', '')
-EMAIL_HOST = os.getenv('EMAIL_HOST')
-EMAIL_PORT = 587
-EMAIL_TIMEOUT = 60
 
 RESTCLIENTS_DAO_CACHE_CLASS = None
 
