@@ -24,8 +24,14 @@ class TestInactiveAccounts(TestCase):
                 dtnow=datetime(2014, 8, 8))
             self.assertEqual(len(accounts_to_purge), 1)
             self.assertFalse('sdummys' in user_set)
-            self.assertTrue('sdummyp' in user_set)
             self.assertEqual(accounts_to_purge[0].uwnetid, 'sdummyp')
+
+            mock.return_value = False
+            accounts_to_purge, user_set = get_accounts_to_purge(
+                set(), notify_inactive_users=True,
+                dtnow=datetime(2014, 8, 8))
+            self.assertEqual(len(accounts_to_purge), 1)
+            self.assertTrue('sdummyp' in user_set)
 
     @patch('accountsynchr.dao.notifier.send_acc_removal_email', spec=True)
     def test_get_accounts_to_purge1(self, mock):
