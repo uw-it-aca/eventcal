@@ -31,7 +31,6 @@ setup(
         'UW-RestClients-Trumba~=1.4',
         'Django-Safe-EmailBackend~=1.2',
         'lxml<5',
-        # 'xmlsec==1.3.13',
         ],
     license='Apache License, Version 2.0',
     description=('App synchronizes uw calendar groups and Trumba permissions'),
