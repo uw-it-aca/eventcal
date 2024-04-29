@@ -1,4 +1,4 @@
-# Copyright 2023 UW-IT, University of Washington
+# Copyright 2024 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
 import os
@@ -20,17 +20,17 @@ setup(
     name='EventCal',
     version=VERSION,
     packages=['accountsynchr'],
-    author="UW-IT AXDD",
+    author="UW-IT T&LS",
     author_email="aca-it@uw.edu",
     include_package_data=True,
     install_requires=[
         'Django~=4.2',
-        'lxml',
         'uw-memcached-clients~=1.0',
         'UW-RestClients-Core~=1.4',
         'UW-RestClients-GWS~=2.3',
         'UW-RestClients-Trumba~=1.4',
         'Django-Safe-EmailBackend~=1.2',
+        'lxml<5',
         ],
     license='Apache License, Version 2.0',
     description=('App synchronizes uw calendar groups and Trumba permissions'),
