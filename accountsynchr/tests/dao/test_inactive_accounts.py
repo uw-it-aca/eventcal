@@ -21,7 +21,7 @@ class TestInactiveAccounts(TestCase):
             mock.return_value = True
             accounts_to_purge, user_set = get_accounts_to_purge(
                 set(), notify_inactive_users=True,
-                dtnow = datetime(2014, 8, 8))
+                dtnow=datetime(2014, 8, 8))
             self.assertEqual(len(accounts_to_purge), 2)
             self.assertTrue('sdummys' in user_set)
             self.assertTrue('sdummyp' in user_set)

@@ -25,7 +25,7 @@ def get_file_path(filename='accounts.csv'):
 
 def get_accounts_to_purge(existing_group_member_set,
                           notify_inactive_users=False,
-                          dtnow = datetime.now()):
+                          dtnow=datetime.now()):
     """
     Also email users to be purged in the next month.
     returns: 1. a list of UserAccounts of the users to be purged
