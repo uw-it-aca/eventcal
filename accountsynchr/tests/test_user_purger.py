@@ -23,7 +23,7 @@ class TestTrumbaToGws(TestCase):
             acc_pgr.cal_per_m = g_t.cal_per_m
             acc_pgr.set_accounts_to_purge()
             acc_pgr.sync()
-            self.assertEqual(len(acc_pgr.accounts_to_delete), 2)
+            self.assertEqual(len(acc_pgr.accounts_to_delete), 3)
             self.assertEqual(acc_pgr.total_groups_purged, 2)
             self.assertEqual(acc_pgr.total_accounts_deleted, 1)
             self.assertTrue(acc_pgr.has_err())

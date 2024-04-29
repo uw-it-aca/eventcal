@@ -7,7 +7,7 @@ import csv
 import os
 import re
 from dateutil.parser import parse
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 from accountsynchr.util.settings import (
     get_csv_file_path, get_email_address_domain)
 from accountsynchr.models import UserAccount
@@ -24,13 +24,14 @@ def get_file_path(filename='accounts.csv'):
 
 
 def get_accounts_to_purge(existing_group_member_set,
-                          notify_inactive_users=False):
+                          notify_inactive_users=False,
+                          dtnow = datetime.now()):
     """
     Also email users to be purged in the next month.
     returns: 1. a list of UserAccounts of the users to be purged
              2. a set of uwnetids of the users to be purged
     """
-    notify_timedelta = datetime.now() - timedelta(days=365)
+    notify_timedelta = dtnow - timedelta(days=365)
     purge_timedelta = notify_timedelta - timedelta(days=30)
     total_notified_users = 0
     total_notify_err = 0

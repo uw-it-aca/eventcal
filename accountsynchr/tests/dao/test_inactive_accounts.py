@@ -1,7 +1,7 @@
 # Copyright 2024 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
-
+from datetime import datetime
 from django.test import TestCase
 from unittest.mock import patch
 from accountsynchr.dao.inactive_accounts import (
@@ -20,12 +20,13 @@ class TestInactiveAccounts(TestCase):
                            EMAIL_ADDRESS_DOMAIN='@test.edu'):
             mock.return_value = True
             accounts_to_purge, user_set = get_accounts_to_purge(
-                set(), notify_inactive_users=True)
+                set(), notify_inactive_users=True,
+                dtnow = datetime(2014, 8, 8))
             self.assertEqual(len(accounts_to_purge), 2)
             self.assertTrue('sdummys' in user_set)
             self.assertTrue('sdummyp' in user_set)
-            self.assertEqual(accounts_to_purge[0].uwnetid, 'sdummys')
-            self.assertEqual(accounts_to_purge[1].uwnetid, 'sdummyp')
+            self.assertEqual(accounts_to_purge[0].uwnetid, 'sdummyp')
+            self.assertEqual(accounts_to_purge[1].uwnetid, 'sdummys')
 
     @patch('accountsynchr.dao.notifier.send_acc_removal_email', spec=True)
     def test_get_accounts_to_purge1(self, mock):
