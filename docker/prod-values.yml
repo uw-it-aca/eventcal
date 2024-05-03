@@ -53,7 +53,7 @@ cronjob:
           cpu: 100m
           memory: 128Mi
     - name: gws-trumba-evening
-      schedule: "0,12,24,36,48 0-2 * * 2-6"
+      schedule: "12,36 0-3 * * 2-6"
       command: ["/scripts/management_command.sh"]
       args: ["gws_trumba"]
       resources:
