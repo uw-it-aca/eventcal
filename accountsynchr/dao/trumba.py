@@ -8,6 +8,7 @@ from uw_trumba.account import (
 from uw_trumba.calendars import Calendars
 from uw_trumba.models import (
     is_editor, is_showon, new_edit_permission, new_showon_permission)
+from accountsynchr.models.user import EditorCreation
 
 logger = logging.getLogger(__name__)
 
@@ -104,7 +105,9 @@ def set_editor_permission(trumba_cal, uwnetid):
         _set_trumba_cal_editor(trumba_cal, uwnetid)
         logger.info("Set {0} editor permission for {1} on {2}".format(
             trumba_cal.campus, uwnetid, trumba_cal.name))
+        EditorCreation.update(uwnetid)
         return 1
+    return -1
 
 
 def set_showon_permission(trumba_cal, uwnetid):
@@ -120,6 +123,7 @@ def set_showon_permission(trumba_cal, uwnetid):
         logger.info("Set {0} showon permission for {1} on {2}".format(
             trumba_cal.campus, uwnetid, trumba_cal.name))
         return 1
+    return -1
 
 
 def _set_trumba_cal_editor(trumba_cal, uwnetid):

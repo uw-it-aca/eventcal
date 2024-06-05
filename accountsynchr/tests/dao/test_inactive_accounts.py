@@ -16,6 +16,7 @@ class TestInactiveAccounts(TestCase):
 
     def test_get_accounts_to_purge(self):
         with self.settings(CSV_FILE_PATH=None,
+                           RECENT_EDITOR_DURATION=0,
                            EMAIL_ADDRESS_DOMAIN='@test.edu'):
             accounts_to_purge, user_set = get_accounts_to_purge(set())
             self.assertEqual(len(accounts_to_purge), 2)
@@ -26,6 +27,7 @@ class TestInactiveAccounts(TestCase):
 
     def test_get_accounts_to_purge1(self):
         with self.settings(CSV_FILE_PATH=None,
+                           RECENT_EDITOR_DURATION=0,
                            EMAIL_ADDRESS_DOMAIN='@test.edu'):
             accounts_to_purge, user_set = get_accounts_to_purge1(set())
             self.assertEqual(len(accounts_to_purge), 2)

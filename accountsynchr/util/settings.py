@@ -24,3 +24,11 @@ def get_cronjob_sender():
     return "{}{}".format(
         getattr(settings, 'CRONJOB_SENDER', 'trumba_cron'),
         get_email_address_domain())
+
+
+def get_recent_editor_duration():
+    return getattr(settings, 'RECENT_EDITOR_DURATION', 30)
+
+
+def get_account_inactive_duration():
+    return getattr(settings, 'ACCOUNT_INACTIVE_DURATION', 365)

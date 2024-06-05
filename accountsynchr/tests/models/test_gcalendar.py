@@ -5,13 +5,12 @@
 from django.test import TransactionTestCase
 from uw_gws.models import GroupReference
 from uw_trumba.models import TrumbaCalendar
-from accountsynchr.models import (
-    GCalendar, new_editor_group, new_showon_group, get_cal_name)
+from accountsynchr.models import GCalendar
 
 
-class TestModels(TransactionTestCase):
+class TestGCalendar(TransactionTestCase):
 
-    def test_uwcalgroup(self):
+    def test_creatte_update(self):
         for n in range(6):
             trumba_cal = TrumbaCalendar(
                 calendarid=n + 1, campus="bot", name="Bothell" + str(n))
