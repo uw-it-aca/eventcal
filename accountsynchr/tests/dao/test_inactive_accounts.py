@@ -3,7 +3,6 @@
 
 
 from django.test import TestCase
-from django.conf import settings
 from accountsynchr.dao.inactive_accounts import (
     get_accounts_to_purge1, get_accounts_to_purge, get_file_path)
 
