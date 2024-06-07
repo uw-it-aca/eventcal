@@ -55,12 +55,13 @@ def get_accounts_to_purge(existing_group_member_set,
                     uwnetid=re.sub(email_address_domain, "", line[2],
                                    flags=re.I).lower(),
                     last_visit=last_visit)
-                if acc.uwnetid in recently_added_editors:
-                    # Skip recently added
-                    continue
+
                 if last_visit is not None:
 
                     if last_visit < purge_cutoff:
+                        if acc.uwnetid in recently_added_editors:
+                            # Skip recently added
+                            continue
                         # Will be purged in this run
                         user_records.append(acc)
                         user_set.add(acc.uwnetid)
@@ -73,7 +74,10 @@ def get_accounts_to_purge(existing_group_member_set,
                             else:
                                 total_notify_err += 1
                 else:
-                    # Has never accessed Trumba
+                    # Has not accessed Trumba
+                    if acc.uwnetid in recently_added_editors:
+                        # Skip recently added
+                        continue
                     if acc.uwnetid not in existing_group_member_set:
                         # Only purge those not in any editor group
                         user_records.append(acc)
