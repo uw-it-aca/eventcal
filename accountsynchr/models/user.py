@@ -18,9 +18,9 @@ class EditorCreation(models.Model):
                 'last_updated': str(self.last_updated)}
 
     def __eq__(self, other):
-        if isinstance(other, EditorCreation):
-            return self.uwnetid == other.uwnetid
-        return False
+        return (
+            isinstance(other, EditorCreation) and
+            self.uwnetid == other.uwnetid)
 
     def __hash__(self):
         return hash(self.uwnetid)

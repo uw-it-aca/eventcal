@@ -34,6 +34,7 @@ class TestEditorCreation(TransactionTestCase):
 
         obj1 = EditorCreation.objects.create(uwnetid='b')
         self.assertFalse(obj == obj1)
+        self.assertFalse(obj.__eq__(None))
         self.assertTrue(obj < obj1)
         res = obj1.__lt__(None)
         self.assertEqual(res, NotImplemented)
