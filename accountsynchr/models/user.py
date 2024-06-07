@@ -18,17 +18,17 @@ class EditorCreation(models.Model):
                 'last_updated': str(self.last_updated)}
 
     def __eq__(self, other):
-        return self.uwnetid == other.uwnetid
+        if isinstance(other, EditorCreation):
+            return self.uwnetid == other.uwnetid
+        return False
 
     def __hash__(self):
-        return super().__hash__()
-
-    def __init__(self, *args, **kwargs):
-        super(EditorCreation, self).__init__(*args, **kwargs)
+        return hash(self.uwnetid)
 
     def __lt__(self, other):
-        return (self.uwnetid == other.uwnetid and
-                self.last_updated < other.last_updated)
+        if isinstance(other, EditorCreation):
+            return self.uwnetid < other.uwnetid
+        return NotImplemented
 
     def __str__(self):
         return json.dumps(self.to_json())

@@ -10,13 +10,11 @@ from accountsynchr.models import EditorCreation
 
 class TestEditorCreation(TransactionTestCase):
 
-    def test_get_editors(self):
+    def test_custom_methods(self):
         EditorCreation.update('a')
         time.sleep(5)
         EditorCreation.update('b')
         EditorCreation.update('c')
-        obj = EditorCreation.objects.get(uwnetid='a')
-        self.assertIsNotNone(str(obj))
         records = EditorCreation.objects.all()
         self.assertEqual(len(records), 3)
         cutoff = timezone.now() - timedelta(seconds=3)
@@ -27,3 +25,20 @@ class TestEditorCreation(TransactionTestCase):
         self.assertTrue(EditorCreation.exists('a'))
         EditorCreation.delete_old_records(cutoff)
         self.assertFalse(EditorCreation.exists('s'))
+
+    def test_comparison_operators(self):
+        obj = EditorCreation.objects.create(uwnetid='a')
+        o_json = obj.to_json()
+        self.assertEqual(o_json['uwnetid'], 'a')
+        self.assertIsNotNone(str(obj))
+
+        obj1 = EditorCreation.objects.create(uwnetid='b')
+        self.assertFalse(obj == obj1)
+        self.assertTrue(obj < obj1)
+        res = obj1.__lt__(None)
+        self.assertEqual(res, NotImplemented)
+
+        obj2 = EditorCreation.objects.create(uwnetid='a1')
+        obj2.save()
+        self.assertFalse(obj1 < obj2)
+        self.assertEqual(hash(obj2), hash('a1'))

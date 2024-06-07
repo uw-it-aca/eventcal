@@ -13,13 +13,22 @@ class TestGCalendar(TransactionTestCase):
     def test_creatte_update(self):
         for n in range(6):
             trumba_cal = TrumbaCalendar(
-                calendarid=n + 1, campus="bot", name="Bothell" + str(n))
+                calendarid=n, campus="bot", name="Bothell" + str(n))
             GCalendar.create(trumba_cal)
 
         records = GCalendar.objects.all()
         self.assertEqual(len(records), 6)
 
         self.assertTrue(GCalendar.exists(trumba_cal))
+        cal1 = GCalendar.objects.get(
+            campus="bot", name="Bothell1")
+        self.assertEqual(hash(cal1), 1)
+        cal2 = GCalendar.objects.get(
+            campus="bot", name="Bothell2")
+        self.assertTrue(cal1 < cal2)
+        self.assertFalse(cal1 == cal2)
+        res = cal1.__lt__(None)
+        self.assertEqual(res, NotImplemented)
 
         obj = GCalendar.update(TrumbaCalendar(
             calendarid=1, campus="bot", name="Bot1"))
