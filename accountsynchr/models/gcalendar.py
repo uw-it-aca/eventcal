@@ -20,17 +20,18 @@ class GCalendar(models.Model):
                 'name': self.name}
 
     def __eq__(self, other):
-        return self.calendarid == other.calendarid
+        return (
+            isinstance(other, GCalendar) and
+            self.calendarid == other.calendarid)
 
     def __hash__(self):
-        return super().__hash__()
-
-    def __init__(self, *args, **kwargs):
-        super(GCalendar, self).__init__(*args, **kwargs)
+        return self.calendarid
 
     def __lt__(self, other):
-        return (self.campus == other.campus and
-                self.name < other.name)
+        if isinstance(other, GCalendar):
+            return (self.campus == other.campus and
+                    self.name < other.name)
+        return NotImplemented
 
     def __str__(self):
         return json.dumps(self.to_json())

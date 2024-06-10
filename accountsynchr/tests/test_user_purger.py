@@ -14,6 +14,7 @@ class TestTrumbaToGws(TestCase):
 
     def test_group_member_purger(self):
         with self.settings(CSV_FILE_PATH=None,
+                           RECENT_EDITOR_DURATION=0,
                            EMAIL_ADDRESS_DOMAIN='@test.edu'):
             g_t = GwsToTrumba()
             g_t.sync()

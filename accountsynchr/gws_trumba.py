@@ -10,7 +10,6 @@ from accountsynchr.dao.trumba import (
     set_editor_permission, set_showon_permission)
 from accountsynchr.util.log import log_resp_time, log_exception
 
-
 logger = logging.getLogger(__name__)
 
 

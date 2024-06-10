@@ -7,10 +7,13 @@ import csv
 import os
 import re
 from dateutil.parser import parse
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
+from django.utils import timezone
 from accountsynchr.util.settings import (
-    get_csv_file_path, get_email_address_domain)
+    get_csv_file_path, get_email_address_domain,
+    get_recent_editor_duration, get_account_inactive_duration)
 from accountsynchr.models import UserAccount
+from accountsynchr.models.user import EditorCreation
 from accountsynchr.dao.notifier import send_acc_removal_email
 
 logger = logging.getLogger(__name__)
@@ -23,15 +26,21 @@ def get_file_path(filename='accounts.csv'):
     return os.path.join(file_path, filename)
 
 
-def get_accounts_to_purge(existing_group_member_set,
+def get_accounts_to_purge(editor_group_members,
                           notify_inactive_users=False):
     """
     Also email users to be purged in the next month.
     returns: 1. a list of UserAccounts of the users to be purged
              2. a set of uwnetids of the users to be purged
     """
-    notify_timedelta = datetime.now() - timedelta(days=365)
-    purge_timedelta = notify_timedelta - timedelta(days=30)
+    recent_editor_cutoff = timezone.now() - timedelta(
+        days=get_recent_editor_duration())
+    recently_added_editors = EditorCreation.get_editors(recent_editor_cutoff)
+
+    notify_cutoff = datetime.now() - timedelta(
+        days=get_account_inactive_duration())
+    purge_cutoff = notify_cutoff - timedelta(days=30)
+
     total_notified_users = 0
     total_notify_err = 0
     email_address_domain = get_email_address_domain()
@@ -48,14 +57,18 @@ def get_accounts_to_purge(existing_group_member_set,
                     uwnetid=re.sub(email_address_domain, "", line[2],
                                    flags=re.I).lower(),
                     last_visit=last_visit)
+
                 if last_visit is not None:
 
-                    if last_visit < purge_timedelta:
+                    if last_visit < purge_cutoff:
+                        if acc.uwnetid in recently_added_editors:
+                            # Skip recently added
+                            continue
                         # Will be purged in this run
                         user_records.append(acc)
                         user_set.add(acc.uwnetid)
 
-                    elif last_visit < notify_timedelta:
+                    elif last_visit < notify_cutoff:
                         # Notify user before purging
                         if notify_inactive_users:
                             if send_acc_removal_email(acc.uwnetid):
@@ -63,14 +76,18 @@ def get_accounts_to_purge(existing_group_member_set,
                             else:
                                 total_notify_err += 1
                 else:
-                    # Has never accessed Trumba
-                    if acc.uwnetid not in existing_group_member_set:
-                        # Not in any editor group, purged
-                        user_records.append(acc)
-                        user_set.add(acc.uwnetid)
+                    # Has not accessed Trumba
+                    if (acc.uwnetid in recently_added_editors or
+                            acc.uwnetid in editor_group_members):
+                        # Not purge those recently added to an editor group
+                        # or still is a member in an editor group
+                        continue
+
+                    user_records.append(acc)
+                    user_set.add(acc.uwnetid)
 
         except Exception as ex:
-            logger.error("{} in line: {}".format(ex, line))
+            logger.error(f"{ex} in line: {line}")
 
     if notify_inactive_users:
         logger.info("Notified {} users".format(total_notified_users))
@@ -84,7 +101,7 @@ def str_to_datetime(s):
     return parse(s) if (s is not None and len(s)) else None
 
 
-def get_accounts_to_purge1(existing_group_member_set,
+def get_accounts_to_purge1(editor_group_members,
                            notify_inactive_users=False):
     """
     Use Steve exported account file.
@@ -128,7 +145,7 @@ def get_accounts_to_purge1(existing_group_member_set,
             logger.error("{} in line: {}".format(ex, line))
     if notify_inactive_users:
         logger.info("Notified {} users".format(total_notified_users))
-        logger.info("{} errors when sending notification email".format(
-                total_notify_err))
+        logger.info(
+            f"{total_notify_err} errors when sending notification email")
 
     return user_records, user_set
