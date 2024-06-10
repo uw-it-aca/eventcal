@@ -8,6 +8,7 @@ from restclients_core import models
 from uw_trumba.models import (
     TrumbaCalendar, is_editor, is_showon, EDITOR, SHOWON)
 from accountsynchr.models.gcalendar import GCalendar
+from accountsynchr.models.user import EditorCreation
 
 
 class UwcalGroup(models.Model):
