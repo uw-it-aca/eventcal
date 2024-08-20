@@ -39,7 +39,7 @@ def get_accounts_to_purge(editor_group_members,
 
     notify_cutoff = datetime.now() - timedelta(
         days=get_account_inactive_duration())
-    purge_cutoff = notify_cutoff - timedelta(days=30)
+    purge_cutoff = notify_cutoff - timedelta(days=90)
 
     total_notified_users = 0
     total_notify_err = 0
