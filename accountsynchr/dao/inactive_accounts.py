@@ -29,7 +29,8 @@ def get_file_path(filename='accounts.csv'):
 def get_accounts_to_purge(editor_group_members,
                           notify_inactive_users=False):
     """
-    Also email users to be purged in the next month.
+    Identifies user accounts to be purged based on inactivity.
+    Email users to be purged in the next run.
     returns: 1. a list of UserAccounts of the users to be purged
              2. a set of uwnetids of the users to be purged
     """
@@ -43,56 +44,59 @@ def get_accounts_to_purge(editor_group_members,
 
     total_notified_users = 0
     total_notify_err = 0
+
     email_address_domain = get_email_address_domain()
     path = get_file_path()
+
     user_records = []  # store in a list
     user_set = set()  # store in a set
-    reader = csv.reader(open(path, 'r', encoding='utf8'), delimiter=',')
-    next(reader)
-    for line in reader:
-        try:
-            if line[2].endswith(email_address_domain):
-                last_visit = str_to_datetime(line[4])
-                acc = UserAccount(
-                    uwnetid=re.sub(email_address_domain, "", line[2],
-                                   flags=re.I).lower(),
-                    last_visit=last_visit)
 
-                if last_visit is not None:
+    with open(path, 'r', encoding='utf8') as csvfile:
+        reader = csv.reader(csvfile)
+        next(reader)  # Skip header row
+        for line in reader:
+            try:
+                if line[2].endswith(email_address_domain):
+                    last_visit = str_to_datetime(line[4])
+                    uwnetid = re.sub(
+                        email_address_domain, "", line[2], flags=re.I).lower()
+                    acc = UserAccount(uwnetid=uwnetid, last_visit=last_visit)
 
-                    if last_visit < purge_cutoff:
-                        if acc.uwnetid in recently_added_editors:
-                            # Skip recently added
+                    if last_visit is not None:
+                        if last_visit < purge_cutoff:
+                            if uwnetid in recently_added_editors:
+                                # Skip recently added
+                                continue
+                            # Will be purged in this run
+                            user_records.append(acc)
+                            user_set.add(acc.uwnetid)
+
+                        elif last_visit < notify_cutoff:
+                            # Notify user before purging
+                            if notify_inactive_users:
+                                if send_acc_removal_email(acc.uwnetid):
+                                    total_notified_users += 1
+                                else:
+                                    total_notify_err += 1
+                    else:
+                        # Has not accessed Trumba
+                        if (uwnetid in recently_added_editors or
+                                uwnetid in editor_group_members):
+                            # Not purge those recently added to an editor group
+                            # or still is a member in an editor group
                             continue
-                        # Will be purged in this run
+
                         user_records.append(acc)
                         user_set.add(acc.uwnetid)
 
-                    elif last_visit < notify_cutoff:
-                        # Notify user before purging
-                        if notify_inactive_users:
-                            if send_acc_removal_email(acc.uwnetid):
-                                total_notified_users += 1
-                            else:
-                                total_notify_err += 1
-                else:
-                    # Has not accessed Trumba
-                    if (acc.uwnetid in recently_added_editors or
-                            acc.uwnetid in editor_group_members):
-                        # Not purge those recently added to an editor group
-                        # or still is a member in an editor group
-                        continue
-
-                    user_records.append(acc)
-                    user_set.add(acc.uwnetid)
-
-        except Exception as ex:
-            logger.error(f"{ex} in line: {line}")
+            except Exception as ex:
+                logger.error(f"{ex} in line: {line}")
 
     if notify_inactive_users:
-        logger.info("Notified {} users".format(total_notified_users))
-        logger.info("{} errors when sending notification email".format(
-                total_notify_err))
+        logger.info(f"Notified {total_notified_users} users")
+        logger.info(
+            f"{total_notify_err} errors occurred while sending " +
+            "notification emails")
 
     return user_records, user_set
 
