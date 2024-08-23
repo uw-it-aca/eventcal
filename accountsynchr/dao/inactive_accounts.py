@@ -63,31 +63,26 @@ def get_accounts_to_purge(editor_group_members,
                     acc = UserAccount(uwnetid=uwnetid, last_visit=last_visit)
 
                     if last_visit is not None:
-                        if last_visit < purge_cutoff:
-                            if uwnetid in recently_added_editors:
-                                # Skip recently added
-                                continue
+                        if (last_visit < purge_cutoff and
+                                uwnetid not in recently_added_editors):
                             # Will be purged in this run
                             user_records.append(acc)
                             user_set.add(acc.uwnetid)
 
-                        elif last_visit < notify_cutoff:
-                            # Notify user before purging
-                            if notify_inactive_users:
-                                if send_acc_removal_email(acc.uwnetid):
-                                    total_notified_users += 1
-                                else:
-                                    total_notify_err += 1
+                        elif (last_visit < notify_cutoff and
+                                notify_inactive_users):
+                            if send_acc_removal_email(acc.uwnetid):
+                                total_notified_users += 1
+                            else:
+                                total_notify_err += 1
                     else:
                         # Has not accessed Trumba
-                        if (uwnetid in recently_added_editors or
-                                uwnetid in editor_group_members):
+                        if (uwnetid not in recently_added_editors and
+                                uwnetid not in editor_group_members):
                             # Not purge those recently added to an editor group
                             # or still is a member in an editor group
-                            continue
-
-                        user_records.append(acc)
-                        user_set.add(acc.uwnetid)
+                            user_records.append(acc)
+                            user_set.add(acc.uwnetid)
 
             except Exception as ex:
                 logger.error(f"{ex} in line: {line}")
