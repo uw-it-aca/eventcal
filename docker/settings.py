@@ -8,14 +8,6 @@ INSTALLED_APPS += [
     'accountsynchr.apps.EventCalConfig',
 ]
 
-LOGGING['formatters'] = {
-    'std': {
-        'format': '%(name)s %(levelname)-4s %(asctime)s %(message)s',
-    },
-}
-LOGGING['handlers']['stdout']['formatter'] = 'std'
-LOGGING['handlers']['stderr']['formatter'] = 'std'
-
 DEBUG = False
 if os.getenv('ENV') != 'localdev':
     CSV_FILE_PATH = '/csv'
