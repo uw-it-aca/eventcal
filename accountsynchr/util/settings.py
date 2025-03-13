@@ -22,7 +22,7 @@ def get_user_email_sender():
 
 def get_cronjob_sender():
     return "{}{}".format(
-        getattr(settings, 'CRONJOB_SENDER', 'trumba_cron'),
+        getattr(settings, 'CRONJOB_SENDER', 'trumba-cron'),
         get_email_address_domain())
 
 
