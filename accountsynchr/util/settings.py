@@ -1,4 +1,4 @@
-# Copyright 2024 UW-IT, University of Washington
+# Copyright 2025 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
 
@@ -22,7 +22,7 @@ def get_user_email_sender():
 
 def get_cronjob_sender():
     return "{}{}".format(
-        getattr(settings, 'CRONJOB_SENDER', 'trumba_cron'),
+        getattr(settings, 'CRONJOB_SENDER', 'trumba-cron'),
         get_email_address_domain())
 
 
