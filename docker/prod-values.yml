@@ -13,8 +13,11 @@ memcached:
   replicaCount: 1
   updateStrategy:
     type: RollingUpdate
+
 repo: eventcal
 instance: prod
+namespace:
+  enabled: true
 
 externalService:
   enabled: true
