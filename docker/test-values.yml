@@ -19,6 +19,8 @@ memcached:
 
 repo: eventcal
 instance: test
+namespace:
+  enabled: true
 
 externalService:
   enabled: true
