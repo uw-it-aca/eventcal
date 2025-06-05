@@ -113,7 +113,7 @@ cronjob:
           memory: 96Mi
 
     - name: purge-inactive-accs
-      schedule: "0 10 3 3,6,9,12 *"
+      schedule: "0 10 2 3,6,9,12 *"
       command: ["/scripts/management_command.sh"]
       args: ["purge_accounts"]
       resources:
