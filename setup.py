@@ -20,11 +20,11 @@ setup(
     name='EventCal',
     version=VERSION,
     packages=['accountsynchr'],
-    author="UW-IT T&LS",
+    author="UW-IT SETS",
     author_email="aca-it@uw.edu",
     include_package_data=True,
     install_requires=[
-        'Django~=4.2',
+        'Django~=5.2',
         'uw-memcached-clients~=1.0',
         'UW-RestClients-Core~=1.4',
         'UW-RestClients-GWS~=2.3',

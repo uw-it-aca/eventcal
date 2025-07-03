@@ -36,9 +36,6 @@ env:
   RELEASE_NAME: eventcal
   DJANGO_APP: accountsynchr
 
-  COVERAGE_DJANGO_VERSION: '4.2'
-  COVERAGE_PYTHON_VERSION: '3.12'
-
 # Be sure that branches defined here have corresponding steps
 # defined in the "deploy" job
 on:
@@ -76,7 +73,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.12'
 
       - name: Run Python Linters
         uses: uw-it-aca/actions/python-linters@main
