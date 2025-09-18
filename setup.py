@@ -25,7 +25,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'Django~=5.2',
-        'uw-memcached-clients~=1.0',
+        'uw-memcached-clients~=1.1',
         'UW-RestClients-Core~=1.4',
         'UW-RestClients-GWS~=2.3',
         'UW-RestClients-Trumba~=1.4',
