@@ -62,7 +62,7 @@ def get_accounts_to_purge(editor_group_members,
                         email_address_domain, "", line[2], flags=re.I).lower()
                     acc = UserAccount(uwnetid=uwnetid, last_visit=last_visit)
 
-                    if last_visit and len(last_visit):
+                    if last_visit:
                         if (last_visit < purge_cutoff and
                                 uwnetid not in recently_added_editors):
                             # Will be purged in this run
