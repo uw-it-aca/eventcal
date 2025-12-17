@@ -19,6 +19,7 @@ class CampusLocation:
         self.old_code = old_code
         self.space_obj = space_obj
 
+
 def get_campus_locations_from_spacews():
     """
     Return a list of CampusLocation objects
@@ -42,24 +43,24 @@ def get_campus_locations_from_spacews():
                 code = res.group(2).strip()
             else:
                 code = ""
-            logger.debug(f"{name}, {code}\n")
+            logger.debug(f"name: {name}, code: {code}\n")
 
             fac_objs = []
             if code and len(code):
                 try:
                     fac_objs = FAC.search_by_code(code)
                 except DataFailureException as ex:
-                    logger.error(f"{ex} with {name}, {code}")
+                    logger.error(f"{ex} with {code}")
             if not fac_objs or len(fac_objs) == 0:
                 try:
                     fac_objs = FAC.search_by_name(name)
                 except DataFailureException as ex:
-                    logger.error(f"{ex} with {name}, {code}")
+                    logger.error(f"{ex} with {name}")
             if not fac_objs or len(fac_objs) == 0:
                 try:
                     fac_objs = FAC.search_by_street(name)
                 except DataFailureException as ex:
-                    logger.error(f"{ex} with {name}, {code}")
+                    logger.error(f"{ex} with {name}")
 
             campus_locations.append(
                 CampusLocation(
