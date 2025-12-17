@@ -139,6 +139,11 @@ environmentVariables:
   - name: GWS_TIMEOUT
     value: "120"
 
+  - name: SPACE_ENV
+    value: PROD
+  - name: SPACE_TIMEOUT
+    value: "30"
+
   - name: TRUMBA_SEA_ENV
     value: PROD
   - name: TRUMBA_SEA_TIMEOUT
