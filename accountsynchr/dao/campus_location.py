@@ -28,46 +28,46 @@ def get_campus_locations_from_spacews():
     data_file = os.path.join(
         os.path.join(os.path.dirname(__file__), "../", "data"),
         "campus_map_buildings.csv")
-    reader = csv.reader(
-        open(data_file, "r", encoding="utf8"), delimiter=",")
+    with open(data_file, "r", encoding="utf8") as f:
+        reader = csv.reader(f, delimiter=",")
 
-    next(reader)  # skip header
-    for line in reader:
-        try:
-            res = re.match(r"^(.*)\(([^()]+)\)\s*$", line[0])
-            if not res:
-                logger.error(f"Could not parse {line}")
-                continue
-            name = html.unescape(res.group(1).rstrip())
-            if res.group(2):
-                code = res.group(2).strip()
-            else:
-                code = ""
-            logger.debug(f"name: {name}, code: {code}\n")
+        next(reader)  # skip header
+        for line in reader:
+            try:
+                res = re.match(r"^(.*)\(([^()]+)\)\s*$", line[0])
+                if not res:
+                    logger.error(f"Could not parse {line}")
+                    continue
+                name = html.unescape(res.group(1).rstrip())
+                if res.group(2):
+                    code = res.group(2).strip()
+                else:
+                    code = ""
+                logger.debug(f"name: {name}, code: {code}\n")
 
-            fac_objs = []
-            if code and len(code):
-                try:
-                    fac_objs = FAC.search_by_code(code)
-                except DataFailureException as ex:
-                    logger.error(f"{ex} with {code}")
-            if not fac_objs or len(fac_objs) == 0:
-                try:
-                    fac_objs = FAC.search_by_name(name)
-                except DataFailureException as ex:
-                    logger.error(f"{ex} with {name}")
-            if not fac_objs or len(fac_objs) == 0:
-                try:
-                    fac_objs = FAC.search_by_street(name)
-                except DataFailureException as ex:
-                    logger.error(f"{ex} with {name}")
+                fac_objs = []
+                if code and len(code):
+                    try:
+                        fac_objs = FAC.search_by_code(code)
+                    except DataFailureException as ex:
+                        logger.error(f"{ex} with {code}")
+                if not fac_objs or len(fac_objs) == 0:
+                    try:
+                        fac_objs = FAC.search_by_name(name)
+                    except DataFailureException as ex:
+                        logger.error(f"{ex} with {name}")
+                if not fac_objs or len(fac_objs) == 0:
+                    try:
+                        fac_objs = FAC.search_by_street(name)
+                    except DataFailureException as ex:
+                        logger.error(f"{ex} with {name}")
 
-            campus_locations.append(
-                CampusLocation(
-                    name, code,
-                    fac_objs[0] if fac_objs and len(fac_objs) else None
+                campus_locations.append(
+                    CampusLocation(
+                        name, code,
+                        fac_objs[0] if fac_objs and len(fac_objs) else None
+                        )
                     )
-                )
-        except Exception as ex:
-            logger.error(f"{ex} with {line}")
+            except Exception as ex:
+                logger.error(f"{ex} with {line}")
     return campus_locations
