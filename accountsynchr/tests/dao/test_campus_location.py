@@ -24,7 +24,7 @@ class TestCampusLocation(TestCase):
             ]
             locations = get_campus_locations_from_spacews()
             self.assertIsInstance(locations, list)
-            self.assertEqual(len(locations), 280)
+            self.assertEqual(len(locations), 281)
             loc = locations[1]
             self.assertEqual(loc.old_name, "1218 NE Campus Parkway")
             self.assertEqual(loc.old_code, "ELM-HALL")
@@ -34,7 +34,7 @@ class TestCampusLocation(TestCase):
             self.assertEqual(loc.space_obj.latitude, "47.653693")
             self.assertEqual(loc.space_obj.longitude, "-122.304747")
 
-            loc = locations[279]
+            loc = locations[280]
             self.assertEqual(
                 loc.old_name, "Women's Fastpitch Softball Building")
             self.assertEqual(loc.old_code, "WSB")
