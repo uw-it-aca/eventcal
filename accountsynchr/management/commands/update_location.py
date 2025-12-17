@@ -53,9 +53,9 @@ class Command(BaseCommand):
                         f"{bdg.space_obj.longitude}\"")
                     bname = html.escape(bdg.space_obj.name)
                     maplink = (
-                        f'"https://maps.google.com/maps?q='
-                        + f"{bdg.space_obj.latitude},"
-                        + f'{bdg.space_obj.longitude}&t=k&z=18"'
+                        f'"https://maps.google.com/maps?q=' +
+                        f"{bdg.space_obj.latitude}," +
+                        f'{bdg.space_obj.longitude}&t=k&z=18"'
                     )
                     writer.writerow([
                         f"{bname} ({bdg.space_obj.code})", f"{maplink}",

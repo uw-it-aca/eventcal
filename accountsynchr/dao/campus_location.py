@@ -30,7 +30,6 @@ def get_campus_locations_from_spacews():
         "campus_map_buildings.csv")
     with open(data_file, "r", encoding="utf8") as f:
         reader = csv.reader(f, delimiter=",")
-
         next(reader)  # skip header
         for line in reader:
             try:
