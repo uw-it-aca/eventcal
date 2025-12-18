@@ -46,8 +46,8 @@ class Command(BaseCommand):
     def make_import_csv_file(self, campus_locations):
         try:
             with open(
-                "./update_location_import.csv", "w",
-                newline="", encoding="utf-8") as f:
+                "./update_location_import.csv", "w", newline="",
+                    encoding="utf-8") as f:
                 writer = csv.writer(f)
                 writer.writerow(
                     ["Campus location Name", "Map link", "Address"])
