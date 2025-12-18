@@ -27,7 +27,8 @@ def get_campus_locations_from_spacews():
     campus_locations = []
     data_file = os.path.join(
         os.path.join(os.path.dirname(__file__), "../", "data"),
-        "campus_map_buildings.csv")
+        "campus_location_export.csv",
+    )
     with open(data_file, "r", encoding="utf8") as f:
         reader = csv.reader(f, delimiter=",")
         next(reader)  # skip header
@@ -35,7 +36,7 @@ def get_campus_locations_from_spacews():
             try:
                 res = re.match(r"^(.*)\(([^()]+)\)\s*$", line[0])
                 if not res:
-                    logger.error(f"Could not parse {line}")
+                    logger.error(f"Could not parse {line[0]}\n")
                     continue
                 name = html.unescape(res.group(1).rstrip())
                 if res.group(2):
@@ -45,21 +46,21 @@ def get_campus_locations_from_spacews():
                 logger.debug(f"name: {name}, code: {code}\n")
 
                 fac_objs = []
-                if code and len(code):
+                if code and len(code) > 1:
                     try:
                         fac_objs = FAC.search_by_code(code)
                     except DataFailureException as ex:
-                        logger.error(f"{ex} with {code}")
-                if not fac_objs or len(fac_objs) == 0:
+                        logger.error(f"{ex} with {code}\n")
+                if not fac_objs:
                     try:
                         fac_objs = FAC.search_by_name(name)
                     except DataFailureException as ex:
-                        logger.error(f"{ex} with {name}")
-                if not fac_objs or len(fac_objs) == 0:
+                        logger.error(f"{ex} with {name}\n")
+                if not fac_objs:
                     try:
                         fac_objs = FAC.search_by_street(name)
                     except DataFailureException as ex:
-                        logger.error(f"{ex} with {name}")
+                        logger.error(f"{ex} with {name}\n")
 
                 campus_locations.append(
                     CampusLocation(
@@ -68,5 +69,5 @@ def get_campus_locations_from_spacews():
                         )
                     )
             except Exception as ex:
-                logger.error(f"{ex} with {line}")
+                logger.error(f"{ex} with {line}\n")
     return campus_locations
