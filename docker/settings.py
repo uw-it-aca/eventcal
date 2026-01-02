@@ -11,6 +11,7 @@ INSTALLED_APPS += [
 DEBUG = False
 if os.getenv('ENV') != 'localdev':
     CSV_FILE_PATH = '/csv'
+else:
     DEBUG = True
 
 EMAIL_ADDRESS_DOMAIN = '@uw.edu'
