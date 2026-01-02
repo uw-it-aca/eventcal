@@ -76,13 +76,18 @@ def get_campus_locations_from_spacews():
                     except DataFailureException as ex:
                         logger.error(f"{ex} search_by_street {name}\n")
 
-                if not fac_objs or len(fac_objs) == 1:
-                    campus_locations.append(
-                        CampusLocation(
-                            name, code,
-                            fac_objs[0] if fac_objs and len(fac_objs) else None
-                            )
-                        )
+                if fac_objs and len(fac_objs) > 1:
+                    logger.error(
+                        f"Multiple facilities found for {name} ({code})\n"
+                    )
+                    continue
+
+                value = None
+                if fac_objs or len(fac_objs) == 1:
+                    value = fac_objs[0]
+                campus_locations.append(
+                    CampusLocation(name, code, value)
+                    )
             except Exception as ex:
                 logger.error(f"{ex} with {line}\n")
     return campus_locations
