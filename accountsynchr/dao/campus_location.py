@@ -83,7 +83,7 @@ def get_campus_locations_from_spacews():
                     continue
 
                 value = None
-                if fac_objs or len(fac_objs) == 1:
+                if fac_objs and len(fac_objs) == 1:
                     value = fac_objs[0]
                 campus_locations.append(
                     CampusLocation(name, code, value)
