@@ -34,7 +34,7 @@ class TestCampusLocation(TestCase):
             self.assertEqual(loc.space_obj.latitude, "47.653693")
             self.assertEqual(loc.space_obj.longitude, "-122.304747")
 
-            loc = locations[280]
+            loc = locations[309]
             self.assertEqual(
                 loc.old_name, "Women's Fastpitch Softball Building")
             self.assertEqual(loc.old_code, "WSB")
