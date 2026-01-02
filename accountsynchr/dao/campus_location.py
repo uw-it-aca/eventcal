@@ -51,7 +51,7 @@ def get_campus_locations_from_spacews():
                         fac_objs = FAC.search_by_code(code)
                         if fac_objs and len(fac_objs) > 1:
                             logger.error(
-                                f"search_by_code {code}" +
+                                f"search_by_code {code} " +
                                 f"MULTI-MATCHES: {fac_objs}"
                             )
                             continue
@@ -75,7 +75,7 @@ def get_campus_locations_from_spacews():
                         fac_objs = FAC.search_by_street(name)
                         if fac_objs and len(fac_objs) > 1:
                             logger.error(
-                                f"search_by_street {name} ({code})" +
+                                f"search_by_street {name} ({code}) " +
                                 f"MULTI-MATCHES: {fac_objs}"
                             )
                             continue
