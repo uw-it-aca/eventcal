@@ -28,6 +28,7 @@ setup(
         'uw-memcached-clients~=1.1',
         'UW-RestClients-Core~=1.4',
         'UW-RestClients-GWS~=2.3',
+        'UW-RestClients-Space~=1.2',
         'UW-RestClients-Trumba~=1.4',
         'Django-Safe-EmailBackend~=1.2',
         'lxml<5',
