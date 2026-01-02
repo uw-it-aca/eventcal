@@ -50,37 +50,37 @@ def get_campus_locations_from_spacews():
                     try:
                         fac_objs = FAC.search_by_code(code)
                         if fac_objs and len(fac_objs) > 1:
-                            logger.warning(
-                                f"search_by_code {code}: {fac_objs}"
+                            logger.error(
+                                f"search_by_code {code}" +
+                                f"MULTI-MATCHES: {fac_objs}"
                             )
+                            continue
                     except DataFailureException as ex:
-                        logger.error(f"{ex} search_by_code {code}\n")
+                        logger.error(f"search_by_code {code} {ex}\n")
 
                 if not fac_objs:
                     try:
                         fac_objs = FAC.search_by_name(name)
                         if fac_objs and len(fac_objs) > 1:
-                            logger.warning(
-                                f"search_by_name {name}: {fac_objs}"
+                            logger.error(
+                                f"search_by_name {name} ({code})" +
+                                f"MULTI-MATCHES: {fac_objs}"
                             )
+                            continue
                     except DataFailureException as ex:
-                        logger.error(f"{ex} search_by_name {name}\n")
+                        logger.error(f"search_by_name {name} {ex}\n")
 
                 if not fac_objs:
                     try:
                         fac_objs = FAC.search_by_street(name)
                         if fac_objs and len(fac_objs) > 1:
-                            logger.warning(
-                                f"search_by_street {name}: {fac_objs}"
+                            logger.error(
+                                f"search_by_street {name} ({code})" +
+                                f"MULTI-MATCHES: {fac_objs}"
                             )
+                            continue
                     except DataFailureException as ex:
-                        logger.error(f"{ex} search_by_street {name}\n")
-
-                if fac_objs and len(fac_objs) > 1:
-                    logger.error(
-                        f"Multiple facilities found for {name} ({code})\n"
-                    )
-                    continue
+                        logger.error(f"search_by_street {name} {ex}\n")
 
                 value = None
                 if fac_objs and len(fac_objs) == 1:
