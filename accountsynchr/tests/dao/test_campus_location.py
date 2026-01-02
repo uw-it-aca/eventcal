@@ -1,4 +1,4 @@
-# Copyright 2025 UW-IT, University of Washington
+# Copyright 2026 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
 from datetime import datetime
@@ -24,7 +24,7 @@ class TestCampusLocation(TestCase):
             ]
             locations = get_campus_locations_from_spacews()
             self.assertIsInstance(locations, list)
-            self.assertEqual(len(locations), 281)
+            self.assertEqual(len(locations), 310)
             loc = locations[1]
             self.assertEqual(loc.old_name, "1218 NE Campus Parkway")
             self.assertEqual(loc.old_code, "ELM-HALL")
