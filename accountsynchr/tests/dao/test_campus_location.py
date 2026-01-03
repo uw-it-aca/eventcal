@@ -9,12 +9,37 @@ from accountsynchr.dao.campus_location import (
 
 
 class TestCampusLocation(TestCase):
-    def test_find_space_obj_by_code(self):
-        cl = CampusLocation("Mechanical", "MDR")
+    def test_find_space_obj(self):
+        value = {
+                "city": "Seattle",
+                "code": "MDR",
+                "last_updated": "2022-09-22 12:49:38-07:53",
+                "latitude": 47.6601320001,
+                "longitude": -122.305391,
+                "name": "Madrona Hall",
+                "number": "6471",
+                "post_code": "98195",
+                "site": "Seattle Main Campus",
+                "state": "WA",
+                "status": "A",
+                "street": "4320 Little Canoe Channel NE",
+                "type": "Building"
+            }
+        cl = CampusLocation("1", "MDR")
         fac = cl.space_obj
-        self.assertEqual(
-            fac.json_data(),
-           {})
+        self.assertEqual(fac.json_data(), value)
+
+        cl = CampusLocation("1", "MDR1")
+        fac = cl.space_obj
+        self.assertIsNone(fac)
+
+        cl2 = CampusLocation("Allen_Library", "")
+        fac = cl2.space_obj
+        self.assertIsNotNone(fac.json_data())
+
+        cl3 = CampusLocation("4320 Little Canoe Channel NE", "")
+        fac = cl3.space_obj
+        self.assertIsNone(fac)
 
     def test_get_campus_locations_from_spacews(self):
         with patch.object(Facilities, "search_by_code", spec=True) as mock:

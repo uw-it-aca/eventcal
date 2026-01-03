@@ -84,15 +84,17 @@ def get_campus_locations_from_spacews():
         next(reader)  # skip header
         for line in reader:
             try:
-                res = re.match(r"^(.*)\(([^()]+)\)\s*$", line[0])
-                if not res:
-                    logger.error(f"Could not parse {line[0]}\n")
-                    continue
-                name = html.unescape(res.group(1).rstrip())
-                if res.group(2):
-                    code = res.group(2).strip()
+                code = ""
+                if "(" in line[0] and ")" in line[0]:
+                    res = re.match(r"^(.*)\(([^()]+)\)\s*$", line[0])
+                    if not res:
+                        logger.error(f"Could not parse {line[0]}\n")
+                        continue
+                    name = html.unescape(res.group(1).rstrip())
+                    if res.group(2):
+                        code = res.group(2).strip()
                 else:
-                    code = ""
+                    name = html.unescape(line[0].strip())
 
                 campus_locations.append(
                     CampusLocation(name, code)
