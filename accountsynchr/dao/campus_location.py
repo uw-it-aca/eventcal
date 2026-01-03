@@ -13,11 +13,61 @@ logger = logging.getLogger(__name__)
 FAC = Facilities()
 
 
-class CampusLocation:
-    def __init__(self, old_name, old_code, space_obj):
+class CampusLocation(object):
+    def __init__(self, old_name, old_code):
         self.old_name = old_name
         self.old_code = old_code
-        self.space_obj = space_obj
+        self.space_obj = self.find_space_obj()
+
+    def find_space_obj(self):
+        logger.debug(
+            f"name: {self.old_name}, code: {self.old_code}\n")
+
+        if self.old_code and len(self.old_code) > 1:
+            try:
+                fac_objs = FAC.search_by_code(self.old_code)
+                if fac_objs:
+                    if len(fac_objs) == 1:
+                        return fac_objs[0]
+                    if len(fac_objs) > 1:
+                        logger.error(
+                            f"search_by_code {self.old_code} " +
+                            f"MULTI-MATCHES: {fac_objs}"
+                        )
+                        return None
+            except DataFailureException as ex:
+                logger.error(
+                    f"search_by_code {self.old_code} {ex}\n")
+
+        if self.old_name and len(self.old_name) > 1:
+            try:
+                fac_objs = FAC.search_by_name(self.old_name)
+                if fac_objs:
+                    if len(fac_objs) == 1:
+                        return fac_objs[0]
+                    if len(fac_objs) > 1:
+                        logger.error(
+                            f"search_by_name {self.old_name} " +
+                            f"ULTI-MATCHES: {fac_objs}"
+                        )
+                        return None
+            except DataFailureException as ex:
+                logger.error(f"search_by_name {self.old_name} {ex}\n")
+
+            try:
+                fac_objs = FAC.search_by_street(self.old_name)
+                if fac_objs:
+                    if len(fac_objs) == 1:
+                        return fac_objs[0]
+                    if len(fac_objs) > 1:
+                        logger.error(
+                            f"search_by_street {self.old_name} " +
+                            f"MULTI-MATCHES: {fac_objs}"
+                        )
+                        return None
+            except DataFailureException as ex:
+                logger.error(f"search_by_street {self.old_name} {ex}\n")
+        return None
 
 
 def get_campus_locations_from_spacews():
@@ -43,50 +93,9 @@ def get_campus_locations_from_spacews():
                     code = res.group(2).strip()
                 else:
                     code = ""
-                logger.debug(f"name: {name}, code: {code}\n")
 
-                fac_objs = []
-                if code and len(code) > 1:
-                    try:
-                        fac_objs = FAC.search_by_code(code)
-                        if fac_objs and len(fac_objs) > 1:
-                            logger.error(
-                                f"search_by_code {code} " +
-                                f"MULTI-MATCHES: {fac_objs}"
-                            )
-                            continue
-                    except DataFailureException as ex:
-                        logger.error(f"search_by_code {code} {ex}\n")
-
-                if not fac_objs:
-                    try:
-                        fac_objs = FAC.search_by_name(name)
-                        if fac_objs and len(fac_objs) > 1:
-                            logger.error(
-                                f"search_by_name {name} ({code})" +
-                                f"MULTI-MATCHES: {fac_objs}"
-                            )
-                            continue
-                    except DataFailureException as ex:
-                        logger.error(f"search_by_name {name} {ex}\n")
-
-                if not fac_objs:
-                    try:
-                        fac_objs = FAC.search_by_street(name)
-                        if fac_objs and len(fac_objs) > 1:
-                            logger.error(
-                                f"search_by_street {name} ({code}) " +
-                                f"MULTI-MATCHES: {fac_objs}"
-                            )
-                            continue
-                    except DataFailureException as ex:
-                        logger.error(f"search_by_street {name} {ex}\n")
-
-                value = None
-                if fac_objs and len(fac_objs) == 1:
-                    value = fac_objs[0]
                 campus_locations.append(
-                    CampusLocation(name, code, value)
+                    CampusLocation(name, code)
                     )
             except Exception as ex:
                 logger.error(f"{ex} with {line}\n")

@@ -1,15 +1,20 @@
 # Copyright 2026 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
-from datetime import datetime
 from unittest.mock import patch
 from django.test import TestCase
 from uw_space import Facility, Facilities
 from accountsynchr.dao.campus_location import (
-    get_campus_locations_from_spacews)
+    CampusLocation, get_campus_locations_from_spacews)
 
 
 class TestCampusLocation(TestCase):
+    def test_find_space_obj_by_code(self):
+        cl = CampusLocation("Mechanical", "MDR")
+        fac = cl.space_obj
+        self.assertEqual(
+            fac.json_data(),
+           {})
 
     def test_get_campus_locations_from_spacews(self):
         with patch.object(Facilities, "search_by_code", spec=True) as mock:
