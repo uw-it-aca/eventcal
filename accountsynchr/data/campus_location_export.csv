@@ -1,5 +1,4 @@
 Campus location Name,Map link,Address
-1107 Ne 45th Street (University District Building) (UDB),http://www.washington.edu/maps/?UDB,"47.660884417628,-122.31623754233"
 1218 NE Campus Parkway (ELM-HALL),https://www.washington.edu/maps/#!/elm-hall,"47.656408,-122.315296"
 1415 N.E. 45th Street (AHO),http://www.washington.edu/maps/?AHO,"47.661070985024,-122.31232783138"
 1429 N.E. Boat Street (OTS),http://www.washington.edu/maps/?OTS,"47.650330275224,-122.31310291534"
@@ -135,7 +134,7 @@ IMA Sports Field #1,"http://maps.google.com/maps?q=47.660101425544,-122.29540846
 IMA Sports Field #2,"http://maps.google.com/maps?q=47.657066348,-122.2980477552","47.657066348,-122.2980477552"
 IMA Sports Field #3,"http://maps.google.com/maps?q=47.654710428096,-122.30059585377","47.654710428096,-122.30059585377"
 Indoor Practice Facility (Dempsey Indoor Center) (IPF),http://www.washington.edu/maps/?IPF,"47.651535136766,-122.29931327116"
-Institute on Human Development and Disability (chcl),https://www.washington.edu/maps/#!/chcl,
+Institute on Human Development and Disability (CHCL),https://www.washington.edu/maps/#!/chcl,
 Institute on Human Development and Disability South Building (IHDD),http://www.washington.edu/maps/?IHDD,"47.648169683454,-122.30753845767"
 Instructional Center/Theater (ICT),http://www.washington.edu/maps/?ICT,"47.656939933497,-122.31485162698"
 Intellectual House (INT),http://www.washington.edu/maps/#!/int,"47.658278,-122.304778"
@@ -277,6 +276,7 @@ Thomson Hall (THO),http://www.washington.edu/maps/?THO,"47.656504413384,-122.305
 Transportation Services Building (TSB),http://www.washington.edu/maps/?TSB,"47.662736935757,-122.30151774603"
 Union Bay Natural Area,"http://maps.google.com/maps?q=47.655400441047,-122.29302050787","47.655400441047,-122.29302050787"
 University Book Store (BOOK),http://www.washington.edu/maps/?BOOK,"47.660296,-122.312889"
+"University District Building, 1107 NE 45th Street (UDB)",https://maps.app.goo.gl/GUUSQCvAW2rUac5LA,"47.660884417628,-122.31623754233"
 University Facilities Annex 1 (UFA),http://www.washington.edu/maps/?UFA,"47.654721386545,-122.30410146627"
 University Facilities Annex 2 (UFA2),http://www.washington.edu/maps/?UFA2,"47.654668329105,-122.30385741531"
 University Facilities Building (UFB),http://www.washington.edu/maps/?UFB,"47.655052546274,-122.30394710185"
@@ -293,8 +293,6 @@ University of Washington Club (FAC),http://www.washington.edu/maps/?FAC,"47.6555
 University Of Washington Medical Center (UMEC),http://www.washington.edu/maps/?UMEC,"47.648866188178,-122.30628316931"
 University Transportation Center (UTC),http://www.washington.edu/maps/?UTC,"47.652795814514,-122.31313574471"
 Urban Horticulture Field House (UHF),http://www.washington.edu/maps/?UHF,"47.656502653824,-122.2888902037"
-UW Bothell Beardslee Building (UWBB),"http://maps.google.com/maps?q=47.764289,-122.193956&z=18","47.764289,-122.193956"
-UW Medical Center,"http://maps.google.com/maps?q=47.648743,-122.306137","47.648743,-122.306137"
 "UW Medical Center, Wing EA (UMEA)",http://www.washington.edu/maps/?UMEA,"47.648908158562,-122.30676492988"
 "UW Medical Center, Wing NE (UMNE)",http://www.washington.edu/maps/?UMNE,"47.649190038654,-122.30659326851"
 "UW Medical Center, Wing SA - Montlake Tower (UMSA)",http://www.washington.edu/maps/?UMSA,"47.64894429712,-122.30733355819"
@@ -303,6 +301,7 @@ UW Tower Building C (UWTC),http://www.washington.edu/maps/?UWTC,"47.660267929606
 UW Tower Building O (UWTO),http://www.washington.edu/maps/?UWTO,"47.660809383055,-122.315119"
 UW Tower Building T (UWTT),http://www.washington.edu/maps/?UWTT,"47.660695417445,-122.31463354233"
 UW Tower Complex (SFCO),"http://maps.google.com/maps?q=47.659889,-122.315392","47.659889,-122.315392"
+UWMC - Triangle Garage,"http://maps.google.com/maps?q=47.649971,-122.306091","47.649971,-122.306091"
 Washington Commons (UWTS),http://www.washington.edu/maps/?UWTS,"47.660157738477,-122.31463917791"
 Washington Park Arboretum (LNDMK-8),http://www.washington.edu/maps/?LNDMK-8,"47.639822131615,-122.2945125991"
 Waterfront Activities Center (WAC),http://www.washington.edu/maps/?WAC,"47.648586227759,-122.2999692037"
