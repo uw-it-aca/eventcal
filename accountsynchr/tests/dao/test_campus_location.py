@@ -33,7 +33,8 @@ class TestCampusLocation(TestCase):
         name, code = parse_campus_location_title(
             "North Physics Laboratory (Van De Graaff Accelerator) (npv)"
         )
-        self.assertEqual(name, "North Physics Laboratory (Van De Graaff Accelerator)")
+        self.assertEqual
+        (name, "North Physics Laboratory (Van De Graaff Accelerator)")
         self.assertEqual(code, "NPV")
 
     def test_find_space_obj(self):
