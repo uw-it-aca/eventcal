@@ -56,8 +56,8 @@ class TestCampusLocation(TestCase):
             self.assertIsInstance(locations, list)
             self.assertTrue(len(locations) > 300)
             loc = locations[1]
-            self.assertEqual(loc.old_name, "1218 NE Campus Parkway")
-            self.assertEqual(loc.old_code, "ELM-HALL")
+            self.assertEqual(loc.old_name, "1415 N.E. 45th Street")
+            self.assertEqual(loc.old_code, "AHO")
             self.assertEqual(loc.space_obj.code, "NMEB")
             self.assertEqual(
                 loc.space_obj.name, "Mechanical Engineering Building")

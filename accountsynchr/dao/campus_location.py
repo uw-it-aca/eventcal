@@ -86,7 +86,7 @@ def get_campus_locations_from_spacews():
             try:
                 code = ""
                 if "(" in line[0] and ")" in line[0]:
-                    res = re.match(r"^(.*)\(([^()]+)\)\s*$", line[0])
+                    res = re.match(r"^(.*)\(([-A-Z0-9]+)\)\s*$", line[0])
                     if not res:
                         logger.error(f"Could not parse {line[0]}\n")
                         continue
