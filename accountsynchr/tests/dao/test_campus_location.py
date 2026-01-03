@@ -5,10 +5,37 @@ from unittest.mock import patch
 from django.test import TestCase
 from uw_space import Facility, Facilities
 from accountsynchr.dao.campus_location import (
-    CampusLocation, get_campus_locations_from_spacews)
+    CampusLocation,
+    get_campus_locations_from_spacews,
+    parse_campus_location_title
+)
 
 
 class TestCampusLocation(TestCase):
+    def test_parse_campus_location_title(self):
+        name, code = parse_campus_location_title(
+            "Union Bay Natural Area"
+        )
+        self.assertEqual(name, "Union Bay Natural Area")
+        self.assertEqual(code, "")
+
+        name, code = parse_campus_location_title(
+            "Women's Fastpitch Softball Building (WSB)")
+        self.assertEqual(name, "Women's Fastpitch Softball Building")
+        self.assertEqual(code, "WSB")
+
+        name, code = parse_campus_location_title(
+            "The Liberal Arts Quadrangle - The Quad (LNDMK-1)"
+        )
+        self.assertEqual(name, "The Liberal Arts Quadrangle - The Quad")
+        self.assertEqual(code, "LNDMK-1")
+
+        name, code = parse_campus_location_title(
+            "North Physics Laboratory (Van De Graaff Accelerator) (npv)"
+        )
+        self.assertEqual(name, "North Physics Laboratory (Van De Graaff Accelerator)")
+        self.assertEqual(code, "NPV")
+
     def test_find_space_obj(self):
         value = {
                 "city": "Seattle",
