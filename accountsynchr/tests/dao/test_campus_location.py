@@ -27,8 +27,9 @@ class TestCampusLocation(TestCase):
         name, code = parse_campus_location_title(
             "The Liberal Arts Quadrangle - The Quad (LNDMK-1)"
         )
-        self.assertEqual(name, "The Liberal Arts Quadrangle - The Quad")
-        self.assertEqual(code, "LNDMK-1")
+        self.assertEqual(
+            name, "The Liberal Arts Quadrangle - The Quad (LNDMK-1)")
+        self.assertEqual(code, "")
 
         name, code = parse_campus_location_title(
             "North Physics Laboratory (Van De Graaff Accelerator) (npv)"

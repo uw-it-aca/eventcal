@@ -98,7 +98,7 @@ def parse_campus_location_title(str):
     code = ""
     if "(" in str and ")" in str:
         res = re.match(r"^(.*)\(([A-Za-z0-9]+)\)\s*$", str)
-        # No spaces, hyphens, or special symbols
+        # UW Facility code has no spaces, hyphens, or special symbols
         if not res:
             logger.error(f"Could not parse {str}, skip!\n")
         else:
