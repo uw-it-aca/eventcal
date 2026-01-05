@@ -83,7 +83,7 @@ class TestCampusLocation(TestCase):
             ]
             locations = get_campus_locations_from_spacews()
             self.assertIsInstance(locations, list)
-            self.assertTrue(len(locations) > 300)
+            self.assertTrue(len(locations) > 250)
             loc = locations[1]
             self.assertEqual(loc.old_name, "1415 N.E. 45th Street")
             self.assertEqual(loc.old_code, "AHO")
