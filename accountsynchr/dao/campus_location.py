@@ -103,5 +103,5 @@ def parse_campus_location_title(str):
         else:
             name = html.unescape(res.group(1).rstrip())
             if res.group(2):
-                code = res.group(2).strip().upper()
+                code = res.group(2).strip()
     return name, code
