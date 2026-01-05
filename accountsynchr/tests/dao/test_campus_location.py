@@ -35,7 +35,7 @@ class TestCampusLocation(TestCase):
         )
         self.assertEqual
         (name, "North Physics Laboratory (Van De Graaff Accelerator)")
-        self.assertEqual(code, "NPV")
+        self.assertEqual(code, "npv")
 
     def test_find_space_obj(self):
         value = {

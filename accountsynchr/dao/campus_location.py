@@ -48,7 +48,7 @@ class CampusLocation(object):
                     if len(fac_objs) > 1:
                         logger.error(
                             f"search_by_name {self.old_name} " +
-                            f"ULTI-MATCHES: {fac_objs}"
+                            f"MULTI-MATCHES: {fac_objs}"
                         )
                         return None
             except DataFailureException as ex:
@@ -97,11 +97,12 @@ def parse_campus_location_title(str):
     name = html.unescape(str.strip())
     code = ""
     if "(" in str and ")" in str:
-        res = re.match(r"^(.*)\(([-A-Za-z0-9]+)\)\s*$", str)
+        res = re.match(r"^(.*)\(([A-Za-z0-9]+)\)\s*$", str)
+        # No spaces, hyphens, or special symbols
         if not res:
-            logger.error(f"Could not parse {str}\n")
+            logger.error(f"Could not parse {str}, skip!\n")
         else:
             name = html.unescape(res.group(1).rstrip())
             if res.group(2):
-                code = res.group(2).strip().upper()
+                code = res.group(2).rstrip()
     return name, code
