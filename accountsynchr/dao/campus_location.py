@@ -48,7 +48,7 @@ class CampusLocation(object):
                     if len(fac_objs) > 1:
                         logger.error(
                             f"search_by_name {self.old_name} " +
-                            f"ULTI-MATCHES: {fac_objs}"
+                            f"MULTI-MATCHES: {fac_objs}"
                         )
                         return None
             except DataFailureException as ex:
@@ -85,21 +85,23 @@ def get_campus_locations_from_spacews():
         for line in reader:
             try:
                 name, code = parse_campus_location_title(line[0])
-                campus_locations.append(
-                    CampusLocation(name, code)
-                    )
+                if len(code) > 1:
+                    campus_locations.append(
+                        CampusLocation(name, code)
+                        )
             except Exception as ex:
                 logger.error(f"{ex} with {line}\n")
     return campus_locations
 
 
-def parse_campus_location_title(str):
-    name = html.unescape(str.strip())
+def parse_campus_location_title(title_str):
+    name = html.unescape(title_str.strip())
     code = ""
-    if "(" in str and ")" in str:
-        res = re.match(r"^(.*)\(([-A-Za-z0-9]+)\)\s*$", str)
+    if "(" in title_str and ")" in title_str:
+        res = re.match(r"^(.*)\(([A-Za-z0-9]+)\)\s*$", title_str)
+        # UW Facility code has no spaces, hyphens, or special symbols
         if not res:
-            logger.error(f"Could not parse {str}\n")
+            logger.error(f"Could not parse {title_str}, skip!\n")
         else:
             name = html.unescape(res.group(1).rstrip())
             if res.group(2):

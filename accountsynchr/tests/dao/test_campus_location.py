@@ -27,15 +27,16 @@ class TestCampusLocation(TestCase):
         name, code = parse_campus_location_title(
             "The Liberal Arts Quadrangle - The Quad (LNDMK-1)"
         )
-        self.assertEqual(name, "The Liberal Arts Quadrangle - The Quad")
-        self.assertEqual(code, "LNDMK-1")
+        self.assertEqual(
+            name, "The Liberal Arts Quadrangle - The Quad (LNDMK-1)")
+        self.assertEqual(code, "")
 
         name, code = parse_campus_location_title(
             "North Physics Laboratory (Van De Graaff Accelerator) (npv)"
         )
-        self.assertEqual
-        (name, "North Physics Laboratory (Van De Graaff Accelerator)")
-        self.assertEqual(code, "NPV")
+        self.assertEqual(
+            name, "North Physics Laboratory (Van De Graaff Accelerator)")
+        self.assertEqual(code, "npv")
 
     def test_find_space_obj(self):
         value = {
