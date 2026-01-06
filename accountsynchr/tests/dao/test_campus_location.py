@@ -5,7 +5,7 @@ from unittest.mock import patch
 from django.test import TestCase
 from uw_space import Facility, Facilities
 from accountsynchr.dao.campus_location import (
-    CampusLocation,
+    CampusLocation, tidy_name,
     get_campus_locations_from_spacews,
     parse_campus_location_title
 )
@@ -102,3 +102,14 @@ class TestCampusLocation(TestCase):
                 loc.space_obj.name, "Mechanical Engineering Building")
             self.assertEqual(loc.space_obj.latitude, "47.653693")
             self.assertEqual(loc.space_obj.longitude, "-122.304747")
+
+    def test_tidy_name(self):
+        self.assertEqual(tidy_name(""), "")
+        self.assertEqual(
+            tidy_name("4522 University Way NE (**DUPLICATE OF 1088**)"),
+            "4522 University Way NE"
+        )
+        self.assertEqual(
+            tidy_name("SLU D Building (Brotman)"),
+            "SLU D Building (Brotman)"
+        )

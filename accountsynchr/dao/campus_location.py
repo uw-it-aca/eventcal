@@ -107,3 +107,9 @@ def parse_campus_location_title(title_str):
             if res.group(2):
                 code = res.group(2).strip()
     return name, code
+
+
+def tidy_name(name):
+    if not name:
+        return name
+    return re.sub(r"\s*\([*]*DUPLICATE OF .*?[*]*\)", "", name)

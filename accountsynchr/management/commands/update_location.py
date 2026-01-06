@@ -8,7 +8,8 @@ import os
 import re
 from urllib.parse import quote_plus
 from django.core.management.base import BaseCommand
-from accountsynchr.dao.campus_location import get_campus_locations_from_spacews
+from accountsynchr.dao.campus_location import (
+  get_campus_locations_from_spacews, tidy_name)
 
 logger = logging.getLogger(__name__)
 
@@ -37,10 +38,11 @@ class Command(BaseCommand):
                 logger.info(
                     f"{bdg.old_name} ({bdg.old_code})  ==>  \n")
                 continue
-            if bdg.space_obj.name != bdg.old_name:
+            new_name = tidy_name(bdg.space_obj.name)
+            if new_name != bdg.old_name:
                 logger.info(
                     f"{bdg.old_name} ({bdg.old_code})  ==>  " +
-                    f"{bdg.space_obj.name} ({bdg.space_obj.code})\n"
+                    f"{new_name} ({bdg.space_obj.code})\n"
                 )
 
     def make_import_csv_file(self, campus_locations):
@@ -56,7 +58,8 @@ class Command(BaseCommand):
                         continue
                     address = (
                         f"{bdg.space_obj.latitude},{bdg.space_obj.longitude}")
-                    bname = html.escape(bdg.space_obj.name)
+                    new_name = tidy_name(bdg.space_obj.name)
+                    bname = html.escape(new_name)
                     maplink = (
                         f"https://maps.google.com/maps?q=" +
                         f"{bdg.space_obj.latitude}," +
