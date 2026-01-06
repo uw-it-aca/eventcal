@@ -66,9 +66,9 @@ class Command(BaseCommand):
                         f"{bdg.space_obj.longitude}&t=k&z=18"
                     )
                     writer.writerow([
-                        f"\"{bname} ({bdg.space_obj.code})\"",
-                        f"\"{maplink}\"",
-                        f"\"{address}\""
+                        f"{bname} ({bdg.space_obj.code})",
+                        maplink,
+                        address
                         ])
 
         except Exception as ex:
