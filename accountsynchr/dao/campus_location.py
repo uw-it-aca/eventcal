@@ -26,15 +26,10 @@ class CampusLocation(object):
         if self.old_code and len(self.old_code) > 1:
             try:
                 fac_objs = FAC.search_by_code(self.old_code)
-                if fac_objs:
-                    if len(fac_objs) == 1:
-                        return fac_objs[0]
-                    if len(fac_objs) > 1:
-                        logger.error(
-                            f"search_by_code {self.old_code} " +
-                            f"MULTI-MATCHES: {fac_objs}"
-                        )
-                        return None
+                if fac_objs and len(fac_objs) == 1:
+                    return fac_objs[0]
+                    # facility codes are unique,
+                    # either find a match or no match
             except DataFailureException as ex:
                 logger.error(
                     f"search_by_code {self.old_code} {ex}\n")
@@ -48,7 +43,7 @@ class CampusLocation(object):
                     if len(fac_objs) > 1:
                         logger.error(
                             f"search_by_name {self.old_name} " +
-                            f"MULTI-MATCHES: {fac_objs}"
+                            f"found {len(fac_objs)} matches, skip!"
                         )
                         return None
             except DataFailureException as ex:
@@ -62,7 +57,7 @@ class CampusLocation(object):
                     if len(fac_objs) > 1:
                         logger.error(
                             f"search_by_street {self.old_name} " +
-                            f"MULTI-MATCHES: {fac_objs}"
+                            f"found {len(fac_objs)} matches, skip!"
                         )
                         return None
             except DataFailureException as ex:

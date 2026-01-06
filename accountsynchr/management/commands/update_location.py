@@ -54,10 +54,11 @@ class Command(BaseCommand):
                 writer.writerow(
                     ["Campus location Name", "Map link", "Address"])
                 for bdg in campus_locations:
-                    if not bdg.space_obj:
+                    if (not bdg.space_obj or
+                            bdg.space_obj.latitude == 0.0 or
+                            bdg.space_obj.longitude == 0.0):
                         continue
-                    address = (
-                        f"{bdg.space_obj.latitude},{bdg.space_obj.longitude}")
+
                     new_name = tidy_name(bdg.space_obj.name)
                     if new_name != bdg.old_name:
                         continue
@@ -66,6 +67,9 @@ class Command(BaseCommand):
                         f"https://maps.google.com/maps?q=" +
                         f"{bdg.space_obj.latitude}," +
                         f"{bdg.space_obj.longitude}&t=k&z=18"
+                    )
+                    address = (
+                        f"{bdg.space_obj.latitude},{bdg.space_obj.longitude}"
                     )
                     writer.writerow([
                         f"{bname} ({bdg.space_obj.code})",
