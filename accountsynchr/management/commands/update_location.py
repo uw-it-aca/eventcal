@@ -58,7 +58,9 @@ class Command(BaseCommand):
                         continue
                     address = (
                         f"{bdg.space_obj.latitude},{bdg.space_obj.longitude}")
-                    # new_name = tidy_name(bdg.space_obj.name)
+                    new_name = tidy_name(bdg.space_obj.name)
+                    if new_name != bdg.old_name:
+                        continue
                     bname = html.escape(bdg.old_name)
                     maplink = (
                         f"https://maps.google.com/maps?q=" +
