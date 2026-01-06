@@ -112,4 +112,4 @@ def parse_campus_location_title(title_str):
 def tidy_name(name):
     if not name:
         return name
-    return re.sub(r"\s*\([*]*DUPLICATE OF .*?[*]*\)", "", name)
+    return re.sub(r"\s*\(\*\*.*?\*\*\)", "", name)
