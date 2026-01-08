@@ -15,7 +15,8 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            "location", type=str, help="Location name (code)")
+            "location", type=str,
+            help="Location name or address (facility code)")
 
     def handle(self, *args, **options):
         location = options["location"]
