@@ -61,7 +61,6 @@ class Command(BaseCommand):
                             f"{bdg.old_name} ({bdg.old_code})  ==>  "
                             + f"{new_name} ({bdg.space_obj.code})\n"
                         )
-                    bname = bdg.old_name
                     maplink = (
                         f"https://maps.google.com/maps?q=" +
                         f"{bdg.space_obj.latitude}," +
@@ -71,10 +70,10 @@ class Command(BaseCommand):
                         f"{bdg.space_obj.latitude},{bdg.space_obj.longitude}"
                     )
                     writer.writerow([
-                        f"{bname} ({bdg.space_obj.code})",
+                        f"{bdg.old_name} ({bdg.space_obj.code})",
                         maplink,
                         address
-                        ])
+                    ])
 
         except Exception as ex:
             logger.error(ex)

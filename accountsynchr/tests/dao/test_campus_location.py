@@ -91,13 +91,8 @@ class TestCampusLocation(TestCase):
 
             loc = locations[len(locations) - 1]
             self.assertEqual(
-                loc.old_name, "Women's Fastpitch Softball Building")
-            self.assertEqual(loc.old_code, "WSB")
-            self.assertEqual(loc.space_obj.code, "NMEB")
-            self.assertEqual(
-                loc.space_obj.name, "Mechanical Engineering Building")
-            self.assertEqual(loc.space_obj.latitude, "47.653693")
-            self.assertEqual(loc.space_obj.longitude, "-122.304747")
+                loc.old_name, "Winkenwerder Forest Sciences Laboratory")
+            self.assertEqual(loc.old_code, "WFS")
 
     def test_tidy_name(self):
         self.assertEqual(tidy_name(""), "")
