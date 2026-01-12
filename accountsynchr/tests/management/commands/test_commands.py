@@ -47,3 +47,12 @@ class TestCommands(TransactionTestCase):
         call_command('trumba_gcal_gws')
         records = GCalendar.objects.all()
         self.assertEqual(len(records), 2)
+
+    def test_find_location(self):
+        call_command('find_location', 'Mechanical (MDR)')
+        call_command('find_location', 'Madrona Hall')
+        call_command('find_location', '4320 Little Canoe Channel NE')
+
+    def test_find_location(self):
+        call_command("update_location", "identify-location-renames")
+        # call_command("update_location", "make-import-csv")
