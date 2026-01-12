@@ -70,6 +70,10 @@ class TestCampusLocation(TestCase):
         fac = cl3.space_obj
         self.assertIsNone(fac)
 
+        cl3 = CampusLocation("668 NE Northlake Way", "")
+        fac = cl3.space_obj
+        self.assertIsNotNone(fac)
+
     def test_get_campus_locations_from_spacews(self):
         with patch.object(Facilities, "search_by_code", spec=True) as mock:
             mock.return_value = [
