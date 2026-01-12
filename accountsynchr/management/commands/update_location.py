@@ -2,11 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import csv
-import html
 import logging
-import os
-import re
-from urllib.parse import quote_plus
 from django.core.management.base import BaseCommand
 from accountsynchr.dao.campus_location import (
   get_campus_locations_from_spacews, tidy_name)
@@ -61,8 +57,11 @@ class Command(BaseCommand):
 
                     new_name = tidy_name(bdg.space_obj.name)
                     if new_name != bdg.old_name:
-                        continue
-                    bname = html.escape(bdg.old_name)
+                        logger.warning(
+                            f"{bdg.old_name} ({bdg.old_code})  ==>  "
+                            + f"{new_name} ({bdg.space_obj.code})\n"
+                        )
+                    bname = bdg.old_name
                     maplink = (
                         f"https://maps.google.com/maps?q=" +
                         f"{bdg.space_obj.latitude}," +
