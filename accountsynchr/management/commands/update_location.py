@@ -11,6 +11,11 @@ logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
+    """
+    Process Trumba campus locations, perform one of the following:
+    1) Identify location differences by comparing with SpaceWS data
+    2) Create an import file with data from SpaceWS
+    """
 
     def add_arguments(self, parser):
         parser.add_argument(

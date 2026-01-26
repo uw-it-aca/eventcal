@@ -9,6 +9,9 @@ from accountsynchr.util.settings import get_cronjob_sender
 
 
 class Command(BaseCommand):
+    """
+    Print out statistics of calendar groups
+    """
 
     def handle(self, *args, **options):
 
