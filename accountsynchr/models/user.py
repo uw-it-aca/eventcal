@@ -10,6 +10,9 @@ logger = logging.getLogger(__name__)
 
 
 class EditorCreation(models.Model):
+    """
+    Track editor creation time to prevent new editors to be purged
+    """
     uwnetid = models.CharField(max_length=128, db_index=True, unique=True)
     last_updated = models.DateTimeField(auto_now=True)
 

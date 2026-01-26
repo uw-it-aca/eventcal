@@ -9,6 +9,9 @@ from django.utils import timezone
 
 
 class GCalendar(models.Model):
+    """
+    Track calendar names to detect name changes
+    """
     calendarid = models.PositiveIntegerField(db_index=True)
     campus = models.CharField(max_length=3)
     name = models.CharField(max_length=255, default=None)

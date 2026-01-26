@@ -14,17 +14,18 @@ logger = logging.getLogger(__name__)
 
 
 class CalPermManager(Calendars):
-    # methods in super class
-    # exists(campus_code)
-    # get_calendar(campus, calendarid)
-    # get_campus_calendars(campus_code)
-    # has_calendar(campus, calendarid)
-    # total_calendars(campus_code)
+    # Methods defined in the super class:
+    # self.exists(campus_code)
+    # self.get_calendar(campus_code, calendarid)
+    # self.get_campus_calendars(campus_code)
+    # self.has_calendar(campus_code, calendarid)
+    # self.total_calendars(campus_code)
 
     def __init__(self):
         super(CalPermManager, self).__init__()
-        # self.campus_calendars is a dict of
-        # {campus-code: {calendar id: TrumbaCalendar}} preloaded
+        # Load self.campus_calendars which is a dict of
+        # {campus-code: {calendar id: TrumbaCalendar}}
+        # self.perm_loader: uw_trumba.permissions.Permissions
 
     def account_exists(self, uwnetid):
         return self.perm_loader.account_exists(uwnetid)
