@@ -67,7 +67,7 @@ class CampusLocation(object):
 
 def get_campus_locations_from_spacews():
     """
-    Process Trumba location data from campus_location_export.csv
+    Process location data exported from Trumba in campus_location_export.csv
     Return a list of CampusLocation objects
     """
     campus_locations = []
