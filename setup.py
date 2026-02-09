@@ -31,7 +31,7 @@ setup(
         'UW-RestClients-Space~=1.2',
         'UW-RestClients-Trumba~=1.4',
         'Django-Safe-EmailBackend~=1.2',
-        'lxml<5',
+        'lxml>=6,<7',
         ],
     license='Apache License, Version 2.0',
     description=('App synchronizes uw calendar groups and Trumba permissions'),
