@@ -8,7 +8,7 @@ from accountsynchr.dao.notifier import send_acc_removal_email
 
 class Command(BaseCommand):
     """
-    Notify the given user for account colosing
+    Notify the given user before account closing
     """
 
     def add_arguments(self, parser):

@@ -67,6 +67,7 @@ class CampusLocation(object):
 
 def get_campus_locations_from_spacews():
     """
+    Process location data exported from Trumba in campus_location_export.csv
     Return a list of CampusLocation objects
     """
     campus_locations = []
@@ -90,6 +91,11 @@ def get_campus_locations_from_spacews():
 
 
 def parse_campus_location_title(title_str):
+    """
+    Parse campus location title from Trumba
+    :param title_str: original title string
+    :return: tuple of (name, code)
+    """
     name = html.unescape(title_str.strip())
     code = ""
     if "(" in title_str and ")" in title_str:
@@ -105,6 +111,11 @@ def parse_campus_location_title(title_str):
 
 
 def tidy_name(name):
+    """
+    Remove trailing (** ... **) from name in SpaceWS
+    :param name: original name
+    :return: cleaned name
+    """
     if not name:
         return name
     return re.sub(r"\s*\(\*\*.*?\*\*\)", "", name)

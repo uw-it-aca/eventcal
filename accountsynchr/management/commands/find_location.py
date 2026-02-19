@@ -12,6 +12,9 @@ logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
+    """
+    Look up a campus location by name or address (facility code)
+    """
 
     def add_arguments(self, parser):
         parser.add_argument(
