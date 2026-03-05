@@ -51,10 +51,10 @@ cronjob:
       resources:
         limits:
           cpu: 250m
-          memory: 384Mi
+          memory: 300Mi
         requests:
-          cpu: 100m
-          memory: 128Mi
+          cpu: 200m
+          memory: 256Mi
     - name: gws-trumba-evening
       schedule: "12,36 0-3 * * 2-6"
       command: ["/scripts/management_command.sh"]
@@ -62,10 +62,10 @@ cronjob:
       resources:
         limits:
           cpu: 200m
-          memory: 384Mi
+          memory: 300Mi
         requests:
-          cpu: 100m
-          memory: 128Mi
+          cpu: 150m
+          memory: 256Mi
     - name: gws-trumba-weekend
       schedule: "0 5 * * 0,1"
       command: ["/scripts/management_command.sh"]
@@ -73,7 +73,7 @@ cronjob:
       resources:
         limits:
           cpu: 100m
-          memory: 256Mi
+          memory: 160Mi
         requests:
           cpu: 50m
           memory: 128Mi
@@ -84,11 +84,11 @@ cronjob:
       args: ["trumba_gcal_gws"]
       resources:
         limits:
-          cpu: 75m
-          memory: 256Mi
+          cpu: 80m
+          memory: 196Mi
         requests:
-          cpu: 25m
-          memory: 96Mi
+          cpu: 70m
+          memory: 160Mi
     - name: trumba-gws-lite-evening
       schedule: "5,15,25,35,45,55 0-2 * * 2-6"
       command: ["/scripts/management_command.sh"]
@@ -96,21 +96,21 @@ cronjob:
       resources:
         limits:
           cpu: 75m
-          memory: 196Mi
+          memory: 160Mi
         requests:
-          cpu: 25m
-          memory: 96Mi
+          cpu: 65m
+          memory: 128Mi
     - name: trumba-gws-2
       schedule: "30 5,13 * * 0-6"
       command: ["/scripts/management_command.sh"]
       args: ["trumba_gws"]
       resources:
         limits:
-          cpu: 200m
-          memory: 256Mi
+          cpu: 70m
+          memory: 160Mi
         requests:
-          cpu: 100m
-          memory: 96Mi
+          cpu: 50m
+          memory: 128Mi
 
     - name: purge-inactive-accs
       schedule: "0 10 2 3,6,9,12 *"
@@ -118,10 +118,10 @@ cronjob:
       args: ["purge_accounts"]
       resources:
         limits:
-          cpu: 25m
-          memory: 196Mi
+          cpu: 35m
+          memory: 160Mi
         requests:
-          cpu: 10m
+          cpu: 30m
           memory: 128Mi
 
 environmentVariables:
