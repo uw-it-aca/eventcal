@@ -84,32 +84,32 @@ cronjob:
       args: ["trumba_gcal_gws"]
       resources:
         limits:
-          cpu: 80m
-          memory: 180Mi
+          cpu: 90m
+          memory: 144Mi
         requests:
           cpu: 70m
-          memory: 160Mi
+          memory: 112Mi
     - name: trumba-gws-lite-evening
       schedule: "5,15,25,35,45,55 0-2 * * 2-6"
       command: ["/scripts/management_command.sh"]
       args: ["trumba_gcal_gws"]
       resources:
         limits:
-          cpu: 75m
-          memory: 160Mi
+          cpu: 90m
+          memory: 144Mi
         requests:
-          cpu: 65m
-          memory: 128Mi
+          cpu: 70m
+          memory: 112Mi
     - name: trumba-gws-2
       schedule: "30 5,13 * * 0-6"
       command: ["/scripts/management_command.sh"]
       args: ["trumba_gws"]
       resources:
         limits:
-          cpu: 80m
+          cpu: 90m
           memory: 160Mi
         requests:
-          cpu: 60m
+          cpu: 70m
           memory: 128Mi
 
     - name: purge-inactive-accs
@@ -119,10 +119,10 @@ cronjob:
       resources:
         limits:
           cpu: 35m
-          memory: 160Mi
+          memory: 144Mi
         requests:
-          cpu: 30m
-          memory: 128Mi
+          cpu: 25m
+          memory: 112Mi
 
 environmentVariables:
   - name: ENV
