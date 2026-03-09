@@ -106,10 +106,10 @@ cronjob:
       args: ["trumba_gws"]
       resources:
         limits:
-          cpu: 90m
+          cpu: 100m
           memory: 160Mi
         requests:
-          cpu: 70m
+          cpu: 90m
           memory: 128Mi
 
     - name: purge-inactive-accs
