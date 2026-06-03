@@ -25,3 +25,9 @@ LOGGING['formatters'] = {
 }
 LOGGING['handlers']['stdout']['formatter'] = 'std'
 LOGGING['handlers']['stderr']['formatter'] = 'std'
+LOGGING.setdefault('loggers', {})
+LOGGING['loggers']['urllib3'] = {
+    'handlers': ['stdout'],
+    'level': 'DEBUG',
+    'propagate': False,
+}
