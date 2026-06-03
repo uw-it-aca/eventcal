@@ -42,9 +42,10 @@ class TestCampusLocation(TestCase):
         value = {
                 "city": "Seattle",
                 "code": "MDR",
-                "last_updated": "2022-09-22 12:49:38-07:53",
+                "last_updated": "2022-09-22 12:49:38-07:00",
                 "latitude": 47.6601320001,
                 "longitude": -122.305391,
+                'center_point_url': 'http://maps.google.com/maps?ll=47.6601320001,-122.305391',
                 "name": "Madrona Hall",
                 "number": "6471",
                 "post_code": "98195",
