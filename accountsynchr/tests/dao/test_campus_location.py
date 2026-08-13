@@ -5,22 +5,22 @@ from unittest.mock import patch
 from django.test import TestCase
 from uw_space import Facility, Facilities
 from accountsynchr.dao.campus_location import (
-    CampusLocation, tidy_name,
+    CampusLocation,
+    tidy_name,
     get_campus_locations_from_spacews,
-    parse_campus_location_title
+    parse_campus_location_title,
 )
 
 
 class TestCampusLocation(TestCase):
     def test_parse_campus_location_title(self):
-        name, code = parse_campus_location_title(
-            "Union Bay Natural Area"
-        )
+        name, code = parse_campus_location_title("Union Bay Natural Area")
         self.assertEqual(name, "Union Bay Natural Area")
         self.assertEqual(code, "")
 
         name, code = parse_campus_location_title(
-            "Women's Fastpitch Softball Building (WSB)")
+            "Women's Fastpitch Softball Building (WSB)"
+        )
         self.assertEqual(name, "Women's Fastpitch Softball Building")
         self.assertEqual(code, "WSB")
 
@@ -28,32 +28,36 @@ class TestCampusLocation(TestCase):
             "The Liberal Arts Quadrangle - The Quad (LNDMK-1)"
         )
         self.assertEqual(
-            name, "The Liberal Arts Quadrangle - The Quad (LNDMK-1)")
+            name, "The Liberal Arts Quadrangle - The Quad (LNDMK-1)"
+        )
         self.assertEqual(code, "")
 
         name, code = parse_campus_location_title(
             "North Physics Laboratory (Van De Graaff Accelerator) (npv)"
         )
         self.assertEqual(
-            name, "North Physics Laboratory (Van De Graaff Accelerator)")
+            name, "North Physics Laboratory (Van De Graaff Accelerator)"
+        )
         self.assertEqual(code, "npv")
 
     def test_find_space_obj(self):
         value = {
-                "city": "Seattle",
-                "code": "MDR",
-                "last_updated": "2022-09-22 12:49:38-07:53",
-                "latitude": 47.6601320001,
-                "longitude": -122.305391,
-                "name": "Madrona Hall",
-                "number": "6471",
-                "post_code": "98195",
-                "site": "Seattle Main Campus",
-                "state": "WA",
-                "status": "A",
-                "street": "4320 Little Canoe Channel NE",
-                "type": "Building"
-            }
+            "city": "Seattle",
+            "code": "MDR",
+            "last_updated": "2022-09-22 12:49:38-07:00",
+            "latitude": 47.6601320001,
+            "longitude": -122.305391,
+            "center_point_url":
+                "http://maps.google.com/maps?ll=47.6601320001,-122.305391",
+            "name": "Madrona Hall",
+            "number": "6471",
+            "post_code": "98195",
+            "site": "Seattle Main Campus",
+            "state": "WA",
+            "status": "A",
+            "street": "4320 Little Canoe Channel NE",
+            "type": "Building",
+        }
         cl = CampusLocation("1", "MDR")
         fac = cl.space_obj
         self.assertEqual(fac.json_data(), value)
@@ -91,16 +95,16 @@ class TestCampusLocation(TestCase):
 
             loc = locations[len(locations) - 1]
             self.assertEqual(
-                loc.old_name, "Winkenwerder Forest Sciences Laboratory")
+                loc.old_name, "Winkenwerder Forest Sciences Laboratory"
+            )
             self.assertEqual(loc.old_code, "WFS")
 
     def test_tidy_name(self):
         self.assertEqual(tidy_name(""), "")
         self.assertEqual(
             tidy_name("4522 University Way NE (**DUPLICATE OF 1088**)"),
-            "4522 University Way NE"
+            "4522 University Way NE",
         )
         self.assertEqual(
-            tidy_name("SLU D Building (Brotman)"),
-            "SLU D Building (Brotman)"
+            tidy_name("SLU D Building (Brotman)"), "SLU D Building (Brotman)"
         )
