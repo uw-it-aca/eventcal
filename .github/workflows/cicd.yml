@@ -79,6 +79,7 @@ jobs:
         uses: uw-it-aca/actions/python-linters@main
         with:
           app_name: ${DJANGO_APP}
+          description: 'pycodestyle'
           exclude_paths: 'migrations'
 
       - name: Set up Docker Buildx
