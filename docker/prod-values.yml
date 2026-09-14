@@ -216,8 +216,8 @@ externalSecrets:
           property: trumba-tac-id
         - name: trumba-tac-pswd
           property: trumba-tac-pswd
-    - name: eventcal.uw.edu-ic-certs
-      externalKey: eventcal/shared/ic-certs
+    - name: eventcal.uw.edu-uwca-certs
+      externalKey: eventcal/shared/uwca-certs
       data:
         - name: eventcal.washington.edu-uwca.cert
           property: eventcal.washington.edu-uwca.cert
