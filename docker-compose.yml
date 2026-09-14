@@ -1,5 +1,3 @@
-version: '3.4'
-
 services:
   app:
     environment:
@@ -13,6 +11,8 @@ services:
     build:
       context: .
       target: app-container
+    stdin_open: true
+    tty: true
     volumes:
       - ./eventcal:/app/eventcal
     ports:

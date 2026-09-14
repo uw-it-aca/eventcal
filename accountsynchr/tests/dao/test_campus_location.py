@@ -57,6 +57,7 @@ class TestCampusLocation(TestCase):
             "status": "A",
             "street": "4320 Little Canoe Channel NE",
             "type": "Building",
+            "map_url": None,
         }
         cl = CampusLocation("1", "MDR")
         fac = cl.space_obj

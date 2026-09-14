@@ -1,4 +1,4 @@
-ingress:
+gateway:
   enabled: false
 lifecycle:
   enabled: true
@@ -37,14 +37,35 @@ database:
 
 certs:
   mounted: true
-  certPath: /certs/eventcal.washington.edu-ic.cert
-  keyPath: /certs/eventcal.washington.edu-ic.key
-  secretName: test.eventcal.uw.edu-ic-certs
+  certPath: /certs/eventcal.washington.edu-uwca.cert
+  keyPath: /certs/eventcal.washington.edu-uwca.key
+  secretName: test.eventcal.uw.edu-uwca-certs
 
 mountedSecrets:
   enabled: true
   mountPath: /csv
   secretName: test.eventcal.uw.edu-data-files
+
+podVolumes:
+  openssl-config:
+    volume:
+      configMap:
+        name: openssl-conf
+    mount:
+      mountPath: /ssl
+
+configmaps:
+  openssl-conf:
+    openssl.cnf: |
+      # Downgrade openssl security level to support UWCA certificates with Ubuntu 24.04
+      openssl_conf = default_conf
+      [ default_conf ]
+      ssl_conf = ssl_sect
+      [ssl_sect]
+      system_default = system_default_sect
+      [system_default_sect]
+      MinProtocol = TLSv1.2
+      CipherString = DEFAULT:@SECLEVEL=1
 
 cronjob:
   enabled: false
@@ -52,6 +73,9 @@ cronjob:
 environmentVariables:
   - name: ENV
     value: test
+
+  - name: OPENSSL_CONF
+    value: /ssl/openssl.cnf
 
   - name: CLUSTER_CNAME
     value: test.eventcal.uw.edu
@@ -118,13 +142,13 @@ externalSecrets:
           property: trumba-tac-id
         - name: trumba-tac-pswd
           property: trumba-tac-pswd
-    - name: test.eventcal.uw.edu-ic-certs
-      externalKey: eventcal/shared/ic-certs
+    - name: test.eventcal.uw.edu-uwca-certs
+      externalKey: eventcal/shared/uwca-certs
       data:
-        - name: eventcal.washington.edu-ic.cert
-          property: eventcal.washington.edu-ic.cert
-        - name: eventcal.washington.edu-ic.key
-          property: eventcal.washington.edu-ic.key
+        - name: eventcal.washington.edu-uwca.cert
+          property: eventcal.washington.edu-uwca.cert
+        - name: eventcal.washington.edu-uwca.key
+          property: eventcal.washington.edu-uwca.key
     - name: test.eventcal.uw.edu-data-files
       externalKey: eventcal/shared/data-files
       data:
